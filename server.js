@@ -22,7 +22,7 @@ pool.getConnection()
 // Registration endpoint
 app.post('/api/auth/register', async (req, res) => {
     try {
-        const { firstName, lastName, phone, email, password, licensePlate } = req.body;
+        const { firstName, lastName, phone, email, password, licensePlate, mailingList } = req.body;
         
         // Check if email exists
         const [existingUser] = await pool.execute(
@@ -40,6 +40,7 @@ app.post('/api/auth/register', async (req, res) => {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         const fullName = `${firstName} ${lastName}`;
+        const mailingStatus = mailingList ? 'Yes' : 'No';
 
         const connection = await pool.getConnection();
         await connection.beginTransaction();
@@ -48,9 +49,9 @@ app.post('/api/auth/register', async (req, res) => {
             // Insert user
             const [userResult] = await connection.execute(
                 `INSERT INTO users 
-                (full_name, phone_number, email, password_hash) 
-                VALUES (?, ?, ?, ?)`,
-                [fullName, phone, email, hashedPassword]
+                (full_name, phone_number, email, password_hash, mailing_list) 
+                VALUES (?, ?, ?, ?, ?)`,
+                [fullName, phone, email, hashedPassword, mailingStatus]
             );
 
             // Insert vehicle
@@ -73,6 +74,56 @@ app.post('/api/auth/register', async (req, res) => {
         console.error('Registration error:', error);
         res.status(400).json({ 
             message: error.message || 'Registration failed' 
+        });
+    }
+});
+
+
+// Login endpoint
+app.post('/api/auth/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        
+        // Find user by email
+        const [users] = await pool.execute(
+            'SELECT * FROM users WHERE email = ?',
+            [email]
+        );
+        
+        if (users.length === 0) {
+            return res.status(401).json({ 
+                message: 'Invalid email or password' 
+            });
+        }
+        
+        const user = users[0];
+        
+        // Compare passwords
+        const passwordMatch = await bcrypt.compare(password, user.password_hash);
+        
+        if (!passwordMatch) {
+            return res.status(401).json({ 
+                message: 'Invalid email or password' 
+            });
+        }
+        
+        // Return user data (excluding password)
+        const userData = {
+            user_id: user.user_id,
+            full_name: user.full_name,
+            email: user.email,
+            user_type: user.user_type
+        };
+        
+        res.json({ 
+            message: 'Login successful',
+            user: userData
+        });
+        
+    } catch (error) {
+        console.error('Login error:', error);
+        res.status(500).json({ 
+            message: 'Login failed. Please try again.' 
         });
     }
 });

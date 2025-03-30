@@ -74,7 +74,8 @@ document.addEventListener('DOMContentLoaded', function() {
             email: this.elements['email'].value.trim(),
             password: this.elements['password'].value,
             confirmPassword: this.elements['again-password'].value,
-            licensePlate: licensePlate
+            licensePlate: licensePlate,
+            mailingList: this.elements['simple-checkbox'].checked
         };
 
         // Validate form

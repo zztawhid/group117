@@ -1126,6 +1126,15 @@ main {
     border-radius: 4px;
 }
 
+.login-form-box {
+    position: relative;
+}
+
+.login-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
 .add-vehicle {
     text-align: center;
     margin: 20px 0;
