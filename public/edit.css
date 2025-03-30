@@ -1,0 +1,1817 @@
+@font-face {
+    font-family: ueafont;
+    src: url(Fonts/Brandon_Grotesque_regular.otf);
+}
+
+/*
+@import url('https://fonts.googleapis.com/css?family=Poppins:wght@400;500;700&display=swap'); 
+*/
+
+*{
+    box-sizing: border-box;
+    margin:0;
+    padding:0;
+    font-family: ueafont;
+    
+}
+
+html{
+    font-family: ueafont;
+    background-color: #F7F0E4;
+}
+
+
+/*colour for front end
+    --background-color: #F7F0E4;
+    --pink: #E6007D;
+    --yellow: #ffcc00;
+    --purple: #662d91;
+    --dark-grey: #333;
+*/
+
+
+/* Header */
+.nav-container {
+    display: hidden;
+}
+
+.active-page {
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    flex: 1; /* Take up remaining space */
+    display: none; /* Hidden by default */
+}
+
+.dropdown-icon {
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: none; /* Hidden by default */
+}
+
+
+header {
+  min-height: 120px;
+  font-size: 30px;
+  background: #E6007D;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+
+  margin-bottom: 1px;
+  border-style: solid;
+  border-width: medium;
+  border-color: black;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+#headtxt {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-down: 10px;
+}
+
+.header-button {
+    min-height: 100px;
+    min-width: 180px;
+    color: white;
+
+    padding: 8px 12px;
+    background-color: #333;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+
+    border-radius: 5px;
+    border-style: solid;
+    border-color: #F7F0E4;
+    border-width: 2px;
+}
+
+button.header-button {
+    font-size: 20px;
+    justify-content: center;
+}
+
+button.header-button:hover {
+  background-color: #767676;
+  color: black;
+}
+
+.header-button img {
+  width: 180px;
+  height: 100px;
+}
+
+/* trying to make dropdown box work with flags */
+#language-dropdown {
+    position: absolute;
+    top: 137px; /* adjust up-down position */
+    left: 45px;
+    background-color: #333;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    
+    
+}
+
+#language-dropdown button {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #F7F0E4;
+}
+
+#language-dropdown button img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+#language-dropdown button:hover {
+    background-color: #FF0080;
+}
+
+.hidden {
+    display: none;
+}
+
+
+
+/* Nav bar */
+#navBar {
+    text-decoration:none;
+    text-align: center;
+    padding: 14px 16px;
+    font-size: 16px;
+    width: 100%;
+    height: 39px;
+    list-style-type: none;
+}
+
+.topnav {
+      overflow: hidden;
+      background-color: #333;
+    }
+    
+/* Style the topnav links  */
+.topnav a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.topnav a:hover {
+    background-color: #FF0080;
+    color: black;
+}
+
+.nav-link.active {
+    background-color: #767676;
+    color: white;
+
+  }
+
+/*centering the topnav */
+
+#topnav ul {
+    display: flex; 
+    justify-content: center; /* display and justify, actually centering the links*/
+    padding: 0; /* get rid of default pad */
+    margin: 0; /* get rid of default margin */
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* Body */
+body{
+    margin: 0;
+    color: Black;
+    font-family: ueafont, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    margin-bottom: auto;
+}
+
+main {
+    margin-top: 1px;
+    border-top: solid;
+    border-width: medium;
+    border-color: black;
+}
+
+
+/* Index Page */
+#container {
+  position: relative;
+}
+
+
+#container .btn {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #333;
+  color: white;
+  font-size: 20px;
+  padding: 12px 24px;
+
+  border: solid, 2px;
+  border-color: #E6007D;
+  cursor: pointer;
+  border-radius: 10px;
+  text-align: center;
+
+  height: 200px;
+  width: 300px;
+  font-size: 32px;
+
+  transition: transform 0.7s ease, color 0.3s ease; /* make text color transition smoother */
+  font-weight: bolder; /* make text bold and uppercased, important buttons*/
+  
+}
+
+#container .btn:hover {
+  background-color: #767676;
+  color: black;
+  transform: translate(-50%, -50%) scale(1.1); /*smoothly scale button transition */
+  
+}
+
+
+#container .btn1 {
+  position: absolute;
+  top: 60%;
+  left: 35%;
+  transform: translate(-50%, -50%);
+  background-color: #333;
+  color: white;
+  font-size: 20px;
+  padding: 12px 24px;
+
+  border: solid, 2px;
+  border-color: #E6007D;
+  cursor: pointer;
+  border-radius: 10px;
+  text-align: center;
+
+  height: 200px;
+  width: 300px;
+  font-size: 32px;
+  transition: transform 0.7s ease, color 0.3s ease; /* make text color transition smoother */
+  font-weight: bolder; /* make text bold and uppercased, important buttons*/
+  
+}
+
+#container .btn1:hover {
+  background-color: #767676;
+  color: black;
+  transform: translate(-50%, -50%) scale(1.1); /*smoothly scale button transition */
+}
+
+#container .btn2 {
+  position: absolute;
+  top: 60%;
+  left: 65%;
+  transform: translate(-50%, -50%);
+  background-color: #333;
+  color: white;
+  font-size: 20px;
+  padding: 12px 24px;
+
+  border: solid, 2px;
+  border-color: #E6007D;
+  cursor: pointer;
+  border-radius: 10px;
+  text-align: center;
+
+  height: 200px;
+  width: 300px;
+  font-size: 32px;
+  transition: transform 0.7s ease, color 0.3s ease; /* make text color transition smoother */
+  font-weight: bolder; /* make text bold and uppercased, important buttons*/
+  
+}
+
+#container .btn2:hover {
+  background-color: #767676;
+  color: black;
+  transform: translate(-50%, -50%) scale(1.1); /*smoothly scale button transition */
+}
+
+#info-box {
+    background-color: #333;
+    padding: 20px;
+    color: white;
+    text-align: center;
+
+    margin-top: -50px;
+    position: relative;
+    z-index: 1;
+}
+
+.info-header {
+    color: #ffcc00;
+    padding: 10px 20px;
+    font-size: 24px; /* Header font size */
+    margin-bottom: 10px; /* Space between header and content */
+}
+
+.info-content {
+    flex: 2;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 5px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+
+.info-item {
+
+    display: 33%;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.info-item i {
+    margin-right: 15px;
+    color: #ffcc00; /* Icon color */
+}
+
+#car {
+    margin-left: 10px;
+    margin-right: 5px;
+    color: #E6007D; /* Icon color */
+}
+
+#phone {
+    margin-left: 10px;
+    margin-right: 5px;
+    color: #ffcc00; /* Icon color */
+}
+
+#bell {
+     margin-left: 10px;
+     margin-right: 5px;
+     color: #B232B2; /* Icon color */
+ }
+
+.info-item p {
+    font-size: 25px;
+    line-height: 1.2;
+    text-underline: #662d91;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
+#bottom-section {
+    display: flex;
+    align-items: center; /* Vertically center the content */
+    justify-content: space-between; /* Space between text and image */
+    margin-top: 20px; /* Space between this section and the info-box */
+    padding: 20px; /* Padding inside the section */
+    background-color: #F7F0E4; /* Match the page background */
+}
+
+.text-UEA {
+    flex: 1; /* Take up available space */
+    max-width: 50%; /* Limit width to half the container */
+}
+
+.text-box {
+    background-color: #333; /* Background color for the text box */
+    padding: 20px; /* Padding inside the box */
+    border-radius: 15px; /* Rounded corners */
+    color: white; /* Text color */
+}
+
+.text-box h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.text-box h2 .uea {
+    color: inherit; /* Use the default color (white) */
+}
+
+.text-box h2 .parking {
+    color: #B232B2;
+}
+
+.text-box h2 .management {
+    color: #ffcc00;
+}
+
+.text-box h2 .system {
+    color: #E6007D;
+}
+
+.text-box p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #ccc;
+}
+
+.pink-button {
+    background-color: #333; /* Dark background to match other buttons */
+    color: white; /* Text color */
+    font-size: 20px; /* Font size */
+    font-weight: bold;
+    padding: 12px 24px; /* Padding */
+    border: 2px solid #E6007D; /* Pink border */
+    border-radius: 10px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+    transition: transform 0.3s ease, color 0.3s ease; /* make text color transition smoother */
+    margin-top: 20px; /* Space above the button */
+    display: block; /* Make the button a block element */
+    margin-left: auto; /* Center the button horizontally */
+    margin-right: auto;
+}
+
+.pink-button:hover {
+    background-color: #E6007D; /* Pink background on hover */
+    color: white; /* Text color on hover */
+    transform: scale(1.1);
+}
+
+.phone-box {
+    flex: 1; /* Take up available space */
+    max-width: 50%; /* Limit width to half the container */
+    text-align: right; /* Align the image to the right */
+}
+
+.large-image {
+    max-width: 100%; /* Ensure the image fits within its container */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 10px; /* Optional: Add rounded corners */
+}
+
+/* Index Page */
+
+/* Main Page */
+
+/* Welcome Section */
+.welcome-section {
+    background-color: #F7F0E4;
+    padding: 10px;
+}
+
+.welcome-section h2 {
+    color: #E6007D;
+    padding: 1px;
+    margin-top: 5px;
+    margin-bottom: 8px;
+    font-size: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.user-info {
+    display: flex;
+    width: 500px;
+    height: 100px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.info-left, .info-right {
+    width: 400px;
+    height: 80px;
+
+    margin-left: 10px;
+    margin-right: 10px;
+
+    background-color: white;
+
+    border-radius: 8px;
+    border: 2px solid #E6007D;
+
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-top: 22px;
+    padding-bottom: auto;
+}
+
+.info-left p, .info-right p {
+    margin: 0;
+    font-weight: bold;
+    color: #E6007D;
+    font-size: 20px;
+    text-align: center;
+
+}
+
+.info-left span, .info-right span {
+    font-weight: normal;
+    color: #333;
+}
+
+.nav-area {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 60px;
+    margin-top: 30px;
+
+    width: 85%;
+
+}
+
+
+.nav-boxes {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.box-row {
+    display: flex;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.nav-box {
+    flex: 1;
+
+    background-color: white;
+
+    border-radius: 8px;
+    border-style: solid;
+    border-width: 4px;
+    border-color: #E6007D;
+
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: black;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 250px;
+}
+
+.nav-box:hover {
+    background-color: #333;
+    color: white;
+    border-color: #E6007D;
+}
+
+.nav-box:hover i {
+    color: #E6007D;
+}
+
+.nav-box i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #662d91;
+}
+
+.nav-box h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Main Page */
+
+/* Contact Page */
+#email {
+    margin-bottom: 20px;
+}
+
+.security-button {
+    background-color: #333;
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    padding: 12px 24px;
+    border: 2px solid #E6007D; /* Red border for emergency */
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 30px auto 20px; /* Extra space above, less below */
+    display: block;
+    width: fit-content; /* Only as wide as needed */
+}
+
+.security-button:hover {
+    background-color: #FF0000; /* Red on hover */
+    color: white;
+    transform: scale(1.1);
+    border: 2px solid black;
+}
+
+.security-notice {
+    text-align: center;
+    font-size: 18px;
+    margin: 0 auto 30px;
+    width: 100%;
+    max-width: 600px;
+    padding: 0 20px;
+}
+
+
+#faq {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.faq-container {
+    width: 800px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.faq-item {
+    margin-bottom: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.faq-question {
+    height: 100px;
+    padding: 15px 20px;
+    background: #333;
+    color: white;
+    border: 2px solid #E6007D;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+
+.faq-question:hover, .faq-item.active .faq-question {
+    background: #E6007D;
+}
+
+/* Answers */
+.faq-answer {
+    width: 280px;
+    margin: 10px auto 0;
+    max-height: 0;
+    overflow: hidden;
+    background: #ffcc00;
+    border: 1px solid #333;
+    border-radius: 2px;
+    transition: max-height 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 300px;
+    padding: 20px;
+}
+
+/* Icons */
+.fa-chevron-down {
+    margin-left: 10px;
+    color: #ffcc00;
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+/* Contact Page */
+
+.form-description {
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+}
+
+.form-group textarea,
+.form-group input[type="email"] {
+    width: 100%;
+    padding: 50px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #E6007D;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #C4006A;
+}
+
+/* ACCOUNT MANAGEMENT CSS */
+.account-management { /* controls the whole panel */
+    text-align: center;
+    margin: 20px auto;
+    width: 800px;
+    border: 2px solid #E6007D;
+    border-radius: 10px;
+    padding: 30px;
+    background-color: white;
+}
+.main h1 {
+    text-align: center; /* center header in middle */
+    margin: 20px;
+
+    font-weight: bold; /
+}
+
+.account-management h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.personal-info, .payment-options, .actions { /*spacing between the divs */
+    margin-bottom: 25px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+.profile-pic-container {
+    position: relative; /* Make this container the positioning reference */
+    display: inline-block;
+}
+
+.profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50px;
+    border: 2px solid #ccc;
+    transition: transform 0.7s ease;
+}
+.edit-icon {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 100%;
+    height: 95%;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5); /* overlay visibility */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: none; /* hide by default */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.profile-pic-container:hover .edit-icon {
+    display: flex; /* Show the icon when hovering over the container */
+    transform: scale(1.05); /* Slight zoom effect */
+}
+
+.edit-icon:hover {
+    background-color: rgba(0, 0, 0, 0.7); /* darker overlay on hover */
+
+
+}
+
+.info input {
+    display: block;
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color:#f9f9f9;
+}
+
+.manage-vehicles {
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: #E6007D;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+
+.manage-vehicles:hover {
+    background-color: #C4006A;
+    transform: scale(1.05);
+}
+
+.payment-options .payment-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.payment-buttons button {
+    padding: 10px 20px;
+    background-color: #E6007D;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+}
+
+.payment-buttons button:hover {
+    background-color: #C4006A;
+    transform: scale(1.05);
+
+
+}
+
+.actions button {
+    width: auto;
+    padding: 15px;
+    margin: 5px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+
+}
+
+/* hover effect for buttons */
+.actions button:hover {
+    background-color: #555; /* Slightly lighter background on hover */
+    transform: scale(1.05); /* Scale the button on hover */
+}
+
+/* for close account button only*/
+.actions button.close-account {
+    background-color: #dd3f39;
+}
+
+.actions button.close-account:hover {
+    background-color: #c9302c; /*darker red on hover */
+    transform: scale(1.05);
+}
+
+/* FEEDBACK FORM CONTACT US */
+.fb-form {
+    width: 850px;
+    margin: 30px auto;
+    padding: 30px;
+    background: #F7F0E4;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 2px solid #E6007D;
+}
+
+/* FORM TITLE STYLES */
+.fb-form h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+}
+
+/* DESCRIPTION TEXT */
+.form-description {
+    text-align: center;
+    color: #555;
+    margin-bottom: 25px;
+    line-height: 1.2;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+
+.form-group textarea {
+    width: 100%;
+    min-height: 100px; /* Reduced from 200px for slightly shorter box */
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    resize: vertical;
+}
+
+
+.form-group input[type="email"] {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+
+.form-group textarea:focus,
+.form-group input[type="email"]:focus {
+    outline: none;
+    border-color: #E6007D;
+    box-shadow: 0 0 0 4px rgba(230,0,125,0.15);
+    background-color: #fff;
+}
+
+
+/* Login Page */
+.fb-form {
+    width: 850px;
+    margin: 30px auto;
+    padding: 30px;
+    background: #F7F0E4;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 2px solid #E6007D;
+}
+
+#login-form {
+    width: 100%;
+}
+
+#login-form h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+}
+
+#login-form input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: #fff;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+#login-form input:focus {
+    outline: none;
+    border-color: #E6007D;
+    box-shadow: 0 0 0 4px rgba(230,0,125,0.15);
+}
+
+.login-button {
+    width: 100%;
+    padding: 14px;
+    background-color: #E6007D;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.login-button:hover {
+    background-color: #C4006A;
+}
+
+#login-form p {
+    text-align: center;
+    margin-top: 20px;
+    color: #333;
+}
+
+#login-form a {
+    color: #E6007D;
+    font-weight: 600;
+}
+
+/* REGISTER PAGE */
+.register-container {
+    width: 850px;
+    margin: 30px auto;
+    padding: 30px;
+    background: #F7F0E4;
+    border-radius: 12px;
+
+}
+
+#register-form p {
+    text-align: center;
+}
+
+#register-form h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+    text-transform: uppercase;
+}
+
+#register-form input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #fff;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+#register-form input:focus {
+    outline: none;
+    border-color: #E6007D;
+    box-shadow: 0 0 0 4px rgba(230,0,125,0.15);
+}
+
+.password-requirements {
+    padding: 15px;
+    margin-bottom: 15px;
+
+}
+
+.password-requirements p {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.password-requirements ul {
+    list-style-type: none;
+}
+
+.password-requirements li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 8px;
+    color: #666;
+}
+
+.password-requirements li:before {
+    content: "•";
+    position: absolute;
+    left: 10px;
+    color: #E6007D;
+}
+
+.password-requirements li.valid {
+    color: #4CAF50;
+}
+
+.add-vehicle {
+    text-align: center;
+    margin: 20px 0;
+
+}
+
+.add-vehicle p {
+    font-weight: 600;
+    color: black;
+    margin-bottom: 10px;
+}
+
+button.add-vehicle-button {
+    width: 40%;
+    padding: 14px;
+    background-color: #E6007D;
+    color: black;
+
+    border-style: solid;
+    border-width: 2px;
+    border-color: #333;
+    border-radius: 5px;
+
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.add-vehicle-button:hover {
+    background-color: white;
+}
+
+
+#register-form input[type="checkbox"] {
+    width: 20px !important;
+    height: 20px !important;
+    padding: 0 !important;
+    margin: 0 8px 0 0 !important;
+    accent-color: #568203;        /* Pink when checked */
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.simple-checkbox-container {
+    display: inline-flex;
+    align-items: center;
+    width: auto !important;
+    margin: 15px 0;
+}
+
+.simple-checkbox-container label {
+    cursor: pointer;
+    white-space: nowrap;
+    color: #333;
+}
+
+/* Form popup styles */
+.form-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: 2px solid #E6007D;
+    z-index: 1000;
+    width: 400px;
+}
+
+.form-popup h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-popup input {
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #fff;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+    font-size: 1rem;
+}
+
+.form-container .btn {
+    padding: 14px;
+    background-color: #E6007D;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 10px;
+}
+
+.form-container .btn:hover {
+    background-color: #C4006A;
+}
+
+.form-container .cancel {
+    background-color: #333;
+}
+
+.form-container .cancel:hover {
+    background-color: #555;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    z-index: 999;
+}
+
+/* Register Page */
+
+.register-container {
+    margin: 40px auto;
+    width: 600px;
+    padding: 5px;
+    border-radius: 20px;
+
+}
+
+
+
+
+.password-requirements{
+    margin-top: 0px;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.password-requirements ul{
+    margin: 5px 0;
+    padding-left: 20px;
+}
+
+.password-requirements li {
+    margin: 5px 0;
+    transition: color 0.3s;
+  }
+
+  /* Valid (green checkmark) */
+  .password-requirements li.valid {
+    color: #4CAF50;
+  }
+
+  /* Invalid (gray, no checkmark) */
+  .password-requirements li:not(.valid) {
+    color: #888;
+  }
+
+.add-vehicle{
+    font-size: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.add-vehicle-button{
+    width: 25%;
+    padding: 12px;
+    background: #e85050ba;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+    font-weight: 500;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    transition: 0.5s;
+}
+
+
+
+
+/* Notifications CSS */
+
+.notification-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.notification-box {
+    background-color:  #F7F0E4;
+    color: #F7F0E4;
+    padding: 25px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: 2px solid #E6007D;
+}
+
+.notification-title {
+    color: black;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 26px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #E6007D;
+}
+
+.notification-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.notification-item {
+    background-color: #444;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 18px;
+    border-left: 4px solid #E6007D;
+    transition: all 0.3s ease;
+}
+
+.notification-item:hover {
+    background-color: #555;
+    transform: translateX(5px);
+}
+.box-row {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.main-container {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+.parking-box, .notification-box {
+    background-color: white;
+    color: #F7F0E4;
+    border: 2px solid #FF1493;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Notifications CSS */
+
+/* Vmanage CSS */
+
+.vehicles-container {
+    padding-top: 40px;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.vehicles-title {
+    color: black;
+    font-size: 28px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding-bottom: 10px;
+    margin-top: -20px;
+}
+
+.vehicle-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+.vehicle-box {
+    width: 100%;
+    height: 150px;
+    border: 2px solid #E6007D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    color: black;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.vehicle-box i {
+    font-size: 40px;
+    color: black;
+    transition: color 0.3s ease;
+}
+
+.vehicle-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(230, 0, 125, 0.2);
+    border-color: #ffcc00;
+}
+
+.vehicle-box:hover i {
+    color: #ffcc00;
+}
+
+.vehicle-buttons-top {
+    margin-top: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.vehicle-btn {
+    padding-left: auto;
+    padding-right: auto;
+
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.vbtn {
+    padding: 12px 25px;
+    gap: 20px;
+    background-color: #E6007D;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.vbtnG {
+    padding: 12px 25px;
+    gap: 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.vbtnR {
+    padding: 12px 25px;
+    gap: 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+
+
+.vehicle-buttons-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.vehicle-box i {
+    font-size: 40px;
+    color: black;
+    transition: color 0.3s ease;
+}
+
+/* Vmanage CSS */
+
+/* Settings */
+.startup {
+    margin-left: 50px;
+    margin-top: 50px;
+    margin-bottom: 50px ;
+}
+
+/* Settings */
+
+
+
+
+/* Footer */
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #333;
+    color: white;
+    }
+
+.logo-footer {
+    padding-top: 15px;
+    background-color: #333;
+}
+
+
+
+
+@media (max-width: 768px) {
+    
+    header {
+        min-height: 80px; 
+        padding: 10px; 
+    }
+
+    #headtxt {
+        font-size: 18px; 
+        margin: 5px; 
+    }
+
+    .header-button {
+        min-height: 60px; 
+        min-width: 120px; 
+        padding: 6px 10px; 
+        font-size: 10px; 
+    }
+
+    .header-button img {
+        width: 120px; 
+        height: 60px; 
+    }
+
+
+    .active-page {
+        display: block;
+    }
+
+    .dropdown-icon {
+        display: block;
+        margin-right: auto;
+        background-color: #333;
+
+        position: relative;
+        float: right;
+
+    }
+    #language-dropdown {
+        top: 90px;
+        left: 0px;
+    }
+    /* attempting to make the hamburger sidebar work */
+
+    #topnav {
+
+            background-color: #333;
+    }
+    #topnav ul {
+        display: none;
+    }
+
+    .topnav {
+        display: none; 
+        flex-direction: column; 
+    }
+
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative; 
+    }
+
+
+
+
+    #container .btn {
+        height: 80px;
+        width: 120px;
+        font-size: 14px;
+    }
+
+    #container .btn1 {
+        height: 80px;
+        width: 120px;
+        font-size: 14px;
+    }
+
+    #container .btn2 {
+        height: 80px;
+        width: 120px;
+        font-size: 14px;
+    }
+
+
+
+
+
+    #info-box {
+        padding: 10px; 
+    }
+
+    .info-header {
+        font-size: 20px; 
+    }
+
+    .info-content {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); 
+        gap: 10px; 
+    }
+
+    .info-item {
+        margin: 0; 
+        text-align: center; 
+    }
+
+    .info-item i {
+        font-size: 2em; 
+    }
+
+    .info-item p {
+        font-size: 14px; 
+    }
+
+    
+    #bottom-section {
+        flex-direction: column; 
+    }
+
+    .text-UEA,
+    .phone-box {
+        max-width: 100%; 
+        text-align: center; 
+    }
+
+    .text-box {
+        padding: 15px; 
+    }
+
+    .text-box h2 {
+        font-size: 20px;
+    }
+
+    .text-box p {
+        font-size: 16px;
+    }
+
+    .pink-button {
+        width: 50%; 
+        font-size: 18px; 
+    }
+
+    .phone-box {
+        margin-top: 10px; 
+    }
+
+/* ===== CORE STYLES (No Media Queries) ===== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: ueafont;
+}
+
+body {
+    background-color: #F7F0E4;
+    color: black;
+}
+
+/* Header */
+header {
+    min-height: 120px;
+    background: #E6007D;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border: 2px solid black;
+}
+
+.header-button {
+    min-height: 100px;
+    min-width: 180px;
+    background-color: #333;
+    color: white;
+    border: 2px solid #F7F0E4;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+/* Account management Queries */
+.account-management {
+    width: 100%; /*take the full width of the screen */
+    padding: 15px; 
+    
+}
+
+.profile {
+    flex-direction: column; /* makes pfp and info vertically organised */
+}
+
+.info {
+    width: 100%;
+}
+
+
+.actions button {
+    width: 50%; /* Make buttons take the full width */
+}
+
+/* attempting to make the hamburger sidebar work */
+    .topnav {
+        position: fixed;
+        top: 0;
+        left: -250px; /* Initially hidden off-screen */
+        width: 180px;
+        height: 100%;
+        background-color: #333;
+        overflow-y: auto;
+        transition: left 0.3s ease; /* Smooth slide-in effect */
+        display: flex;
+        flex-direction: column;
+        padding-top: 60px; /* Space for header */
+        z-index: 1000;
+        box-shadow: 0 0 0 1px rgb(255, 255, 255);
+    }
+
+    .topnav.slide-in {
+        left: 0; /* Slide into view */
+    }
+
+    .topnav a {
+        padding: 10px 20px;
+        text-decoration: none;
+        font-size: 18px;
+        color: white;
+        display: block;
+        transition: background-color 0.3s ease;
+    }
+
+    .topnav a:hover {
+        background-color: #FF0080;
+        color: black;
+    }
+
+    .dropdown-icon {
+        display: block; /* Show hamburger icon */
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        left: 450px;
+        z-index: 1100; /* Ensure it stays above the sidebar */
+    }
+
+    #topnav ul {
+        display: flex; /* Ensure links are displayed in the sidebar */
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+    }
+
+}
+
+
+
+
+/* Media queries */

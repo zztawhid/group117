@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> UEA Parking Management System :: Home </title>
+    <link rel="stylesheet" href="edit.css">
+    <script src="https://kit.fontawesome.com/cab31170e8.js" crossorigin="anonymous"></script>
+
+    <script src="toggle.js"></script>
+</head>
+<body>
+
+<div id = "wrapper">
+
+    <header>
+        <button class="header-button" onclick="toggleLanguageDropdown()">
+            <img src="images/england.jpg" alt="English Flag">
+        </button>
+        <div id="language-dropdown" class="dropdown hidden">
+            <button onclick="changeLanguage('en')">
+                <img src="images/england.jpg" alt="English Flag"> English
+            </button>
+            <button onclick="changeLanguage('fr')">
+                <img src="images/france.png" alt="French Flag"> Français
+            </button>
+            <button onclick="changeLanguage('cn')">
+                <img src="images/china.png" alt="Chinese Flag"> Chinese (Mandarin)
+            </button>
+        </div>
+
+        <div id="headtxt">UEA Parking Management System</div>
+        <button class="header-button" onclick="document.location='contact.html'">Contact Us</button>
+    </header>
+
+
+    <!-- Site navigation menu -->
+    <nav id="topnav">
+        <div class="nav-container">
+            <div class="dropdown-icon" onclick="toggleDropdown()">
+                <i class="fas fa-bars"></i> <!-- Hamburger menu icon -->
+            </div>
+            <div class="active-page">Parking Page</div>
+
+            <ul class="topnav">
+                <ul><a href="main.html" class="nav-link">Home Page</a></ul>
+                <ul><a href="parking.html" class="nav-link">Parking</a></ul>
+                <ul><a href="account.html" class="nav-link">Account Management</a></ul>
+                <ul><a href="vManage.html" class="nav-link">Vehicle Management</a></ul>
+                <ul><a href="notif.html" class="nav-link">Notifications</a></ul>
+
+            </ul>
+    </nav>
+</div>
+
+<main class="main">
+    <div class="parking-grid">
+        <div class="parking-main-box">
+            <i class="fas fa-map-marker-alt fa-3x"></i>
+            <h3>Find Parking</h3>
+            <p>locate spaces on campus</p>
+        </div>
+
+        <div class="parking-main-box">
+            <i class="fas fa-calendar-day fa-3x"></i>
+            <h3>Book Parking</h3>
+            <p>reserve your space in advance</p>
+        </div>
+
+        <div class="parking-main-box">
+            <i class="fas fa-pound-sign fa-3x"></i>
+            <h3>Pay for parking</h3>
+            <p>extend or pay for your stay</p>
+        </div>
+
+        <div class="parking-main-box">
+            <i class="fas fa-car fa-3x"></i>
+            <h3>my vehicles</h3>
+            <p>manage registered vehicles</p>
+
+        </div>
+
+
+
+
+</main>
+
+
+<div class="wrapper">
+    <footer>
+        <div class="text-left">
+            <p>Contact US:<br>07345678910<br>Parking@vea.ac.uk</p>
+        </div>
+        <div class="text-center">
+            <!-- Logo must go here-->
+            <div class="logo-footer">
+                <img src="images/ueaWhite.png" alt="UEA Logo" width= 240.75 height=50.68>
+            </div>
+        </div>
+        <div class="text-right">
+            <p>University of East Anglia<br>Norwich research park<br>NR4 7TJ</p>
+        </div>
+    </footer>
+
+</div>
+
+</body>
+</html>

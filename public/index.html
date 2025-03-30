@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+    <html lang="en-GB">
+    <head>
+        <meta charset="utf-8" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title> UEA Parking Management System :: Home </title>
+        <link rel="stylesheet" href="edit.css">
+        <script crossorigin="anonymous" src="https://kit.fontawesome.com/cab31170e8.js"></script>
+
+        <script src="toggle.js"></script>
+
+    </head>
+    <body>
+
+    <div id = "wrapper">
+
+        <header>
+            <button class="header-button" onclick="toggleLanguageDropdown()">
+                <img src="Images/england.jpg" alt="English Flag">
+            </button>
+            <div id="language-dropdown" class="dropdown hidden">
+                <button onclick="changeLanguage('en')">
+                    <img src="Images/england.jpg" alt="English Flag"> English
+                </button>
+                <button onclick="changeLanguage('fr')">
+                    <img src="Images/france.png" alt="French Flag"> Français
+                </button>
+                <button onclick="changeLanguage('cn')">
+                    <img src="Images/china.png" alt="Chinese Flag"> Chinese (Mandarin)
+                </button>
+            </div>
+
+            <div id="headtxt">UEA Parking Management System</div>
+            <button class="header-button" onclick="document.location='contact.html'">Contact Us</button>
+
+        </header>
+
+
+        <!-- Site navigation menu -->
+        <nav id="topnav">
+            <div class="nav-container">
+                <div class="dropdown-icon" onclick="toggleDropdown()">
+                    <i class="fas fa-bars"></i> <!-- Hamburger menu icon -->
+                </div>
+                <div class="active-page">Welcome Page</div>
+            </div>
+            <ul class="topnav">
+                <ul><a href="login.html" class="nav-link">Log In</a></ul>
+                <ul><a href="register.html" class="nav-link">Register</a></ul>
+            </ul>
+        </nav>
+
+    </div>
+
+
+    <!-- Main -->
+    <main class="main">
+        <div id="container">
+            <!-- transformed to make this a video-->
+            <video autoplay loop muted plays-inline class="back-video" width="100%" height="auto">
+                <source src="Images/ueaIndex.mp4" type="video/mp4">
+            </video>
+            <button class="btn">Pay For Parking</button>
+            <a href="register.html"><button class="btn1">Register an Account</button></a>
+            <a href="login.html"><button class="btn2">Log In Existing Account</button></a>
+        </div>
+
+        <div id="info-box">
+            <h2 class="info-header">Why Use UEA Parking Management System?</h2>
+            <div class="info-content">
+                <div class="info-item">
+                    <i id="car" class="fa-solid fa-car fa-3x"></i>
+                    <p>Find and reserve parking spaces easily on campus for all of your needs.</p>
+                </div>
+
+                <div class="info-item">
+                    <i id="phone" class="fas fa-solid fa-mobile-screen fa-3x" ></i>
+                    <p>Manage your payments and vehicles in one account from your device.</p>
+                </div>
+
+                <div class="info-item">
+                    <i id="bell" class="fas fa-bell fa-3x"></i>
+                    <p>Receive notifications about parking availability and event parking.</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="bottom-section">
+            <div class="text-UEA">
+                <div class="text-box">
+                    <h2>
+                        <span class="uea">UEA</span>
+                        <span class="parking">Parking</span>
+                        <span class="management">Management</span>
+                        <span class="system">System</span> - Here to simplify your visits
+                    </h2>
+                    <p>We know you have better things to worry about than paying for your parking. That’s why our new smart, intuitive technology provides a world-class digital payment experience for all UEA visitors.</p>
+                    <p><br>Book your visit the UEA campus today, and have a space ready your arrival.</p>
+                    <button class="pink-button">Park Now</button>
+                </div>
+            </div>
+            <div class="phone-box">
+                <img src="Images/img.png" alt="UEA Campus" class="large-image">
+            </div>
+        </div>
+
+    </main>
+
+    </body>
+
+    <!-- Footer -->
+
+    <div class="wrapper">
+        <footer>
+            <div class="text-left">
+                <p>Contact US:<br>07345678910<br>Parking@vea.ac.uk</p>
+            </div>
+            <div class="text-center">
+                <div class="logo-footer">
+                    <img src="Images/ueaWhite.png" alt="UEA Logo" width= 240.75 height=50.68>
+                </div>
+            </div>
+            <div class="text-right">
+                <p>University of East Anglia<br>Norwich research park<br>NR4 7TJ</p>
+            </div>
+        </footer>
+
+    </div>
+    </html>
