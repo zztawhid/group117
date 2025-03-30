@@ -69,8 +69,8 @@
         <div class="register-form-box" id="register-form">
             <form action="">
                 <h2>REGISTER</h2>
-                <input type="first-name" name="first-name" placeholder="First name" required>
-                <input type="last-name" name="last-name" placeholder="Last name" required>
+                <input type="text" name="first-name" placeholder="First name" pattern="[A-Za-z\s]+" title="Letters only" required>
+                <input type="text" name="last-name" placeholder="Last name" pattern="[A-Za-z\s]+" title="Letters only" required>
                 <input type="phone-number" name="phone-number" placeholder="Phone number" required>
                 <input type="email" name="email" placeholder="Email" required>
                 <input type="password" name="password" placeholder="Password" id="password" required oninput="checkPassword()">

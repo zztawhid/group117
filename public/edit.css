@@ -1117,6 +1117,15 @@ main {
     color: #4CAF50;
 }
 
+.error-message {
+    color: red;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #ffeeee;
+    border: 1px solid #ffcccc;
+    border-radius: 4px;
+}
+
 .add-vehicle {
     text-align: center;
     margin: 20px 0;

@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const vehicleForm = document.getElementById('myForm');
     const regPlateInput = document.querySelector('#myForm input[name="reg-plate"]');
     
-    let licensePlate = ''; // Store the vehicle registration
+    let licensePlate = '';
 
     // Vehicle form handling
     function openForm() {
@@ -47,17 +47,25 @@ document.addEventListener('DOMContentLoaded', function() {
             specialchar: /[!@#$%^&*(),.?":{}|<>]/.test(password)
         };
 
-        // Update UI
         Object.keys(requirements).forEach(key => {
             const element = document.getElementById(`password-${key}`);
             element.classList.toggle('valid', requirements[key]);
         });
     }
 
+    // Name validation (letters only)
+    function validateName(name) {
+        return /^[A-Za-z\s]+$/.test(name);
+    }
+
     // Form submission
     registrationForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
+        // Clear previous errors
+        const errorElements = document.querySelectorAll('.error-message');
+        errorElements.forEach(el => el.remove());
+
         // Get form values
         const formData = {
             firstName: this.elements['first-name'].value.trim(),
@@ -73,12 +81,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!validateForm(formData)) return;
 
         try {
-            // Disable button during submission
             const submitBtn = this.elements['register'];
             submitBtn.disabled = true;
             submitBtn.textContent = 'Registering...';
 
-            // Send to server
             const response = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: {
@@ -93,10 +99,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Registration successful!');
                 window.location.href = 'login.html';
             } else {
-                throw new Error(result.message || 'Registration failed');
+                const errorElement = document.createElement('div');
+                errorElement.className = 'error-message';
+                errorElement.style.color = 'red';
+                errorElement.textContent = result.message;
+                registrationForm.prepend(errorElement);
             }
         } catch (error) {
-            alert(error.message);
+            console.error(error);
         } finally {
             const submitBtn = this.elements['register'];
             submitBtn.disabled = false;
@@ -109,6 +119,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!data.firstName || !data.lastName || !data.phone || !data.email || 
             !data.password || !data.confirmPassword) {
             alert('Please fill in all fields');
+            return false;
+        }
+
+        // Validate names (letters only)
+        if (!validateName(data.firstName) || !validateName(data.lastName)) {
+            alert('Name can only contain letters');
             return false;
         }
 
@@ -132,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return false;
         }
 
-        // Check vehicle added if required
+        // Check vehicle added
         if (!data.licensePlate) {
             alert('Please add your vehicle details');
             return false;

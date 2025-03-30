@@ -24,6 +24,18 @@ app.post('/api/auth/register', async (req, res) => {
     try {
         const { firstName, lastName, phone, email, password, licensePlate } = req.body;
         
+        // Check if email exists
+        const [existingUser] = await pool.execute(
+            'SELECT email FROM users WHERE email = ?',
+            [email]
+        );
+
+        if (existingUser.length > 0) {
+            return res.status(400).json({ 
+                message: 'Email already registered' 
+            });
+        }
+
         // Hash password
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -53,11 +65,6 @@ app.post('/api/auth/register', async (req, res) => {
             res.status(201).json({ message: 'Registration successful' });
         } catch (err) {
             await connection.rollback();
-            
-            // Handle duplicate email
-            if (err.code === 'ER_DUP_ENTRY') {
-                throw new Error('Email already registered');
-            }
             throw err;
         } finally {
             connection.release();
