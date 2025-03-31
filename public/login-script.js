@@ -33,10 +33,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const result = await response.json();
             
+            // Modify the successful login part:
             if (response.ok) {
                 // Store user data in session/local storage
-                localStorage.setItem('user', JSON.stringify(result.user));
-                // Redirect to dashboard or home page
+                localStorage.setItem('user', JSON.stringify({
+                    ...result.user,
+                    token: result.token // If using JWT
+                }));
                 window.location.href = 'main.html';
             } else {
                 showError(result.message || 'Login failed');

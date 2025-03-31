@@ -128,6 +128,27 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
+//User Auth//
+app.get('/api/auth/user', async (req, res) => {
+    try {
+        const userId = req.query.userId;
+        
+        const [users] = await pool.execute(
+            'SELECT user_id, full_name, email, user_type FROM users WHERE user_id = ?',
+            [userId]
+        );
+        
+        if (users.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        
+        res.json(users[0]);
+    } catch (error) {
+        console.error('User data error:', error);
+        res.status(500).json({ message: 'Failed to fetch user data' });
+    }
+});
+
 // Default route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));

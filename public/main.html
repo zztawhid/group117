@@ -1,20 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html>
+<!DOCTYPE html>
 <html lang="en-GB">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> UEA Parking Management System :: Home </title>
+    <title>UEA Parking Management System :: Dashboard</title>
     <link rel="stylesheet" href="edit.css">
     <script src="https://kit.fontawesome.com/cab31170e8.js" crossorigin="anonymous"></script>
-
     <script src="toggle.js"></script>
-
+    <script src="auth.js"></script>
 </head>
 <body>
-
-<div id = "wrapper">
-
+<div id="wrapper">
     <header>
         <button class="header-button" onclick="toggleLanguageDropdown()">
             <img src="images/england.jpg" alt="English Flag">
@@ -35,97 +31,106 @@
         <button class="header-button" onclick="document.location='contact.html'">Contact Us</button>
     </header>
 
-
-    <!-- Site navigation menu -->
     <nav id="topnav">
         <div class="nav-container">
             <div class="dropdown-icon" onclick="toggleDropdown()">
-                <i class="fas fa-bars"></i> <!-- Hamburger menu icon -->
+                <i class="fas fa-bars"></i>
             </div>
-            <div class="active-page">Home Page</div>
-
+            <div class="active-page">Dashboard</div>
             <ul class="topnav">
                 <ul><a href="main.html" class="nav-link">Home Page</a></ul>
                 <ul><a href="parking.html" class="nav-link">Parking</a></ul>
                 <ul><a href="account.html" class="nav-link">Account Management</a></ul>
                 <ul><a href="vManage.html" class="nav-link">Vehicle Management</a></ul>
                 <ul><a href="notif.html" class="nav-link">Notifications</a></ul>
-
             </ul>
-    </nav>
-</div>
-
-
-<!-- Main -->
-<main class="main">
-
-    <section class="welcome-section">
-        <h2>Welcome <span id="userFirstName">tom</span>!</h2>
-
-        <div class="user-info">
-            <div class="info-left">
-                <p>Account Number: <span id="userAccountNumber">24681</span></p>
-            </div>
-            <div class="info-right">
-                <p>Account Status: <span id="userAccountStatus">Active</span></p>
-            </div>
         </div>
-    </section>
+    </nav>
 
-    <!-- Navigation Boxes Grid -->
-    <div class="nav-area">
-        <section class="nav-boxes">
-            <!-- Row 1 -->
-            <div class="box-row">
-                <a href="account.html" class="nav-box">
-                    <i class="fa-solid fa-user-pen"></i>
-                    <h3>Account</h3>
-                </a>
-                <a href="parking.html" class="nav-box">
-                    <i class="fas fa-parking"></i>
-                    <h3>Parking</h3>
-                </a>
-                <a href="vManage.html" class="nav-box">
-                    <i class="fas fa-car"></i>
-                    <h3>Vehicle Management</h3>
-                </a>
-            </div>
-            <!-- Row 2 -->
-            <div class="box-row">
-                <a href="notif.html" class="nav-box">
-                    <i class="fas fa-bell"></i>
-                    <h3>Notifications</h3>
-                </a>
-                <a href="settings.html" class="nav-box">
-                    <i class="fa-solid fa-gear"></i>
-                    <h3>Settings</h3>
-                </a>
-                <a href="index.html" class="nav-box">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <h3>Log Out</h3>
-                </a>
+    <main class="main">
+        <section class="welcome-section">
+            <h2>Welcome <span id="userFullName"></span>!</h2>
+            <div class="user-info">
+                <div class="info-left">
+                    <p>Account Number: <span id="userAccountNumber"></span></p>
+                </div>
+                <div class="info-right">
+                    <p>Account Status: <span id="userAccountStatus">Active</span></p>
+                </div>
             </div>
         </section>
-    </div>
-</main>
 
-</body>
-<!-- Footer -->
+        <div class="nav-area">
+            <section class="nav-boxes">
+                <div class="box-row">
+                    <a href="account.html" class="nav-box">
+                        <i class="fa-solid fa-user-pen"></i>
+                        <h3>Account</h3>
+                    </a>
+                    <a href="parking.html" class="nav-box">
+                        <i class="fas fa-parking"></i>
+                        <h3>Parking</h3>
+                    </a>
+                    <a href="vManage.html" class="nav-box">
+                        <i class="fas fa-car"></i>
+                        <h3>Vehicle Management</h3>
+                    </a>
+                </div>
+                <div class="box-row">
+                    <a href="notif.html" class="nav-box">
+                        <i class="fas fa-bell"></i>
+                        <h3>Notifications</h3>
+                    </a>
+                    <a href="settings.html" class="nav-box">
+                        <i class="fa-solid fa-gear"></i>
+                        <h3>Settings</h3>
+                    </a>
+                    <a href="#" id="logout-btn" class="nav-box">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <h3>Log Out</h3>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
 
-<div class="wrapper">
-    <footer>
+<footer>
+    <div class="wrapper">
         <div class="text-left">
             <p>Contact US:<br>07345678910<br>Parking@vea.ac.uk</p>
         </div>
         <div class="text-center">
             <div class="logo-footer">
-                <img src="images/ueaWhite.png" alt="UEA Logo" width= 240.75 height=50.68>
+                <img src="images/ueaWhite.png" alt="UEA Logo" width=240.75 height=50.68>
             </div>
         </div>
         <div class="text-right">
             <p>University of East Anglia<br>Norwich research park<br>NR4 7TJ</p>
         </div>
-    </footer>
+    </div>
+</footer>
 
-</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load user data
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // Display user info
+    document.getElementById('userFullName').textContent = user.full_name;
+    document.getElementById('userAccountNumber').textContent = user.user_id;
+    
+    // Logout functionality
+    document.getElementById('logout-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('user');
+        window.location.href = 'login.html';
+    });
+});
+</script>
+</body>
 </html>
