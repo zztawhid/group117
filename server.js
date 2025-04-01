@@ -149,6 +149,7 @@ app.get('/api/auth/user', async (req, res) => {
     }
 });
 
+
 // Default route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));

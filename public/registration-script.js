@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Form handling
+    //Form selection from registration page
     const registrationForm = document.querySelector('.register-form-box form');
     const addVehicleBtn = document.querySelector('.add-vehicle-button');
     const overlay = document.getElementById('overlay');
@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let licensePlate = '';
 
-    // Vehicle form handling
+    // Vehicle open pop up form handling
     function openForm() {
         vehicleForm.style.display = 'block';
         overlay.style.display = 'block';
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
     registrationForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
-        // Clear previous errors
+        // Clear previous errors - iterates through each elements, and el.remove() removes each element from the DOM 
         const errorElements = document.querySelectorAll('.error-message');
         errorElements.forEach(el => el.remove());
 
