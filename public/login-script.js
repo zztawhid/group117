@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Store user data in session/local storage
                 localStorage.setItem('user', JSON.stringify({
                     ...result.user,
-                    token: result.token // If using JWT
+                    token: result.token 
                 }));
                 window.location.href = 'main.html';
             } else {

@@ -149,6 +149,37 @@ app.get('/api/auth/user', async (req, res) => {
     }
 });
 
+//Feedback auth//
+app.post('/api/feedback', async (req, res) => {
+    try {
+        const { message, email } = req.body;
+        
+        // Basic validation
+        if (!message || !email) {
+            return res.status(400).json({ 
+                message: 'Both message and email are required' 
+            });
+        }
+
+        // Insert into database
+        const [result] = await pool.execute(
+            'INSERT INTO feedback (email, message, created_at) VALUES (?, ?, NOW())',
+            [email, message]
+        );
+
+        res.json({ 
+            success: true,
+            feedbackId: result.insertId
+        });
+    } catch (error) {
+        console.error('Database error:', error);
+        res.status(500).json({ 
+            success: false,
+            message: 'Failed to store feedback'
+        });
+    }
+});
+
 
 // Default route
 app.get('/', (req, res) => {

@@ -1,20 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<html>
+<!DOCTYPE html>
 <html lang="en-GB">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> UEA Parking Management System :: Home </title>
+    <title>UEA Parking Management System :: Contact</title>
     <link rel="stylesheet" href="edit.css">
     <script src="https://kit.fontawesome.com/cab31170e8.js" crossorigin="anonymous"></script>
-
     <script src="toggle.js"></script>
-
+    <script src="auth.js"></script>
+    <script src="contact-script.js"></script>
 </head>
 <body>
-
-<div id = "wrapper">
-
+<div id="wrapper">
     <header>
         <button class="header-button" onclick="toggleLanguageDropdown()">
             <img src="images/england.jpg" alt="English Flag">
@@ -33,53 +30,46 @@
 
         <div id="headtxt">UEA Parking Management System</div>
         <button class="header-button" onclick="document.location='contact.html'">Contact Us</button>
-
     </header>
 
-
-    <!-- Site navigation menu -->
     <nav id="topnav">
         <div class="nav-container">
             <div class="dropdown-icon" onclick="toggleDropdown()">
-                <i class="fas fa-bars"></i> <!-- Hamburger menu icon -->
+                <i class="fas fa-bars"></i>
             </div>
-            <div class="active-page">Welcome Page</div>
-
-            <ul class="topnav">
-                <ul><a href="main.html" class="nav-link">Home Page</a></ul>
-                <ul><a href="parking.html" class="nav-link">Parking</a></ul>
-                <ul><a href="account.html" class="nav-link">Account Management</a></ul>
-                <ul><a href="vManage.html" class="nav-link">Vehicle Management</a></ul>
-                <ul><a href="notif.html" class="nav-link">Notifications</a></ul>
-
-            </ul>
+            <div class="active-page">Contact Us</div>
+            <!-- Add this wrapper for nav links -->
+            <div class="nav-links-wrapper">
+                <ul class="topnav" id="navLinks">
+                    <!-- Will be populated by auth.js -->
+                </ul>
+            </div>
+        </div>
     </nav>
-</div>
+    <main class="main">
+        <button class="security-button" id="emergencyBtn">Contact Security</button>
+        <p class="security-notice">UEA Security responds 24/7 - Average response time: 3 minutes</p>
 
-<!-- Main -->
-<main class="main">
-    <button class="security-button" >Contact Security</button>
-    <p class="security-notice">UEA Security responds 24/7 - Average response time: 3 minutes</p>
+        <div class="fb-form">
+            <form id="feedbackForm">
+                <h3>Feedback Form</h3>
+                <p class="form-description">
+                    Before submitting any questions please check our FAQ section to resolve your issues<br>
+                    <br>Please use the text box below to provide your feedback. We aim to respond within 48 hours.
+                </p>
 
-    <div class="fb-form">
-        <form action="">
-            <h3>Feedback Form</h3>
-            <p class="form-description">Before submitting any questions please check our FAQ section to resolve your issues<br>
-                <br>Please use the text box below to provide your feedback. We aim to respond within 48 hours.</p>
-
-            <div class="form-group">
-                <label for="fform">Your Feedback:</label>
-                <textarea id="fform" name="fform" rows="6"></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email Address:</label>
-                <input type="email" id="email" name="email">
-            </div>
-
-            <button type="submit" name="fback" class="submit-btn">Send Feedback</button>
-        </form>
-    </div>
+                <div class="form-group">
+                    <label for="fform">Your Feedback:</label>
+                    <textarea id="fform" name="fform" rows="6" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div id="formStatus" class="form-status"></div>
+                <button type="submit" name="fback" class="submit-btn">Send Feedback</button>
+            </form>
+        </div>
 
 
     <h2 id="faq">FAQ: </h2>
