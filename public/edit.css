@@ -735,7 +735,6 @@ main {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-
 .submit-btn {
     width: 100%;
     padding: 14px;
@@ -973,6 +972,95 @@ main {
     background-color: #fff;
 }
 
+
+/*Payment Page*/
+#payment-page-text{
+    margin: 20px;
+    background-color: #F7F0E4;
+    padding: 10px;
+    display: flex;
+    align-items: 50px auto;
+    justify-content: center;
+    align-items: center;
+}
+
+#payment-page-text h2{
+    color: #0f0f0f;
+    font-size: 2rem;
+}
+
+#payment-section {
+    display: flex;
+    height: 550px;
+    justify-content: center;
+    gap: 0px;         
+    margin: 50px auto;
+}
+
+.payment-map {
+    width: 800px;
+    padding: 0px;
+    background: #F7F0E4;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 2px solid #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* So that the svg doesn't overflow the box that i kept it in*/
+}
+
+.payment-map svg, 
+.payment-map object, 
+.payment-map img {
+    max-width: 100%;
+    height: auto;
+}
+
+.payment-form {
+    width: 500px;
+    padding: 30px;
+    background: #F7F0E4;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 2px solid #E6007D;
+    margin-left: 5px;
+}
+
+.payment-form h2{
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+}
+
+.payment-form-group{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+
+.payment-form-group #paymentlabel {
+    display: flex;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+    width: 80%;
+    font-size: 1.3rem;
+}
+
+
+.payment-form-group #location-code-input{
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: #fff;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
 
 /* Login Page */
 .fb-form {
