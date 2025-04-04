@@ -1,18 +1,24 @@
 // Authentication and navigation management
 document.addEventListener('DOMContentLoaded', function() {
-    // Configuration
+    // Configuration - Remove everything above login.html after
     const PUBLIC_ROUTES = [
+        '/main.html',
+        '/parking.html',
+        '/account.html',
+        '/vManage.html',
+        '/notif.html',
+        '/settings.html',
         '/login.html',
         '/register.html',
         '/contact.html',
-        '/index.html'
+        '/index.html' 
     ];
     
     // Get current user and page
     const user = JSON.parse(localStorage.getItem('user'));
     const currentPage = window.location.pathname.split('/').pop().toLowerCase();
     
-    // 1. Navigation management
+    // Navigation management
     const navLinksContainer = document.querySelector('.topnav');
     
     if (navLinksContainer) {
@@ -40,13 +46,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // 2. Route protection
+    // Route protection
     if (!PUBLIC_ROUTES.some(route => route.endsWith(currentPage)) && !user) {
         window.location.href = 'login.html';
         return;
     }
     
-    // 3. Update active page indicator
+    // Update active page indicator
     const activePageElement = document.querySelector('.active-page');
     if (activePageElement) {
         // Extract page name from URL
