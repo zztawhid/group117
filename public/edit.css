@@ -836,6 +836,13 @@ main {
     background-color:#f9f9f9;
 }
 
+.manage-vehicles-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100%; /* Ensure it takes the full height of the container */
+}
+
 .manage-vehicles {
     margin-top: 30px;
     padding: 10px 20px;
@@ -845,6 +852,8 @@ main {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
+    width: 200px;
+    font-size: 18px;
 }
 
 .manage-vehicles:hover {
@@ -2050,55 +2059,59 @@ header {
 }
 
 /* attempting to make the hamburger sidebar work */
-    .topnav {
-        position: fixed;
-        top: 0;
-        left: -250px; /* Initially hidden off-screen */
-        width: 180px;
-        height: 100%;
-        background-color: #333;
-        overflow-y: auto;
-        transition: left 0.3s ease; /* Smooth slide-in effect */
-        display: flex;
-        flex-direction: column;
-        padding-top: 60px; /* Space for header */
-        z-index: 1000;
-        box-shadow: 0 0 0 1px rgb(255, 255, 255);
-    }
+.topnav {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Initially hidden off-screen */
+    width: 180px;
+    height: 100%;
+    background: linear-gradient(135deg, #333, #333); /* Gradient background */
+    overflow-y: auto;
+    transition: left 0.3s ease; /* Smooth slide-in effect */
+    display: flex;
+    flex-direction: column;
+    padding-top: 60px; /* Space for header */
+    z-index: 1000;
+    border-right: 2px solid #333;
+    border-radius: 5px;
+}
 
-    .topnav.slide-in {
-        left: 0; /* Slide into view */
-    }
+.topnav.slide-in {
+    left: 0; /* Slide into view */
+}
 
-    .topnav a {
-        padding: 10px 20px;
-        text-decoration: none;
-        font-size: 18px;
-        color: white;
-        display: block;
-        transition: background-color 0.3s ease;
-    }
+.topnav a {
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    display: block;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle white divider */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-    .topnav a:hover {
-        background-color: #FF0080;
-        color: black;
-    }
+.topnav a:hover {
+    background-color: #FF0080;
+    color: black;
+    transform: scale(1.05);
+}
 
-    .dropdown-icon {
-        display: block; /* Show hamburger icon */
-        color: white;
-        font-size: 24px;
-        cursor: pointer;
-        left: 450px;
-        z-index: 1100; /* Ensure it stays above the sidebar */
-    }
 
-    #topnav ul {
-        display: flex; /* Ensure links are displayed in the sidebar */
-        flex-direction: column;
-        padding: 0;
-        margin: 0;
-    }
+.dropdown-icon {
+    display: block; /* Show hamburger icon */
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    left: 450px;
+    z-index: 1100; /* Ensure it stays above the sidebar */
+}
+
+#topnav ul {
+    display: flex; /* Ensure links are displayed in the sidebar */
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+}
 
 }
 
