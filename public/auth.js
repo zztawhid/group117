@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (navLinksContainer) {
         if (user) {
-            // Authenticated user - keep your original nav structure
+            // authenticated user
             navLinksContainer.innerHTML = `
                 <ul><a href="main.html" class="nav-link">Home Page</a></ul>
                 <ul><a href="parking.html" class="nav-link">Parking</a></ul>
@@ -32,13 +32,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 <ul><a href="notif.html" class="nav-link">Notifications</a></ul>
             `;
             
-            // Add logout handler
+            // logout handle
             document.getElementById('logout-btn').addEventListener('click', function(e) {
                 e.preventDefault();
                 logout();
             });
         } else {
-            // Guest - show only login/register
+            // guest view - only shows login / register
             navLinksContainer.innerHTML = `
                 <ul><a href="login.html" class="nav-link">Log In</a></ul>
                 <ul><a href="register.html" class="nav-link">Register</a></ul>
@@ -46,24 +46,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Route protection
+    // route protection
     if (!PUBLIC_ROUTES.some(route => route.endsWith(currentPage)) && !user) {
         window.location.href = 'login.html';
         return;
     }
     
-    // Update active page indicator
+    // update active page indicator
     const activePageElement = document.querySelector('.active-page');
     if (activePageElement) {
-        // Extract page name from URL
+        // extract page name from URL
         const pageName = currentPage.replace('.html', '').replace(/-/g, ' ');
         activePageElement.textContent = pageName.charAt(0).toUpperCase() + pageName.slice(1);
     }
 });
 
-/**
- * Logs out the current user
- */
+//logs out current user
 function logout() {
     localStorage.removeItem('user');
     window.location.href = 'login.html';

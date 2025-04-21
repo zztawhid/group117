@@ -1071,6 +1071,73 @@ main {
     transition: all 0.3s ease;
 }
 
+#payment-method, #vehicle-select{
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: #fff;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.payment-continue-button {
+    height: 75px;
+    margin-top: 10%;
+    width: 100%;
+    padding: 14px;
+    background-color: #34a51dd8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    text-transform: uppercase;
+}
+
+/* Active Sessions Section Styles */
+#active-sessions {
+    margin: 40px auto 0;
+    padding: 20px;
+    background-color: #F7F0E4;
+    border-radius: 8px;
+    width: 90%;
+    text-align: center;
+}
+
+.sessions-table-container {
+    overflow-x: auto;
+    margin-top: 15px;
+}
+
+.sessions-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.sessions-table th {
+    background-color: #e9ecef;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.sessions-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.sessions-table tr.no-sessions td {
+    text-align: center;
+    color: #6c757d;
+    padding: 20px;
+}
+
 /* Login Page */
 .fb-form {
     width: 850px;
@@ -1495,83 +1562,134 @@ button.add-vehicle-button {
 /* Vmanage CSS */
 
 .vehicles-container {
-    padding-top: 40px;
     text-align: center;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.vehicles-title {
-    color: black;
-    font-size: 28px;
-    margin-bottom: 30px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
-    padding-bottom: 10px;
-    margin-top: -20px;
+    width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #F7F0E4;
+    border-radius: 8px;
 }
 
 .vehicle-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-    margin-bottom: 40px;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
+    gap: 15px;
     margin-top: 20px;
 }
 
 .vehicle-box {
-    width: 100%;
-    height: 150px;
-    border: 2px solid #E6007D;
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: relative;
+    min-height: 100px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: white;
-    color: black;
-    font-size: 22px;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    position: relative;
-}
-
-.vehicle-box i {
-    font-size: 40px;
-    color: black;
-    transition: color 0.3s ease;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
 .vehicle-box:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(230, 0, 125, 0.2);
-    border-color: #ffcc00;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-.vehicle-box:hover i {
-    color: #ffcc00;
+.vehicle-box.selected {
+    border: 2px solid #f321a6;
 }
 
-.vehicle-buttons-top {
-    margin-top: 30px;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
+.license-plate {
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin: 10px 0;
+    background-color: #ffbf1c;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-family: monospace;
+}
 
-    width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+.vehicle-checkbox {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.loading-msg, .no-vehicles, .error-msg {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 20px;
+}
+
+.no-vehicles p {
+    margin-bottom: 15px;
+    color: #666;
+}
+
+#vehicle-btn-section{
+    display: flex;
 }
 
 .vehicle-btn {
-    padding-left: auto;
-    padding-right: auto;
+    max-width: 900px;
+    margin: 20px auto;
+    display: inline-block;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+}
 
-    padding-bottom: 10px;
-    margin-bottom: 10px;
+.vehicle-buttons-top, .vehicle-buttons-bottom {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* Modal styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.add-vehicle-form {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.add-vehicle-form h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.add-vehicle-form input {
+    width: 100%;
+    padding: 10px;
+    margin: 15px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
 .vbtn {

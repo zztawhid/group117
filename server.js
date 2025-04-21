@@ -180,6 +180,73 @@ app.post('/api/feedback', async (req, res) => {
     }
 });
 
+// Vehicle endpoints //
+app.get('/api/vehicles', async (req, res) => {
+    try {
+        const userId = req.query.user_id;
+        const [vehicles] = await pool.execute(
+            'SELECT vehicle_id, license_plate FROM driver_vehicles WHERE user_id = ?',
+            [userId]
+        );
+        res.json(vehicles);
+    } catch (error) {
+        console.error('Error fetching vehicles:', error);
+        res.status(500).json({ error: 'Failed to fetch vehicles' });
+    }
+});
+
+app.post('/api/vehicles', async (req, res) => {
+    try {
+        const { user_id, license_plate } = req.body;
+        
+        // Basic validation
+        if (!license_plate || !user_id) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        const [result] = await pool.execute(
+            'INSERT INTO driver_vehicles (user_id, license_plate) VALUES (?, ?)',
+            [user_id, license_plate]
+        );
+        
+        res.status(201).json({ 
+            vehicle_id: result.insertId,
+            license_plate
+        });
+    } catch (error) {
+        console.error('Error adding vehicle:', error);
+        res.status(500).json({ error: 'Failed to add vehicle' });
+    }
+});
+
+app.delete('/api/vehicles/:vehicleId', async (req, res) => {
+    try {
+        const vehicleId = req.params.vehicleId;
+        await pool.execute(
+            'DELETE FROM driver_vehicles WHERE vehicle_id = ?',
+            [vehicleId]
+        );
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error removing vehicle:', error);
+        res.status(500).json({ error: 'Failed to remove vehicle' });
+    }
+});
+
+// Get vehicles for a user //
+app.get('/api/vehicles', async (req, res) => {
+    try {
+        const userId = req.query.user_id;
+        const [vehicles] = await pool.execute(
+            'SELECT vehicle_id, license_plate FROM driver_vehicles WHERE user_id = ?',
+            [userId]
+        );
+        res.json(vehicles);
+    } catch (error) {
+        console.error('Error fetching vehicles:', error);
+        res.status(500).json({ error: 'Failed to fetch vehicles' });
+    }
+});
 
 // Admin routes 
 app.get('/api/admin/users', async (req, res) => {

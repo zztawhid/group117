@@ -9,6 +9,7 @@
 
     <script src="toggle.js"></script>
     <script src="auth.js"></script>
+    <script src="parking.js"></script>
 </head>
 <body>
 
@@ -69,17 +70,45 @@
                 <input type="text" id="location-code-input" required>
             </div>
             <div class="payment-form-group">
-                <label id="paymentlabel">Your vehicle details:</label>
-                <input type="text" id="location-code-input" required>
+                <label id="paymentlabel">Your vehicle:</label>
+                <select id="vehicle-select" required>
+                    <option value="" disabled selected>Select your vehicle</option>
+                    <!-- dynamically loaded -->
+                </select>
             </div>
+            <div class="payment-form-group">
+                <label id="paymentlabel">Payment method:</label>
+                <select id="payment-method" required>
+                    <option value="" disabled selected>Select payment method</option>
+                    <option value="payg">Pay as you go</option>
+                    <option value="directdebit">Direct debit</option>
+                </select>
+            </div>
+            <button type="submit" name="submit" class="payment-continue-button">Continue</button>
         </div>
     </div>
-    <section id="payment-page-text">
+    <section id="active-sessions">
         <h2>ACTIVE SESSIONS</h2>
+        <div class="sessions-table-container">
+            <table class="sessions-table">
+                <thead>
+                    <tr>
+                        <th>Location</th>
+                        <th>Vehicle</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="no-sessions">
+                        <td colspan="6">You have no active parking sessions</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
-    <div id="payment-section">
-            
-    </div>
 </main>
 <div class="wrapper">
     <footer>
