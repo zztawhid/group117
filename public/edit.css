@@ -1774,7 +1774,7 @@ button.add-vehicle-button {
     padding: 20px;
     width: 1200px;
     margin: 0 auto;
-    font-family: Arial, sans-serif;
+    font-family: ueafont;
 }
 
 .search-container {
@@ -1788,7 +1788,7 @@ button.add-vehicle-button {
     padding: 8px 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 22px;
 }
 
 .search-container input:focus {
@@ -1810,7 +1810,7 @@ button.add-vehicle-button {
 #usersTable {
     width: 100%;
     border-collapse: collapse; /*Gets rid of spacing in between table cells*/
-    background-color: white;
+    background-color: #f7e9d0;
 }
 
 #usersTable th, #usersTable td {
@@ -1820,8 +1820,8 @@ button.add-vehicle-button {
 }
 
 #usersTable th {
-    background-color: #f041df;
-    font-weight: 600;
+    background-color: #fadabd;
+    font-weight: 400;
     color: #000000;
     cursor: pointer;
     user-select: none;
@@ -1829,7 +1829,7 @@ button.add-vehicle-button {
 }
 
 #usersTable th:hover {
-    background-color: #f041de9f;
+    background-color: #F7F0E4;
 }
 
 .sort-icon {
@@ -1850,23 +1850,25 @@ button.add-vehicle-button {
 .user-type-select {
     padding: 6px 10px;
     border-radius: 4px;
-    border: 1px solid #f041df;
+    border: 2px solid #f862c1;
     background-color: white;
     font-size: 14px;
 }
 
 .action-btn {
-    padding: 6px 12px;
-    margin: 0 3px;
+    font-size: 1em;
+    font-family: ueafont;
+    padding: 5px 20px;
+    background-color: #E6007D;
+    color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 2px;
     cursor: pointer;
-    font-size: 14px;
-    transition: all 0.2s;
+    transition: background-color 0.3s ease, transform 0.3s ease, color 0.3s ease;
 }
 
 .save-btn {
-    background-color: #28a745;
+    background-color: #1c941ce6;
     color: white;
 }
 
@@ -1875,7 +1877,7 @@ button.add-vehicle-button {
 }
 
 .delete-btn {
-    background-color: #dc3545;
+    background-color: #e40d22;
     color: white;
 }
 
@@ -1896,7 +1898,7 @@ button.add-vehicle-button {
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 2px;
     cursor: pointer;
 }
 
