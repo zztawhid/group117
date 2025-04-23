@@ -1182,7 +1182,7 @@ main {
 .payment-form {
     width: 500px;
     padding: 30px;
-    background: #F7F0E4;
+    background: white;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     border: 2px solid #E6007D;
@@ -1213,18 +1213,13 @@ main {
 }
 
 
-.payment-form-group #location-code-input{
+.payment-form-group {
     width: 100%;
-    padding: 15px;
-    margin-bottom: 20px;
-    background: #fff;
-    border-radius: 6px;
-    border: 2px solid #ddd;
     font-size: 1rem;
-    transition: all 0.3s ease;
 }
 
-#payment-method, #vehicle-select{
+
+#location-select, #payment-method, #vehicle-select{
     width: 100%;
     padding: 15px;
     margin-bottom: 20px;
@@ -1233,7 +1228,13 @@ main {
     border: 2px solid #ddd;
     font-size: 1rem;
     transition: all 0.3s ease;
+
+    outline: none;
+    border-color: #E6007D;
+    background-color: #fff;
 }
+
+
 .payment-continue-button {
     height: 75px;
     margin-top: 10%;

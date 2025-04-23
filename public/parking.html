@@ -66,8 +66,11 @@
         <div class="payment-form">
             <h2>Book your parking</h2>
             <div class="payment-form-group">
-                <label id="paymentlabel">Location Code:</label>
-                <input type="text" id="location-code-input" required>
+                <label id="paymentlabel">Parking Location:</label>
+                <select id="location-select" required>
+                    <option value="" disabled selected>Select location</option>
+                    <!-- dynamically loaded -->
+                </select>
             </div>
             <div class="payment-form-group">
                 <label id="paymentlabel">Your vehicle:</label>

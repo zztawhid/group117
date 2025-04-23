@@ -309,6 +309,95 @@ app.delete('/api/admin/users/:userId', async (req, res) => {
     }
 });
 
+// Parking Location Endpoints
+app.get('/api/parking/locations', async (req, res) => {
+    try {
+        const [locations] = await pool.execute(`
+            SELECT 
+                location_id, 
+                name, 
+                code, 
+                total_spaces,
+                hourly_rate,
+                disabled,
+                disabled_reason
+            FROM parking_locations
+            ORDER BY name
+        `);
+        res.json(locations);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Get available spaces at a location
+app.get('/api/parking/availability', async (req, res) => {
+    try {
+        const { location_id } = req.query;
+        
+        // Get total spaces and available spaces
+        const [location] = await pool.execute(`
+            SELECT total_spaces FROM parking_locations 
+            WHERE location_id = ? AND disabled = FALSE
+        `, [location_id]);
+        
+        if (location.length === 0) {
+            return res.status(404).json({ error: 'Location not found or unavailable' });
+        }
+
+        const [occupied] = await pool.execute(`
+            SELECT COUNT(*) AS occupied 
+            FROM parking_spaces 
+            WHERE location_id = ? AND is_disabled = FALSE
+            AND (is_reserved = TRUE OR space_id IN (
+                SELECT space_id FROM parking_occupancy 
+                WHERE time_out IS NULL
+            ))
+        `, [location_id]);
+        
+        const available = location[0].total_spaces - occupied[0].occupied;
+        
+        res.json({
+            total_spaces: location[0].total_spaces,
+            available_spaces: available
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Admin endpoints for managing locations
+app.put('/api/admin/locations/:id/disable', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { reason } = req.body;
+        
+        await pool.execute(
+            'UPDATE parking_locations SET disabled = TRUE, disabled_reason = ? WHERE location_id = ?',
+            [reason, id]
+        );
+        
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.put('/api/admin/locations/:id/enable', async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        await pool.execute(
+            'UPDATE parking_locations SET disabled = FALSE, disabled_reason = NULL WHERE location_id = ?',
+            [id]
+        );
+        
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Default route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
