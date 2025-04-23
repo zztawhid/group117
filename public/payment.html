@@ -56,7 +56,7 @@
                 <div class="payment-details">
                     <div class="detail-row">
                         <span>Parking Duration:</span>
-                        <span>1 Month (Standard)</span>
+                        <span>1 Hour</span>
                     </div>
                     <div class="detail-row">
                         <span>Zone:</span>
@@ -64,11 +64,11 @@
                     </div>
                     <div class="detail-row">
                         <span>Vehicle:</span>
-                        <span>AB12 CDE (Volkswagen Golf)</span>
+                        <span>AB12 CDE</span>
                     </div>
                     <div class="detail-row total">
                         <span>Total Amount:</span>
-                        <span id="parking-cost">£85.00</span>
+                        <span id="parking-cost">£5.00</span>
                     </div>
                 </div>
             </section>
@@ -76,7 +76,6 @@
             <section class="payment-method">
                 <h2>Payment Method</h2>
                 <div class="payment-options">
-
                     <button class="add-new-card">
                         <i class="fas fa-plus"></i> Add New Payment Method
                     </button>
@@ -87,21 +86,25 @@
                 <h2>Billing Information</h2>
                 <div class="billing-form">
                     <div class="form-group">
-                        <label for="card-name">Name on Card</label>
-                        <input type="text" id="card-name" placeholder="Full Name">
+                        <label for="full-name">Full Name</label>
+                        <input type="text" id="full-name" placeholder="Full Name" required>
                     </div>
                     <div class="form-group">
-                        <label for="card-number">Card Number</label>
-                        <input type="text" id="card-number" placeholder="XXXX XXXX XXXX XXXX">
+                        <label for="address-line1">Address Line 1</label>
+                        <input type="text" id="address-line1" placeholder="Street address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address-line2">Address Line 2 (Optional)</label>
+                        <input type="text" id="address-line2" placeholder="Apartment, suite, unit, etc.">
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="expiry-date">Expiry Date</label>
-                            <input type="text" id="expiry-date" placeholder="MM/YY">
+                            <label for="city">City</label>
+                            <input type="text" id="city" placeholder="City" required>
                         </div>
                         <div class="form-group">
-                            <label for="cvv">CVV</label>
-                            <input type="text" id="cvv" placeholder="123">
+                            <label for="postcode">Postcode</label>
+                            <input type="text" id="postcode" placeholder="Post Code" required>
                         </div>
                     </div>
                 </div>
@@ -109,8 +112,7 @@
 
             <section class="payment-actions">
                 <button class="back-button">Back</button>
-                <button class="confirm-payment">Confirm Payment  <i class="fa-solid fa-arrow-right"></i></button>
-
+                <button class="confirm-payment">Confirm Payment <i class="fa-solid fa-arrow-right"></i></button>
             </section>
         </div>
     </main>
