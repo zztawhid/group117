@@ -15,6 +15,10 @@
     
 }
 
+#parkuealogo {
+    width: 350px;
+}
+
 html{
     font-family: ueafont;
     background-color: #F7F0E4;
@@ -1081,7 +1085,6 @@ main {
     font-size: 1rem;
     transition: all 0.3s ease;
 }
-
 .payment-continue-button {
     height: 75px;
     margin-top: 10%;
@@ -2138,9 +2141,6 @@ body {
 }
 
 /* Header */
-#parkuealogo{
-    height: 200px;
-}
 
 header {
     min-height: 120px;
