@@ -984,9 +984,205 @@ main {
     background-color: #d32f2f;
     transform: translateY(-2px);
 }
-
-
 /* ACCOUNT MANAGEMENT CSS */
+
+/* PAYMENT PAGE */
+/* Main container styling - matches account page */
+.account-management {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 30px;
+    border: 2px solid #E6007D;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Section headers - matches account page style */
+.payment-summary h2,
+.payment-method h2,
+.billing-info h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 1.5em;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.payment-summary h2::after,
+.payment-method h2::after,
+.billing-info h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background-color: #E6007D;
+}
+
+/* Payment details section */
+.payment-details {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.detail-row:last-child {
+    border-bottom: none;
+}
+
+.detail-row.total {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #E6007D;
+}
+
+/* Payment method cards */
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.payment-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.payment-card.active {
+    border-color: #E6007D;
+    background-color: rgba(230, 0, 125, 0.05);
+}
+
+.payment-card:hover {
+    border-color: #E6007D;
+}
+
+.payment-card i {
+    font-size: 1.8em;
+    color: #555;
+}
+
+.add-new-card {
+    padding: 15px;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s;
+}
+
+.add-new-card:hover {
+    border-color: #E6007D;
+    color: #E6007D;
+}
+
+/* Billing form styling - matches account page inputs */
+.billing-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #fff;
+    transition: all 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #E6007D;
+    box-shadow: 0 0 0 4px rgba(230, 0, 125, 0.15);
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+/* Payment actions - matches account page button style */
+.payment-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+
+.back-button,
+.confirm-payment {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+    font-size: 16px;
+}
+
+.back-button {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.back-button:hover {
+    background-color: #ddd;
+}
+
+.confirm-payment {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.confirm-payment:hover {
+    background-color: #3e8e41;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* PAYMENT PAGE */
 
 /* VEHICLE MANAGEMENT CSS */
 .manage-vehicles-container {
