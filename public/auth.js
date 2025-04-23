@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             // guest view - only shows login / register
             navLinksContainer.innerHTML = `
+                <ul><a href="index.html" class="nav-link">Home Page</a></ul>
                 <ul><a href="login.html" class="nav-link">Log In</a></ul>
                 <ul><a href="register.html" class="nav-link">Register</a></ul>
             `;

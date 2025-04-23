@@ -2138,6 +2138,10 @@ body {
 }
 
 /* Header */
+#parkuealogo {
+    width: 300px;
+}
+
 header {
     min-height: 120px;
     background: #E6007D;
