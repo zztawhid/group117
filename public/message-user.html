@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UEA Parking Management System :: Message Users</title>
+    <link rel="stylesheet" href="edit.css">
+    <script src="https://kit.fontawesome.com/cab31170e8.js" crossorigin="anonymous"></script>
+    <script src="toggle.js"></script>
+</head>
+<body>
+<div id="wrapper">
+    <header>
+        <button class="header-button" onclick="toggleLanguageDropdown()">
+            <img src="images/england.jpg" alt="English Flag">
+        </button>
+        <div id="language-dropdown" class="dropdown hidden">
+            <button onclick="changeLanguage('en')">
+                <img src="images/england.jpg" alt="English Flag"> English
+            </button>
+            <button onclick="changeLanguage('fr')">
+                <img src="images/france.png" alt="French Flag"> Français
+            </button>
+            <button onclick="changeLanguage('cn')">
+                <img src="images/china.png" alt="Chinese Flag"> Chinese (Mandarin)
+            </button>
+        </div>
+
+        <img id="parkuealogo" src="./Images/logo.png">
+        <button class="header-button" onclick="document.location='contact.html'">Contact Us</button>
+    </header>
+
+    <nav id="topnav">
+        <div class="nav-container">
+            <div class="dropdown-icon" onclick="toggleDropdown()">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="active-page">Message Users</div>
+            <ul class="topnav">
+                <ul><a href="main.html" class="nav-link">Home Page</a></ul>
+                <ul><a href="parking.html" class="nav-link">Parking</a></ul>
+                <ul><a href="account.html" class="nav-link">Account Management</a></ul>
+                <ul><a href="vManage.html" class="nav-link">Vehicle Management</a></ul>
+                <ul><a href="notif.html" class="nav-link">Notifications</a></ul>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main">
+        <section class="message-container">
+            <div class="messages-left">
+                <h2>Received Messages</h2>
+                <ul id="receivedMessages">
+                   
+                </ul>
+            </div>
+            <div class="messages-right">
+                <h2>Send a Message</h2>
+                <form id="messageForm">
+                    <label for="user">Driver User:</label>
+                    <select id="user" name="user">
+                        
+                    </select>
+
+                    <label for="messageContent">Message:</label>
+                    <textarea id="messageContent" name="messageContent" rows="5" placeholder="send message to user..."></textarea>
+
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+</div>
+</footer>
+
+</body>
+</html>
