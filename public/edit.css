@@ -184,6 +184,28 @@ button.header-button:hover {
     color: black;
 }
 
+.nav-link {
+    position: relative; /* for line to appear */
+}
+
+/* line transition affect on nav link class */
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background-color: white; 
+    transition: width 0.3s ease;
+}
+
+/* expanding line */
+.nav-link:hover::after {
+    width: 100%;
+}
+
 .nav-link.active {
     background-color: #767676;
     color: white;
@@ -2395,7 +2417,7 @@ footer {
     color: #333;
 }
 
-#messageForm select,
+#messageForm input,
 #messageForm textarea {
     width: 100%;
     padding: 10px;
@@ -2407,11 +2429,6 @@ footer {
     transition: border-color 0.3s ease;
 }
 
-#messageForm select:focus,
-#messageForm textarea:focus {
-    border-color: #E6007D;
-    outline: none;
-}
 
 #messageForm button {
     display: block;

@@ -45,6 +45,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 <ul><a href="register.html" class="nav-link">Register</a></ul>
             `;
         }
+            // highlighting the active page
+            const activenavLinks = navLinksContainer.querySelectorAll('.nav-link');
+            activenavLinks.forEach(link => {
+              if (link.getAttribute('href').toLowerCase() === currentPage) {
+                link.classList.add('active');
+            }
+        });
     }
     
     // route protection
