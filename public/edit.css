@@ -608,6 +608,104 @@ main {
     text-transform: uppercase;
 }
 
+/* STATUS BAR IN MAIN PAGE */
+.status-bar {
+    font-family: ueafont;
+    background: linear-gradient(135deg, #d222c7, #d95995b0);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 1500px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 120px;
+}
+
+.status-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.status-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.status-active {
+    background-color: #27ae60;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.status-details {
+    display: flex;
+    gap: 45px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-label {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    margin-bottom: 2px;
+}
+
+.detail-value {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.timer {
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: monospace;
+    letter-spacing: 1px;
+    min-width: 90px;
+    text-align: center;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-extend {
+    background-color: #6b8a28de;
+    font-size: 1rem;
+    color: white;
+}
+
+.btn-end {
+    background-color: #e74c3c;
+    font-size: 1rem;
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
 /* Main Page */
 
 /* Contact Page */
@@ -1415,7 +1513,7 @@ main {
 }
 
 
-#location-select, #payment-method, #vehicle-select{
+#location-select, #duration-method, #vehicle-select{
     width: 100%;
     padding: 15px;
     margin-bottom: 20px;
@@ -1445,46 +1543,6 @@ main {
     cursor: pointer;
     transition: background 0.3s ease;
     text-transform: uppercase;
-}
-
-/* Active Sessions Section Styles */
-#active-sessions {
-    margin: 40px auto 0;
-    padding: 20px;
-    background-color: #F7F0E4;
-    border-radius: 8px;
-    width: 90%;
-    text-align: center;
-}
-
-.sessions-table-container {
-    overflow-x: auto;
-    margin-top: 15px;
-}
-
-.sessions-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.05);
-}
-
-.sessions-table th {
-    background-color: #e9ecef;
-    padding: 12px 15px;
-    text-align: left;
-    font-weight: 600;
-}
-
-.sessions-table td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #dee2e6;
-}
-
-.sessions-table tr.no-sessions td {
-    text-align: center;
-    color: #6c757d;
-    padding: 20px;
 }
 
 /* Login Page */
