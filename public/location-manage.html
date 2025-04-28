@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UEA Parking Management System :: Location Management</title>
+    <link rel="stylesheet" href="edit.css">
+    <script src="https://kit.fontawesome.com/cab31170e8.js" crossorigin="anonymous"></script>
+    <script src="toggle.js"></script>
+    <script src="auth.js"></script>
+    <script src="location-management.js"></script>
+</head>
+<body>
+
+<div id="wrapper">
+
+    <header>
+        <button class="header-button" onclick="toggleLanguageDropdown()">
+            <img src="images/england.jpg" alt="English Flag">
+        </button>
+        <div id="language-dropdown" class="dropdown hidden">
+            <button onclick="changeLanguage('en')">
+                <img src="images/england.jpg" alt="English Flag"> English
+            </button>
+            <button onclick="changeLanguage('fr')">
+                <img src="images/france.png" alt="French Flag"> Français
+            </button>
+            <button onclick="changeLanguage('cn')">
+                <img src="images/china.png" alt="Chinese Flag"> Chinese (Mandarin)
+            </button>
+        </div>
+
+        <a href="a-main.html"><img id="parkuealogo" src="./Images/logo.png"></a>
+        <button class="header-button" onclick="document.location='contact.html'">Contact Us</button>
+    </header>
+
+    <nav id="topnav">
+        <div class="nav-container">
+            <div class="dropdown-icon" onclick="toggleDropdown()">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="active-page">Location Management</div>
+            <ul class="topnav">
+                <ul><a href="main.html" class="nav-link">Home Page</a></ul>
+                <ul><a href="parking.html" class="nav-link">Parking</a></ul>
+                <ul><a href="account.html" class="nav-link">Account Management</a></ul>
+                <ul><a href="vManage.html" class="nav-link">Vehicle Management</a></ul>
+                <ul><a href="notif.html" class="nav-link">Notifications</a></ul>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main">
+        <section id="admin-controls">
+            <h2>LOCATION MANAGEMENT</h2>
+            <div class="admin-actions">
+                <button id="refresh-btn" class="admin-button">
+                    <i class="fas fa-sync-alt"></i> Refresh Status
+                </button>
+                <button id="save-changes-btn" class="admin-button primary">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </div>
+        </section>
+
+        <div id="location-management-section">
+            <div class="location-map-container">
+                <object type="image/svg+xml" data="parking-map.svg" id="admin-map"></object>
+                <div class="map-overlay-controls">
+                    <button class="map-control-btn" id="zoom-in"><i class="fas fa-search-plus"></i></button>
+                    <button class="map-control-btn" id="zoom-out"><i class="fas fa-search-minus"></i></button>
+                    <button class="map-control-btn" id="reset-view"><i class="fas fa-expand"></i></button>
+                </div>
+            </div>
+
+            <div class="location-control-panel">
+                <div class="location-selection">
+                    <h3>Selected Car Park</h3>
+                    <div class="selected-location-info">
+                        <span id="selected-location-name">No location selected</span>
+                        <span id="selected-location-status" class="status-open">Status: Open</span>
+                    </div>
+                </div>
+
+                <div class="location-actions">
+                    <h3>Management Actions</h3>
+                    <div class="action-buttons">
+                        <button class="action-btn" id="close-location">
+                            <i class="fas fa-lock"></i> Close Entire Car Park
+                        </button>
+                        <button class="action-btn" id="event-only">
+                            <i class="fas fa-ticket-alt"></i> Event Access Only
+                        </button>
+                        <button class="action-btn" id="open-location">
+                            <i class="fas fa-lock-open"></i> Reopen Car Park
+                        </button>
+                        <button class="action-btn" id="maintenance-mode">
+                            <i class="fas fa-tools"></i> Maintenance Mode
+                        </button>
+                    </div>
+                </div>
+
+                <div class="location-settings">
+                    <h3>Advanced Settings</h3>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label for="capacity-input">Capacity Adjustment (%)</label>
+                            <input type="range" id="capacity-input" min="0" max="100" value="100">
+                            <span id="capacity-value">100%</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-name">Event Name (if applicable)</label>
+                            <input type="text" id="event-name" placeholder="Enter event name">
+                        </div>
+                        <div class="form-group">
+                            <label for="closure-reason">Closure Reason</label>
+                            <select id="closure-reason">
+                                <option value="">Select reason</option>
+                                <option value="maintenance">Maintenance</option>
+                                <option value="event">Special Event</option>
+                                <option value="weather">Weather Conditions</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="closure-notes">Additional Notes</label>
+                            <textarea id="closure-notes" rows="3" placeholder="Enter any additional information"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section id="location-status-overview">
+            <h2>CURRENT STATUS OVERVIEW</h2>
+            <div class="status-table-container">
+                <table class="status-table">
+                    <thead>
+                    <tr>
+                        <th>Car Park</th>
+                        <th>Status</th>
+                        <th>Capacity</th>
+                        <th>Current Occupancy</th>
+                        <th>Restrictions</th>
+                        <th>Last Updated</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Car Park A</td>
+                        <td><span class="status-open">Open</span></td>
+                        <td>250 spaces</td>
+                        <td>187 (75%)</td>
+                        <td>None</td>
+                        <td>Today, 09:45</td>
+                    </tr>
+                    <tr>
+                        <td>Car Park B</td>
+                        <td><span class="status-event">Event Only</span></td>
+                        <td>180 spaces</td>
+                        <td>92 (51%)</td>
+                        <td>Valid event pass required</td>
+                        <td>Today, 10:30</td>
+                    </tr>
+                    <tr>
+                        <td>Car Park C</td>
+                        <td><span class="status-closed">Closed</span></td>
+                        <td>300 spaces</td>
+                        <td>0 (0%)</td>
+                        <td>Maintenance work</td>
+                        <td>Yesterday, 16:15</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="text-left">
+            <p>Contact US:<br>07345678910<br>Parking@vea.ac.uk</p>
+        </div>
+        <div class="text-center">
+            <div class="logo-footer">
+                <img src="images/ueaWhite.png" alt="UEA Logo" width=240.75 height=50.68>
+            </div>
+        </div>
+        <div class="text-right">
+            <p>University of East Anglia<br>Norwich research park<br>NR4 7TJ</p>
+        </div>
+    </footer>
+
+</div>
+
+</body>
+</html>

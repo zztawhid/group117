@@ -4,19 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be454d61-f33a-4ab0-bf78-d099736d1154" name="Changes" comment="">
+    <list default="true" id="be454d61-f33a-4ab0-bf78-d099736d1154" name="Changes" comment="Billing info">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/bcrypt/lib/binding/napi-v3/bcrypt_lib.node" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bcrypt/lib/binding/napi-v3/bcrypt_lib.node" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/dotenv/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/dotenv/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/dotenv/README-es.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/dotenv/README-es.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/dotenv/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/dotenv/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/dotenv/lib/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/dotenv/lib/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/dotenv/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/dotenv/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/long/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/long/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/long/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/long/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/long/umd/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/long/umd/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/a-main.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/a-main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/account.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/account.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/admin-manage.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/admin-manage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/contact.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/edit.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/edit.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/location-manage.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/location-manage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/message-user.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/message-user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/notif.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/notif.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/parking.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/parking.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/payment.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/payment.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/settings.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/settings.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/vManage.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/vManage.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +50,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -59,9 +65,58 @@
       <workItem from="1745349229841" duration="26000" />
       <workItem from="1745349347798" duration="525000" />
     </task>
+    <task id="LOCAL-00001" summary="header on all pages">
+      <option name="closed" value="true" />
+      <created>1745436234003</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745436234003</updated>
+    </task>
+    <task id="LOCAL-00002" summary="payment page">
+      <option name="closed" value="true" />
+      <created>1745437385476</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1745437385476</updated>
+    </task>
+    <task id="LOCAL-00003" summary="form changes">
+      <option name="closed" value="true" />
+      <created>1745437804507</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745437804507</updated>
+    </task>
+    <task id="LOCAL-00004" summary="a">
+      <option name="closed" value="true" />
+      <created>1745439748314</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1745439748314</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Billing info">
+      <option name="closed" value="true" />
+      <created>1745440220322</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1745440220322</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="header on all pages" />
+    <MESSAGE value="payment page" />
+    <MESSAGE value="form changes" />
+    <MESSAGE value="a" />
+    <MESSAGE value="Billing info" />
+    <option name="LAST_COMMIT_MESSAGE" value="Billing info" />
   </component>
 </project>
