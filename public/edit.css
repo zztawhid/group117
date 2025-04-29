@@ -2194,6 +2194,106 @@ button.add-vehicle-button {
     margin-top: 50px;
     margin-bottom: 50px ;
 }
+/* Settings Container */
+.settings-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 20px; /* Matching the rounder corners from your provided example */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Softer, smoother shadow */
+    width: 100%;
+    max-width: 650px; /* Slightly wider for a more spacious feel */
+    animation: fadeIn 1s ease-in-out;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Added smooth hover effect */
+    border: 3px solid #E6007D; /* Matching border for consistency */
+    margin: 20px auto; /* Center the container and add vertical space */
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form Styles */
+.settings-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Increased gap for better spacing */
+    width: 100%;
+    align-items: flex-start; /* Align elements more naturally */
+}
+
+/* Label & Checkbox */
+.settings-container label {
+    font-size: 18px;
+    color: #333; /* Darker color for better readability */
+    font-weight: 500;
+    margin-bottom: 5px; /* Added space below the label */
+}
+
+.settings-container input[type="checkbox"] {
+    margin-right: 15px;
+}
+
+/* Buttons Styles */
+.mode-buttons button, 
+.font-size-control button,
+.save-button {
+    background-color: #E6007D;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px; /* Softer rounded edges */
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+    text-transform: uppercase; /* Adds a professional touch */
+    letter-spacing: 1px; /* Slightly tighter letter spacing for sharpness */
+}
+
+.mode-buttons button:hover,
+.font-size-control button:hover,
+.save-button:hover {
+    background-color: #C4006A;
+    transform: translateY(-4px); /* Increased hover animation */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Added soft shadow on hover */
+}
+
+/* Save Button Styling */
+.save-button {
+    padding: 16px;
+    font-size: 18px;
+    background-color: #4CAF50; /* Changed to a green color for positive actions */
+    border-radius: 8px;
+}
+
+.save-button:hover {
+    background-color: #45a049;
+}
+
+/* Glow effect for labels and checkboxes */
+.settings-container label:hover,
+.settings-container input[type="checkbox"]:hover {
+    color: #E6007D;
+    transform: scale(1.05);
+}
+.settings-title {
+    font-size: 32px; 
+    font-weight: 600; 
+    color: #333; 
+    margin-bottom: 20px; 
+    text-align: center; 
+    letter-spacing: 1px; 
+    text-transform: uppercase; 
+}
+
+
 
 /* Settings */
 
@@ -2781,7 +2881,6 @@ footer {
     }
     
 }
-
 
 
 
