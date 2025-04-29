@@ -2198,10 +2198,10 @@ button.add-vehicle-button {
 .settings-container {
     background-color: white;
     padding: 40px;
-    border-radius: 20px; /* Matching the rounder corners from your provided example */
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); /* Softer, smoother shadow */
+    border-radius: 20px; 
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); 
     width: 100%;
-    max-width: 650px; /* Slightly wider for a more spacious feel */
+    max-width: 650px; 
     animation: fadeIn 1s ease-in-out;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Added smooth hover effect */
     border: 3px solid #E6007D; /* Matching border for consistency */
@@ -2226,13 +2226,13 @@ button.add-vehicle-button {
     flex-direction: column;
     gap: 25px; /* Increased gap for better spacing */
     width: 100%;
-    align-items: flex-start; /* Align elements more naturally */
+    align-items: flex-start; 
 }
 
 /* Label & Checkbox */
 .settings-container label {
     font-size: 18px;
-    color: #333; /* Darker color for better readability */
+    color: #333; 
     font-weight: 500;
     margin-bottom: 5px; /* Added space below the label */
 }
@@ -2252,8 +2252,8 @@ button.add-vehicle-button {
     border-radius: 8px; /* Softer rounded edges */
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
-    text-transform: uppercase; /* Adds a professional touch */
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; 
+    text-transform: uppercase; 
     letter-spacing: 1px; /* Slightly tighter letter spacing for sharpness */
 }
 
