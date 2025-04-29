@@ -2198,14 +2198,14 @@ button.add-vehicle-button {
 .settings-container {
     background-color: white;
     padding: 40px;
-    border-radius: 20px; 
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1); 
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 650px; 
+    max-width: 650px;
     animation: fadeIn 1s ease-in-out;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Added smooth hover effect */
-    border: 3px solid #E6007D; /* Matching border for consistency */
-    margin: 20px auto; /* Center the container and add vertical space */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border: 3px solid #E6007D;
+    margin: 20px auto;
 }
 
 /* Fade-in Animation */
@@ -2220,56 +2220,85 @@ button.add-vehicle-button {
     }
 }
 
+/* Settings Title */
+.settings-title {
+    font-size: 32px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
 /* Form Styles */
 .settings-container form {
     display: flex;
     flex-direction: column;
-    gap: 25px; /* Increased gap for better spacing */
+    gap: 25px;
     width: 100%;
-    align-items: flex-start; 
+    align-items: flex-start;
 }
 
 /* Label & Checkbox */
 .settings-container label {
     font-size: 18px;
-    color: #333; 
+    color: #333;
     font-weight: 500;
-    margin-bottom: 5px; /* Added space below the label */
+    margin-bottom: 5px;
 }
 
 .settings-container input[type="checkbox"] {
     margin-right: 15px;
 }
 
+/* Button Groups */
+.mode-buttons,
+.font-size-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Font size control label */
+.font-size-control span {
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+    margin: 0 8px;
+    align-self: center;
+}
+
 /* Buttons Styles */
-.mode-buttons button, 
+.mode-buttons button,
 .font-size-control button,
 .save-button {
     background-color: #E6007D;
     color: white;
     border: none;
     padding: 14px 28px;
-    border-radius: 8px; /* Softer rounded edges */
+    border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; 
-    text-transform: uppercase; 
-    letter-spacing: 1px; /* Slightly tighter letter spacing for sharpness */
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .mode-buttons button:hover,
 .font-size-control button:hover,
 .save-button:hover {
     background-color: #C4006A;
-    transform: translateY(-4px); /* Increased hover animation */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Added soft shadow on hover */
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 /* Save Button Styling */
 .save-button {
     padding: 16px;
     font-size: 18px;
-    background-color: #4CAF50; /* Changed to a green color for positive actions */
+    background-color: #4CAF50;
     border-radius: 8px;
 }
 
@@ -2283,14 +2312,52 @@ button.add-vehicle-button {
     color: #E6007D;
     transform: scale(1.05);
 }
-.settings-title {
-    font-size: 32px; 
-    font-weight: 600; 
-    color: #333; 
-    margin-bottom: 20px; 
-    text-align: center; 
-    letter-spacing: 1px; 
-    text-transform: uppercase; 
+
+/* Footer Styles */
+footer {
+    background-color: #E6007D;
+    color: white;
+    padding: 30px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+    border-radius: 12px 12px 0 0;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+footer .logo-footer img {
+    width: 180px;
+}
+
+footer .text-left,
+footer .text-center,
+footer .text-right {
+    font-size: 14px;
+}
+
+footer .text-center {
+    display: flex;
+    justify-content: center;
+}
+
+footer .text-right {
+    text-align: right;
+}
+
+/* Header button hover effect */
+header button:hover,
+.save-button:hover,
+.mode-buttons button:hover,
+.font-size-control button:hover {
+    background-color: #C4006A;
+    transform: scale(1.05);
 }
 
 
