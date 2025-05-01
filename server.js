@@ -398,6 +398,25 @@ app.put('/api/admin/locations/:id/enable', async (req, res) => {
     }
 });
 
+//Location endpoint
+app.get('/api/parking/locations/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const [locations] = await pool.execute(`
+            SELECT * FROM parking_locations 
+            WHERE location_id = ?
+        `, [id]);
+        
+        if (locations.length === 0) {
+            return res.status(404).json({ error: 'Location not found' });
+        }
+        
+        res.json(locations[0]);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Default route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));

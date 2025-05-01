@@ -8,6 +8,7 @@
     <script src="https://kit.fontawesome.com/cab31170e8.js" crossorigin="anonymous"></script>
     <script src="toggle.js"></script>
     <script src="auth.js"></script>
+    <script src="payment.js"></script> <!-- New payment JavaScript file -->
 </head>
 <body>
 
@@ -55,20 +56,28 @@
                 <h2>Payment Summary</h2>
                 <div class="payment-details">
                     <div class="detail-row">
-                        <span>Parking Duration:</span>
-                        <span>1 Hour</span>
-                    </div>
-                    <div class="detail-row">
-                        <span>Zone:</span>
-                        <span>Car Park A</span>
+                        <span>Parking Location:</span>
+                        <span id="summary-location">Loading...</span>
                     </div>
                     <div class="detail-row">
                         <span>Vehicle:</span>
-                        <span>AB12 CDE</span>
+                        <span id="summary-vehicle">Loading...</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Duration:</span>
+                        <span id="summary-duration">Loading...</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Hourly Rate:</span>
+                        <span id="summary-rate">Loading...</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Discount Applied:</span>
+                        <span id="summary-discount">£0.00</span>
                     </div>
                     <div class="detail-row total">
                         <span>Total Amount:</span>
-                        <span id="parking-cost">£5.00</span>
+                        <span id="summary-total">Loading...</span>
                     </div>
                 </div>
             </section>
@@ -76,6 +85,13 @@
             <section class="payment-method">
                 <h2>Payment Method</h2>
                 <div class="payment-options">
+                    <div class="payment-card">
+                        <input type="radio" name="payment-method" id="card-payment" checked>
+                        <label for="card-payment">
+                            <i class="fab fa-cc-visa"></i>
+                            <span>•••• •••• •••• 3931</span>
+                        </label>
+                    </div>
                     <button class="add-new-card">
                         <i class="fas fa-plus"></i> Add New Payment Method
                     </button>
@@ -111,8 +127,8 @@
             </section>
 
             <section class="payment-actions">
-                <button class="back-button">Back</button>
-                <button class="confirm-payment">Confirm Payment <i class="fa-solid fa-arrow-right"></i></button>
+                <button class="back-button" onclick="window.history.back()">Back</button>
+                <button class="confirm-payment" id="confirm-payment-btn">Confirm Payment <i class="fa-solid fa-arrow-right"></i></button>
             </section>
         </div>
     </main>

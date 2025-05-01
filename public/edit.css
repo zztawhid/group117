@@ -17,6 +17,13 @@
 
 #parkuealogo {
     width: 350px;
+    transform-origin: center; /* Ensures it scales from the center */
+    transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1.5);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.368));
+}
+
+#parkuealogo:hover {
+    transform: scale(1.05);
 }
 
 html{
@@ -56,46 +63,36 @@ html{
 
 
 header {
-  min-height: 120px;
-  font-size: 30px;
-  background: #E6007D;
-  text-align: center;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
+    height: 175px;
+    font-size: 24px;
+    background: linear-gradient(135deg, #b40655 0%, rgb(226, 19, 85) 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 2px solid rgba(0,0,0,0.1);
+    font-weight: bold;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
 
-  margin-bottom: 1px;
-  border-style: solid;
-  border-width: medium;
-  border-color: black;
-  text-transform: uppercase;
-  font-weight: bold;
-}
 
-#headtxt {
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-down: 10px;
-}
-
+/* Header Buttons */
 .header-button {
-    min-height: 100px;
-    min-width: 180px;
+    margin: 30px;
+    height: 75px;
+    min-width: 100px;
     color: white;
-
-    padding: 8px 12px;
-    background-color: #333;
+    padding: 0 15px;
+    background-color: #3c3c3cfc;
     cursor: pointer;
-    color: white;
     display: flex;
     align-items: center;
-
-    border-radius: 5px;
-    border-style: solid;
-    border-color: #F7F0E4;
-    border-width: 2px;
+    justify-content: center;
+    border-radius: 100px;
+    border: none;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 button.header-button {
@@ -104,27 +101,32 @@ button.header-button {
 }
 
 button.header-button:hover {
-  background-color: #767676;
   color: black;
+  background-color: #555;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 .header-button img {
-  width: 180px;
-  height: 100px;
+  width: 100px;
+  height: 50px;
+  border-radius: 250px;
 }
 
 /* trying to make dropdown box work with flags */
+
+
 #language-dropdown {
     position: absolute;
-    top: 137px; /* adjust up-down position */
-    left: 45px;
-    background-color: #333;
-    border: 1px solid #ccc;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    top: 120px; /* adjust up-down position */
+    left: 40px;
+    background-color: rgba(26, 26, 26, 0.854);
+    border-radius: 5px;
     z-index: 1000;
-    
-    
+    overflow: hidden;
+    min-width: 160px;
 }
+
 
 #language-dropdown button {
     display: flex;
@@ -633,7 +635,7 @@ main {
 /* STATUS BAR IN MAIN PAGE */
 .status-bar {
     font-family: ueafont;
-    background: linear-gradient(135deg, #d222c7, #d95995b0);
+    background: linear-gradient(135deg, #c310678f, #ba0a5ca2);
     color: white;
     padding: 12px 25px;
     border-radius: 8px;
@@ -659,7 +661,7 @@ main {
 }
 
 .status-active {
-    background-color: #27ae60;
+    background-color: rgba(55, 134, 88, 0.764);
     padding: 3px 8px;
     border-radius: 20px;
     font-size: 1rem;
@@ -1535,7 +1537,7 @@ main {
 }
 
 
-#location-select, #duration-method, #vehicle-select{
+#location-select, #duration-select, #vehicle-select{
     width: 100%;
     padding: 15px;
     margin-bottom: 20px;

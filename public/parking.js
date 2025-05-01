@@ -11,6 +11,15 @@ document.addEventListener('DOMContentLoaded', async function() {
         loadUserVehicles(user.user_id),
         loadParkingLocations()
     ]);
+
+    // Set up form submission
+    document.getElementById('parking-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        calculateAndSubmit();
+    });
+
+    // Update price when duration changes
+    document.getElementById('duration-select').addEventListener('change', updatePriceEstimate);
 });
 
 async function loadParkingLocations() {
@@ -77,4 +86,51 @@ function populateVehicleDropdown(vehicles) {
         option.textContent = vehicle.license_plate;
         select.appendChild(option);
     });
+}
+
+async function updatePriceEstimate() {
+    const locationSelect = document.getElementById('location-select');
+    const durationSelect = document.getElementById('duration-select');
+    
+    if (!locationSelect.value || !durationSelect.value) return;
+
+    // Get hourly rate from selected location
+    const locationId = locationSelect.value;
+    const response = await fetch(`/api/parking/locations/${locationId}`);
+    const location = await response.json();
+    
+    const duration = parseInt(durationSelect.value);
+    const baseRate = location.hourly_rate;
+    
+    // Apply discounts
+    let discount = 0;
+    if (duration >= 24) discount = 0.2;  // 20% discount
+    else if (duration >= 12) discount = 0.15;  // 15% discount
+    else if (duration >= 8) discount = 0.1;  // 10% discount
+    
+    const totalCost = (baseRate * duration * (1 - discount)).toFixed(2);
+    
+    // Update hidden form fields
+    document.getElementById('total-cost').value = totalCost;
+}
+
+function calculateAndSubmit() {
+    const locationSelect = document.getElementById('location-select');
+    const vehicleSelect = document.getElementById('vehicle-select');
+    const durationSelect = document.getElementById('duration-select');
+    
+    if (!locationSelect.value || !vehicleSelect.value || !durationSelect.value) {
+        alert('Please select all required options');
+        return;
+    }
+
+    // Set hidden form values
+    document.getElementById('location-id').value = locationSelect.value;
+    document.getElementById('location-name').value = locationSelect.options[locationSelect.selectedIndex].text.split(' - ')[0];
+    document.getElementById('vehicle-id').value = vehicleSelect.value;
+    document.getElementById('vehicle-plate').value = vehicleSelect.options[vehicleSelect.selectedIndex].text;
+    document.getElementById('duration').value = durationSelect.value;
+    
+    // Submit form
+    document.getElementById('parking-form').submit();
 }

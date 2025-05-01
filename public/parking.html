@@ -10,6 +10,7 @@
     <script src="toggle.js"></script>
     <script src="auth.js"></script>
     <script src="parking.js"></script>
+    
 </head>
 <body>
 
@@ -81,10 +82,29 @@
             </div>
             <div class="payment-form-group">
                 <label id="paymentlabel">Duration (Hours):</label>
-                <input id="duration-method"></input>
+                <select id="duration-select" required>
+                    <option value="" disabled selected>Select duration</option>
+                    <option value="1">1 hour</option>
+                    <option value="2">2 hours</option>
+                    <option value="3">3 hours</option>
+                    <option value="4">4 hours</option>
+                    <option value="5">5 hours</option>
+                    <option value="6">6 hours</option>
+                    <option value="8">8 hours (10% discount)</option>
+                    <option value="12">12 hours (15% discount)</option>
+                    <option value="24">24 hours (20% discount)</option>
                 </select>
             </div>
-            <a href="payment.html" ><button type="submit" name="submit" class="payment-continue-button">Continue  <i class="fa-solid fa-arrow-right"></i></button></a>
+            <form id="parking-form" action="payment.html" method="get">
+                <input type="hidden" id="location-id" name="location_id">
+                <input type="hidden" id="location-name" name="location_name">
+                <input type="hidden" id="vehicle-id" name="vehicle_id">
+                <input type="hidden" id="vehicle-plate" name="vehicle_plate">
+                <input type="hidden" id="duration" name="duration">
+                <input type="hidden" id="total-cost" name="total_cost">
+                
+                <button type="submit" class="payment-continue-button">Continue <i class="fa-solid fa-arrow-right"></i></button>
+            </form>
         </div>
     </div>
 </main>
