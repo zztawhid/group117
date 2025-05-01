@@ -8,7 +8,7 @@
     <script src="https://kit.fontawesome.com/cab31170e8.js" crossorigin="anonymous"></script>
     <script src="toggle.js"></script>
     <script src="auth.js"></script>
-    <script src="location-management.js"></script>
+    <script src="location-manage.js"></script>
 </head>
 <body>
 
@@ -51,52 +51,23 @@
     </nav>
 
     <main class="main">
-        <section id="admin-controls">
-            <h2>LOCATION MANAGEMENT</h2>
-            <div class="admin-actions">
-                <button id="refresh-btn" class="admin-button">
-                    <i class="fas fa-sync-alt"></i> Refresh Status
-                </button>
-                <button id="save-changes-btn" class="admin-button primary">
-                    <i class="fas fa-save"></i> Save Changes
-                </button>
-            </div>
-        </section>
-
         <div id="location-management-section">
             <div class="location-map-container">
                 <object type="image/svg+xml" data="parking-map.svg" id="admin-map"></object>
-                <div class="map-overlay-controls">
-                    <button class="map-control-btn" id="zoom-in"><i class="fas fa-search-plus"></i></button>
-                    <button class="map-control-btn" id="zoom-out"><i class="fas fa-search-minus"></i></button>
-                    <button class="map-control-btn" id="reset-view"><i class="fas fa-expand"></i></button>
-                </div>
             </div>
 
             <div class="location-control-panel">
                 <div class="location-selection">
-                    <h3>Selected Car Park</h3>
+                    <h3>Select Car Park</h3>
                     <div class="selected-location-info">
-                        <span id="selected-location-name">No location selected</span>
+                        <div class="payment-form-group">
+                            <label id="paymentlabel">Parking Location:</label>
+                            <select id="location-select" required>
+                                <option value="" disabled selected>Select location</option>
+                                <!-- dynamically loaded -->
+                            </select>
+                        </div>
                         <span id="selected-location-status" class="status-open">Status: Open</span>
-                    </div>
-                </div>
-
-                <div class="location-actions">
-                    <h3>Management Actions</h3>
-                    <div class="action-buttons">
-                        <button class="action-btn" id="close-location">
-                            <i class="fas fa-lock"></i> Close Entire Car Park
-                        </button>
-                        <button class="action-btn" id="event-only">
-                            <i class="fas fa-ticket-alt"></i> Event Access Only
-                        </button>
-                        <button class="action-btn" id="open-location">
-                            <i class="fas fa-lock-open"></i> Reopen Car Park
-                        </button>
-                        <button class="action-btn" id="maintenance-mode">
-                            <i class="fas fa-tools"></i> Maintenance Mode
-                        </button>
                     </div>
                 </div>
 
@@ -125,6 +96,37 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="location-actions">
+                    <h3>Management Actions</h3>
+                    <div class="action-buttons">
+                        <button class="action-btn" id="close-location">
+                            <i class="fas fa-lock"></i> Close Entire Car Park
+                        </button>
+                        <button class="action-btn" id="event-only">
+                            <i class="fas fa-ticket-alt"></i> Event Access Only
+                        </button>
+                        <button class="action-btn" id="open-location">
+                            <i class="fas fa-lock-open"></i> Reopen Car Park
+                        </button>
+                        <button class="action-btn" id="maintenance-mode">
+                            <i class="fas fa-tools"></i> Maintenance Mode
+                        </button>
+                    </div>
+                </div>
+
+
+                <section id="admin-controls">
+                    <h2>LOCATION MANAGEMENT</h2>
+                    <div class="admin-actions">
+                        <button id="refresh-btn" class="admin-button">
+                            <i class="fas fa-sync-alt"></i> Refresh Status
+                        </button>
+                        <button id="save-changes-btn" class="admin-button primary">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </section>
             </div>
         </div>
 
