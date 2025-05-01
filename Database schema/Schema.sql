@@ -68,16 +68,16 @@ CREATE TABLE parking_spaces (
 
 -- Insert sample data with random 4-digit codes
 INSERT INTO parking_locations (name, code, total_spaces, hourly_rate, max_stay_hours) VALUES
-('Main Visitors', FLOOR(1000 + RAND() * 9000), 150, 2.00, 10),
+('Main Visitors', FLOOR(1000 + RAND() * 9000), 150, 2.00, 24),
 ('Sports Park', FLOOR(1000 + RAND() * 9000), 80, 2.00, 24),
-('Blackdale', FLOOR(1000 + RAND() * 9000), 60, 2.00, 12),
-('Medical Center', FLOOR(1000 + RAND() * 9000), 40, 2.00, 6),
+('Blackdale', FLOOR(1000 + RAND() * 9000), 60, 2.00, 24),
+('Medical Center', FLOOR(1000 + RAND() * 9000), 40, 2.00, 24),
 ('Suffolk Road', FLOOR(1000 + RAND() * 9000), 30, 2.00, 24),
-('Chancellors Drive', FLOOR(1000 + RAND() * 9000), 50, 2.00, 12),
+('Chancellors Drive', FLOOR(1000 + RAND() * 9000), 50, 2.00, 24),
 ('Waveney Road', FLOOR(1000 + RAND() * 9000), 25, 2.00, 24),
-('Enterprise Center', FLOOR(1000 + RAND() * 9000), 35, 2.00, 8),
+('Enterprise Center', FLOOR(1000 + RAND() * 9000), 35, 2.00, 24),
 ('Suffolk Terrace', FLOOR(1000 + RAND() * 9000), 20, 2.00, 24),
-('Sainsbury''s Center', FLOOR(1000 + RAND() * 9000), 100, 2.00, 4);
+('Sainsbury''s Center', FLOOR(1000 + RAND() * 9000), 100, 2.00, 24);
 
 -- Insert sample spaces for Main Visitors
 INSERT INTO parking_spaces (location_id, space_number)
@@ -85,3 +85,16 @@ SELECT 1, CONCAT('A', n) FROM (
     SELECT 1 AS n UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5
     UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10
 ) AS numbers;parking_locations
+
+-- Parking Occupancy Table
+CREATE TABLE parking_occupancy (
+    occupancy_id INT AUTO_INCREMENT PRIMARY KEY,
+    space_id INT NOT NULL,
+    vehicle_id INT NOT NULL,
+    time_in DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    time_out DATETIME,
+    payment_status ENUM('unpaid', 'paid', 'free') DEFAULT 'unpaid',
+    amount_paid DECIMAL(10,2) DEFAULT 0.00,
+    FOREIGN KEY (space_id) REFERENCES parking_spaces(space_id),
+    FOREIGN KEY (vehicle_id) REFERENCES driver_vehicles(vehicle_id)
+);
