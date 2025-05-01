@@ -78,7 +78,6 @@ app.post('/api/auth/register', async (req, res) => {
     }
 });
 
-
 // Login endpoint
 app.post('/api/auth/login', async (req, res) => {
     try {
@@ -128,7 +127,7 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
-//User Auth//
+// User Auth
 app.get('/api/auth/user', async (req, res) => {
     try {
         const userId = req.query.userId;
@@ -149,19 +148,17 @@ app.get('/api/auth/user', async (req, res) => {
     }
 });
 
-//Feedback auth//
+// Feedback
 app.post('/api/feedback', async (req, res) => {
     try {
         const { message, email } = req.body;
         
-        // Basic validation
         if (!message || !email) {
             return res.status(400).json({ 
                 message: 'Both message and email are required' 
             });
         }
 
-        // Insert into database
         const [result] = await pool.execute(
             'INSERT INTO feedback (email, message, created_at) VALUES (?, ?, NOW())',
             [email, message]
@@ -180,7 +177,7 @@ app.post('/api/feedback', async (req, res) => {
     }
 });
 
-// Vehicle endpoints //
+// Vehicle endpoints
 app.get('/api/vehicles', async (req, res) => {
     try {
         const userId = req.query.user_id;
@@ -199,7 +196,6 @@ app.post('/api/vehicles', async (req, res) => {
     try {
         const { user_id, license_plate } = req.body;
         
-        // Basic validation
         if (!license_plate || !user_id) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
@@ -233,22 +229,7 @@ app.delete('/api/vehicles/:vehicleId', async (req, res) => {
     }
 });
 
-// Get vehicles for a user //
-app.get('/api/vehicles', async (req, res) => {
-    try {
-        const userId = req.query.user_id;
-        const [vehicles] = await pool.execute(
-            'SELECT vehicle_id, license_plate FROM driver_vehicles WHERE user_id = ?',
-            [userId]
-        );
-        res.json(vehicles);
-    } catch (error) {
-        console.error('Error fetching vehicles:', error);
-        res.status(500).json({ error: 'Failed to fetch vehicles' });
-    }
-});
-
-// Admin routes 
+// Admin routes
 app.get('/api/admin/users', async (req, res) => {
     try {
         const [users] = await pool.execute(
@@ -286,7 +267,6 @@ app.delete('/api/admin/users/:userId', async (req, res) => {
     try {
         const userId = req.params.userId;
 
-        // Check if user exists
         const [user] = await pool.execute(
             'SELECT user_id FROM users WHERE user_id = ?',
             [userId]
@@ -296,7 +276,6 @@ app.delete('/api/admin/users/:userId', async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Delete user (cascade will handle related records)
         await pool.execute(
             'DELETE FROM users WHERE user_id = ?',
             [userId]
@@ -335,7 +314,7 @@ app.get('/api/parking/availability', async (req, res) => {
     try {
         const { location_id } = req.query;
         
-        // Get total spaces and available spaces
+        // Get total spaces
         const [location] = await pool.execute(`
             SELECT total_spaces FROM parking_locations 
             WHERE location_id = ? AND disabled = FALSE
@@ -345,6 +324,7 @@ app.get('/api/parking/availability', async (req, res) => {
             return res.status(404).json({ error: 'Location not found or unavailable' });
         }
 
+        // Get occupied spaces
         const [occupied] = await pool.execute(`
             SELECT COUNT(*) AS occupied 
             FROM parking_spaces 
@@ -363,6 +343,111 @@ app.get('/api/parking/availability', async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
+    }
+});
+
+// Get all locations with detailed status (for admin overview)
+app.get('/api/admin/locations/status', async (req, res) => {
+    try {
+        // Get all locations
+        const [locations] = await pool.execute(`
+            SELECT 
+                l.location_id,
+                l.name,
+                l.code,
+                l.total_spaces,
+                l.disabled,
+                l.disabled_reason,
+                l.updated_at
+            FROM parking_locations l
+            ORDER BY l.name
+        `);
+        
+        // Get occupancy for each location
+        const locationsWithStatus = await Promise.all(
+            locations.map(async location => {
+                try {
+                    const [occupied] = await pool.execute(`
+                        SELECT COUNT(*) AS occupied 
+                        FROM parking_spaces 
+                        WHERE location_id = ? AND is_disabled = FALSE
+                        AND (is_reserved = TRUE OR space_id IN (
+                            SELECT space_id FROM parking_occupancy 
+                            WHERE time_out IS NULL
+                        ))
+                    `, [location.location_id]);
+                    
+                    const available = location.total_spaces - occupied[0].occupied;
+                    const occupancyPercentage = Math.round((occupied[0].occupied / location.total_spaces) * 100);
+                    
+                    return {
+                        ...location,
+                        available_spaces: available,
+                        occupancy_percentage: occupancyPercentage,
+                        status: location.disabled ? 'Closed' : 'Open',
+                        last_updated: new Date(location.updated_at).toLocaleString()
+                    };
+                } catch (error) {
+                    console.error(`Error processing location ${location.location_id}:`, error);
+                    return {
+                        ...location,
+                        available_spaces: location.total_spaces,
+                        occupancy_percentage: 0,
+                        status: 'Unknown',
+                        last_updated: new Date(location.updated_at).toLocaleString()
+                    };
+                }
+            })
+        );
+        
+        res.json(locationsWithStatus);
+    } catch (error) {
+        console.error('Error getting location status:', error);
+        res.status(500).json({ error: 'Failed to get location status' });
+    }
+});
+
+// Update location status
+app.put('/api/admin/locations/:id/status', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { action, reason, notes } = req.body;
+        
+        let disabled = false;
+        let disabledReason = null;
+        
+        switch (action) {
+            case 'close':
+                disabled = true;
+                disabledReason = reason || 'Administrative closure';
+                if (notes) disabledReason += ` (${notes})`;
+                break;
+            case 'event':
+                disabled = false;
+                disabledReason = 'Event access only';
+                if (notes) disabledReason += `: ${notes}`;
+                break;
+            case 'maintenance':
+                disabled = true;
+                disabledReason = 'Maintenance: ' + (notes || 'Scheduled maintenance');
+                break;
+            case 'open':
+                disabled = false;
+                disabledReason = null;
+                break;
+            default:
+                return res.status(400).json({ error: 'Invalid action' });
+        }
+        
+        await pool.execute(
+            'UPDATE parking_locations SET disabled = ?, disabled_reason = ? WHERE location_id = ?',
+            [disabled, disabledReason, id]
+        );
+        
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error updating location status:', error);
+        res.status(500).json({ error: 'Failed to update location status' });
     }
 });
 
@@ -398,7 +483,7 @@ app.put('/api/admin/locations/:id/enable', async (req, res) => {
     }
 });
 
-//Location endpoint
+// Get specific location
 app.get('/api/parking/locations/:id', async (req, res) => {
     try {
         const { id } = req.params;
