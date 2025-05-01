@@ -2789,8 +2789,6 @@ footer {
     gap: 20px;
     padding: 20px;
     background-color: #F7F0E4;
-    border: 2px solid #E6007D;
-    border-radius: 10px;
     margin: 20px auto;
     max-width: 1200px;
 }
@@ -2885,6 +2883,88 @@ footer {
 
 #messageForm button:hover {
     background-color: #C4006A;
+}
+
+/* MESSAGING *ADMIN* */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 20px auto;
+    border: 2px solid #E6007D;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+/* Chat Header */
+.chat-header {
+    background-color: #E6007D;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Chat Messages */
+.chat-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    min-height: 435px;
+    max-height: 600px;
+    background-color: #F7F0E4;
+    
+}
+
+.chat-messages .message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+}
+
+.chat-messages .message.sent {
+    background-color: #E6007D;
+    color: white;
+    align-self: flex-end;
+}
+
+.chat-messages .message.received {
+    background-color: #ddd;
+    color: black;
+    align-self: flex-start;
+}
+
+/* Chat Input */
+.chat-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background-color: #fff;
+}
+
+.chat-input textarea {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none;
+}
+
+.chat-input button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: #E6007D;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.chat-input button:hover {
+    background-color: #c7006b;
 }
 
 /* ERROR PAGE CSS /W ANIMATION */
