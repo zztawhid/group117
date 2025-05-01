@@ -424,7 +424,7 @@ app.get('/', (req, res) => {
 });
 
 
-// Catch-all route for invalid pages
+// redirect routes that do not exist to error page
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'public', 'error.html'));
 });

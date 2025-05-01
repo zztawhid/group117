@@ -2199,27 +2199,29 @@ button.add-vehicle-button {
 /* Settings Container */
 .settings-container {
     background-color: white;
-    padding: 40px;
+    padding: 20px;
     border-radius: 20px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 650px;
-    animation: fadeIn 1s ease-in-out;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     border: 3px solid #E6007D;
     margin: 20px auto;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Fade-in Animation */
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.toggle{
+    width: 60px;
+    height: 35px;
+    border-radius: 40px;
+    background-color: #E6007D;
+    display: inline-block;
+}
+
+.toggle c{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
 }
 
 /* Settings Title */
@@ -2315,6 +2317,8 @@ button.add-vehicle-button {
     transform: scale(1.05);
 }
 
+/* - end - */
+
 /* Footer Styles */
 footer {
     background-color: #E6007D;
@@ -2362,9 +2366,6 @@ header button:hover,
     transform: scale(1.05);
 }
 
-
-
-/* Settings */
 
 /* Location Mangage */
 /* Location Management Page Styles */
