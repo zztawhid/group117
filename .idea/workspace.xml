@@ -4,19 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be454d61-f33a-4ab0-bf78-d099736d1154" name="Changes" comment="">
+<<<<<<< Updated upstream
+    <list default="true" id="be454d61-f33a-4ab0-bf78-d099736d1154" name="Changes" comment="location management rough start">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/bcrypt/lib/binding/napi-v3/bcrypt_lib.node" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bcrypt/lib/binding/napi-v3/bcrypt_lib.node" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/dotenv/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/dotenv/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/dotenv/README-es.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/dotenv/README-es.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/dotenv/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/dotenv/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/dotenv/lib/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/dotenv/lib/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/dotenv/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/dotenv/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/long/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/long/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/long/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/long/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/long/umd/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/long/umd/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/edit.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/edit.css" afterDir="false" />
+=======
+    <list default="true" id="be454d61-f33a-4ab0-bf78-d099736d1154" name="Changes" comment="parking button changes">
+      <change afterPath="$PROJECT_DIR$/public/payment.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chokidar/lib/constants.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chokidar/lib/fsevents-handler.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chokidar/lib/nodefs-handler.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/chokidar/types/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/https-proxy-agent/dist/agent.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/https-proxy-agent/dist/agent.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/https-proxy-agent/dist/agent.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/https-proxy-agent/dist/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/https-proxy-agent/dist/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/https-proxy-agent/dist/index.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/https-proxy-agent/dist/parse-proxy-response.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/https-proxy-agent/dist/parse-proxy-response.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/https-proxy-agent/dist/parse-proxy-response.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/Images/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/public/Images/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/account.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/account.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/edit.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/edit.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/parking.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/parking.html" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +47,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< Updated upstream
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -45,9 +59,24 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
+=======
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+>>>>>>> Stashed changes
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -58,10 +87,122 @@
       <updated>1745349224506</updated>
       <workItem from="1745349229841" duration="26000" />
       <workItem from="1745349347798" duration="525000" />
+      <workItem from="1745350202944" duration="4790000" />
     </task>
+<<<<<<< Updated upstream
+    <task id="LOCAL-00001" summary="header on all pages">
+      <option name="closed" value="true" />
+      <created>1745436234003</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745436234003</updated>
+    </task>
+    <task id="LOCAL-00002" summary="payment page">
+      <option name="closed" value="true" />
+      <created>1745437385476</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1745437385476</updated>
+    </task>
+    <task id="LOCAL-00003" summary="form changes">
+      <option name="closed" value="true" />
+      <created>1745437804507</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745437804507</updated>
+    </task>
+    <task id="LOCAL-00004" summary="a">
+      <option name="closed" value="true" />
+      <created>1745439748314</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1745439748314</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Billing info">
+      <option name="closed" value="true" />
+      <created>1745440220322</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1745440220322</updated>
+    </task>
+    <task id="LOCAL-00006" summary="header links back to home">
+      <option name="closed" value="true" />
+      <created>1745868883360</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1745868883360</updated>
+    </task>
+    <task id="LOCAL-00007" summary="location management rough start">
+      <option name="closed" value="true" />
+      <created>1745868957863</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1745868957863</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+=======
+    <task id="LOCAL-00001" summary="admin home">
+      <option name="closed" value="true" />
+      <created>1745350284226</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745350284226</updated>
+    </task>
+    <task id="LOCAL-00002" summary="user info box">
+      <option name="closed" value="true" />
+      <created>1745431896905</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1745431896905</updated>
+    </task>
+    <task id="LOCAL-00003" summary="parking buttons">
+      <option name="closed" value="true" />
+      <created>1745432277638</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745432277638</updated>
+    </task>
+    <task id="LOCAL-00004" summary="parking button changes">
+      <option name="closed" value="true" />
+      <created>1745432526477</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1745432526477</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+>>>>>>> Stashed changes
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+<<<<<<< Updated upstream
+    <MESSAGE value="header on all pages" />
+    <MESSAGE value="payment page" />
+    <MESSAGE value="form changes" />
+    <MESSAGE value="a" />
+    <MESSAGE value="Billing info" />
+    <MESSAGE value="header links back to home" />
+    <MESSAGE value="location management rough start" />
+    <option name="LAST_COMMIT_MESSAGE" value="location management rough start" />
+=======
+    <MESSAGE value="admin home" />
+    <MESSAGE value="user info box" />
+    <MESSAGE value="parking buttons" />
+    <MESSAGE value="parking button changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="parking button changes" />
+>>>>>>> Stashed changes
   </component>
 </project>

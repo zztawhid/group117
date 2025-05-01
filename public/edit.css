@@ -205,7 +205,7 @@ button.header-button:hover {
 
 /* expanding line */
 .nav-link:hover::after {
-    width: 100%;
+    width: 85%;
 }
 
 .nav-link.active {
@@ -2196,8 +2196,386 @@ button.add-vehicle-button {
     margin-top: 50px;
     margin-bottom: 50px ;
 }
+/* Settings Container */
+.settings-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 650px;
+    animation: fadeIn 1s ease-in-out;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border: 3px solid #E6007D;
+    margin: 20px auto;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Settings Title */
+.settings-title {
+    font-size: 32px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Form Styles */
+.settings-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+    align-items: flex-start;
+}
+
+/* Label & Checkbox */
+.settings-container label {
+    font-size: 18px;
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.settings-container input[type="checkbox"] {
+    margin-right: 15px;
+}
+
+/* Button Groups */
+.mode-buttons,
+.font-size-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Font size control label */
+.font-size-control span {
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+    margin: 0 8px;
+    align-self: center;
+}
+
+/* Buttons Styles */
+.mode-buttons button,
+.font-size-control button,
+.save-button {
+    background-color: #E6007D;
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.mode-buttons button:hover,
+.font-size-control button:hover,
+.save-button:hover {
+    background-color: #C4006A;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Save Button Styling */
+.save-button {
+    padding: 16px;
+    font-size: 18px;
+    background-color: #4CAF50;
+    border-radius: 8px;
+}
+
+.save-button:hover {
+    background-color: #45a049;
+}
+
+/* Glow effect for labels and checkboxes */
+.settings-container label:hover,
+.settings-container input[type="checkbox"]:hover {
+    color: #E6007D;
+    transform: scale(1.05);
+}
+
+/* Footer Styles */
+footer {
+    background-color: #E6007D;
+    color: white;
+    padding: 30px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+    border-radius: 12px 12px 0 0;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+footer .logo-footer img {
+    width: 180px;
+}
+
+footer .text-left,
+footer .text-center,
+footer .text-right {
+    font-size: 14px;
+}
+
+footer .text-center {
+    display: flex;
+    justify-content: center;
+}
+
+footer .text-right {
+    text-align: right;
+}
+
+/* Header button hover effect */
+header button:hover,
+.save-button:hover,
+.mode-buttons button:hover,
+.font-size-control button:hover {
+    background-color: #C4006A;
+    transform: scale(1.05);
+}
+
+
 
 /* Settings */
+
+/* Location Mangage */
+/* Location Management Page Styles */
+#admin-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.admin-button {
+    padding: 10px 20px;
+    border: 2px solid #E6007D;
+    border-radius: 5px;
+    background-color: white;
+    color: #E6007D;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-button.primary {
+    background-color: #E6007D;
+    color: white;
+}
+
+.admin-button:hover {
+    background-color: #f0f0f0;
+}
+
+.admin-button.primary:hover {
+    background-color: #C4006A;
+}
+
+#location-management-section {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.location-map-container {
+    flex: 2;
+    position: relative;
+    border: 2px solid #E6007D;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#admin-map {
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+}
+
+.map-overlay-controls {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.map-control-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.map-control-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.location-control-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.location-selection, .location-actions, .location-settings {
+    border: 2px solid #E6007D;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: white;
+}
+
+.location-selection h3, .location-actions h3, .location-settings h3 {
+    margin-top: 0;
+    color: #E6007D;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.selected-location-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+#selected-location-name {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+#selected-location-status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    align-self: flex-start;
+}
+
+.status-open {
+    background-color: #e6f7e6;
+    color: #2e7d32;
+}
+
+.status-closed {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.status-event {
+    background-color: #fff8e1;
+    color: #f57f17;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.action-btn {
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s;
+}
+
+.action-btn:hover {
+    background-color: #E6007D;
+    color: white;
+}
+
+.settings-form {
+    margin-top: 20px;
+}
+
+#capacity-input {
+    width: 100%;
+    margin: 10px 0;
+}
+
+#capacity-value {
+    display: block;
+    text-align: center;
+    font-weight: bold;
+}
+
+.status-table-container {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+.status-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.status-table th, .status-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.status-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+.status-table tr:hover {
+    background-color: #f9f9f9;
+}
+/* Location Manage */
+
 
 
 /* Admin manage page*/
@@ -2508,9 +2886,76 @@ footer {
     background-color: #C4006A;
 }
 
+/* ERROR PAGE CSS /W ANIMATION */
+.error-container {
+    position:relative;
+    width: 100%;
+    height: 100%;
+    overflow:hidden;
+    user-select: none;
+}
+
+.error-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color:  #E6007D;
+    text-align: center;
+    z-index: 2; 
+    text-shadow: 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff;
+    
+}
+
+.error-text p {
+    font-weight: 100;
+}
+
+.error-bg {
+
+    width: 100%;
+    height: 66vh;
+    background-color: #F7F0E4;
+    color: #333;
+    transform: rotate(-45deg);
+    
+}
+
+.bg-text {
+    position: absolute;
+    font-size: 60px;
+    padding: 30px;
+    opacity: 0.4;
+    text-align: center;
+    width: 100%; 
+    height: 100%; 
+    z-index: 1; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+.bg-text:nth-child(even) {
+    animation: moving 3.5s linear infinite;
+    color: #121212;
+    text-shadow: 0 0 1px #fff;
+    opacity: 0.1;
+}
+
+@keyframes moving {
+    50%
+    {
+        transform: translateX(100%);
+        
+    }
+    
+}
+
+
+
 
 @media (max-width: 768px) {
-    
+
     header {
         min-height: 80px; 
         padding: 10px; 

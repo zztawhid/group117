@@ -31,7 +31,7 @@
             </button>
         </div>
 
-        <img id="parkuealogo" src="./Images/logo.png">
+        <a href="main.html"><img id="parkuealogo" src="./Images/logo.png"></a>
         <button class="header-button" onclick="document.location='contact.html'">Contact Us</button>
     </header>
 
@@ -56,12 +56,50 @@
 </div>
 
 <main>
+    <div class="settings-container">
+        <h2 class="settings-title">Settings</h2>
+        <form>
+            <label>
+                <input type="checkbox" name="darkMode" checked>
+                Dark mode
+            </label><br>
 
-<p class="startup">Junaid make a start, I will finish this page</p>
+            <label>
+                <input type="checkbox" name="tts">
+                Text to Speech
+            </label><br>
 
+            <div class="mode-buttons">
+                <button type="button">Colorblind Mode</button>
+            </div>
+
+            <div class="font-size-control">
+                <button type="button">+</button>
+                <span>Aa</span>
+                <button type="button">−</button>
+            </div>
+
+            <label>
+                <input type="checkbox" name="pushNotifications">
+                Opt in to push notifications
+            </label><br>
+
+            <label>
+                <input type="checkbox" name="textNotifications">
+                Opt in to text notifications
+            </label><br>
+
+            <label>
+                <input type="checkbox" name="mailingList">
+                Sign up to mailing list
+            </label><br>
+
+            <button type="submit" class="save-button">Save changes</button>
+        </form>
+    </div>
 </main>
 
-</body>
+
 <!-- Footer -->
 
 <div class="wrapper">
