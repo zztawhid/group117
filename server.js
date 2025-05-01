@@ -4,6 +4,7 @@ const pool = require('./config/db');
 const bcrypt = require('bcryptjs');
 const app = express();
 
+
 // Middleware
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -506,6 +507,13 @@ app.get('/api/parking/locations/:id', async (req, res) => {
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+
+// redirect routes that do not exist to error page
+app.use((req, res) => {
+    res.status(404).sendFile(path.join(__dirname, 'public', 'error.html'));
+});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

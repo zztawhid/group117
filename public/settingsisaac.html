@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> UEA Parking Management System :: Login </title>
+    <link rel="stylesheet" href="edit.css">
+    <script src="https://kit.fontawesome.com/cab31170e8.js" crossorigin="anonymous"></script>
+
+    <script src="toggle.js"></script>
+    <script src="auth.js"></script>
+
+</head>
+<body>
+
+<div id = "wrapper">
+
+    <header>
+        <button class="header-button" onclick="toggleLanguageDropdown()">
+            <img src="images/england.jpg" alt="English Flag">
+        </button>
+        <div id="language-dropdown" class="dropdown hidden">
+            <button onclick="changeLanguage('en')">
+                <img src="images/england.jpg" alt="English Flag"> English
+            </button>
+            <button onclick="changeLanguage('fr')">
+                <img src="images/france.png" alt="French Flag"> Français
+            </button>
+            <button onclick="changeLanguage('cn')">
+                <img src="images/china.png" alt="Chinese Flag"> Chinese (Mandarin)
+            </button>
+        </div>
+
+        <a href="main.html"><img id="parkuealogo" src="./Images/logo.png"></a>
+        <button class="header-button" onclick="document.location='contact.html'">Contact Us</button>
+    </header>
+
+
+    <!-- Site navigation menu -->
+    <nav id="topnav">
+        <div class="nav-container">
+            <div class="dropdown-icon" onclick="toggleDropdown()">
+                <i class="fas fa-bars"></i> <!-- Hamburger menu icon -->
+            </div>
+            <div class="active-page">Home Page</div>
+
+            <ul class="topnav">
+                <ul><a href="main.html" class="nav-link">Home Page</a></ul>
+                <ul><a href="parking.html" class="nav-link">Parking</a></ul>
+                <ul><a href="account.html" class="nav-link">Account Management</a></ul>
+                <ul><a href="vManage.html" class="nav-link">Vehicle Management</a></ul>
+                <ul><a href="notif.html" class="nav-link">Notifications</a></ul>
+
+            </ul>
+    </nav>
+</div>
+
+<main>
+    <div class="settings-container">
+        <div>
+            <h1>Settings</h1>
+        </div>
+        <div>
+            <div>
+                <label for="togg-1">
+                    <span>Dark Mode</span>
+                    <input type="checkbox" id="togg-1">
+                    <div class="toggle-container">
+                        <span class="toggle"></span>
+                        <span class="toggle-c"></span>
+                    </div>
+                </label>
+            </div>
+            <div>
+                <label for="togg-2">
+                    <span>Text to Speech</span>
+                    <input type="checkbox" id="togg-2">
+                    <div class="toggle-container">
+                        <span class="toggle"></span>
+                        <span class="toggle-c"></span>
+                    </div>
+                </label>
+            </div>
+
+                <label for="togg-3">
+                    <span>Notifications</span>
+                    <input type="checkbox" id="togg-2">
+                    <div class="toggle-container">
+                        <span class="toggle"></span>
+                        <span class="toggle-c"></span>
+                    </div>
+                </label>
+            </div>
+            <div>
+                <div class="mode-buttons">
+                    <h3>wtv this section is</h3>
+            </div>
+
+            <div>
+                <label for="radio1" class="flex">
+                    <input type="radio" name="filter" id="radio1">
+                    <span>push notifications</span>
+                </label>
+            </div>
+            <div>
+                <label for="radio2" class="flex">
+                    <input type="radio" name="filter" id="radio2">
+                    <span>opt</span>
+                </label>
+            </div>
+            <div>
+                <label for="radio3" class="flex">
+                    <input type="radio" name="filter" id="radio3">
+                    <span>opt out</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    
+</main>
