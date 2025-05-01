@@ -2191,73 +2191,133 @@ button.add-vehicle-button {
 /* Vmanage CSS */
 
 /* Settings */
-.startup {
-    margin-left: 50px;
-    margin-top: 50px;
-    margin-bottom: 50px ;
-}
+/* Settings Container */
 /* Settings Container */
 .settings-container {
     background-color: white;
-    padding: 20px;
+    padding: 30px;
     border-radius: 20px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 650px;
-    border: 3px solid #E6007D;
-    margin: 20px auto;
+    max-width: 600px;
+    margin: 40px auto;
     display: flex;
     flex-direction: column;
+    gap: 24px; /* reduced gap between elements */
+    border: 3px solid #E6007D;
 }
 
-.toggle{
-    width: 60px;
-    height: 35px;
-    border-radius: 40px;
-    background-color: #E6007D;
-    display: inline-block;
-}
-
-.toggle c{
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-}
-
-/* Settings Title */
 .settings-title {
     font-size: 32px;
-    font-weight: 600;
+    font-weight: bold;
     color: #333;
-    margin-bottom: 30px;
     text-align: center;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    margin-bottom: 10px;
 }
 
-/* Form Styles */
-.settings-container form {
+/* Individual Setting Row */
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 25px;
+    -webkit-appearance: none;
+    background: #ccc;
+    outline: none;
+    border-radius: 25px;
+    transition: background 0.3s;
+    cursor: pointer;
+}
+
+.toggle-switch:checked {
+    background: #E6007D;
+}
+
+.toggle-switch::before {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    top: 2.5px;
+    left: 3px;
+    background: #fff;
+    transition: 0.3s;
+}
+
+.toggle-switch:checked::before {
+    transform: translateX(25px);
+}
+
+/* Setting Group (e.g. Notifications) */
+.setting-group {
     display: flex;
     flex-direction: column;
-    gap: 25px;
-    width: 100%;
-    align-items: flex-start;
+    gap: 8px;
+    margin-top: 20px; 
 }
 
-/* Label & Checkbox */
-.settings-container label {
+.setting-group h3 {
+    color: #E6007D;
     font-size: 18px;
-    color: #333;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.setting-group label {
+    font-size: 16px;
     font-weight: 500;
-    margin-bottom: 5px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.settings-container input[type="checkbox"] {
-    margin-right: 15px;
+.setting-group input[type="checkbox"] {
+    width: 20px !important;
+    height: 20px !important;
+    padding: 0 !important;
+    margin: 0 8px 0 0 !important;
+    accent-color: #568203; 
+    flex-shrink: 0;
+    cursor: pointer;
 }
 
-/* Button Groups */
-.mode-buttons,
+.setting-group input[type="checkbox"]:hover {
+    transform: scale(1.1); 
+    transition: transform 0.2s ease;
+}
+
+/* Buttons */
+.inline-button {
+    background-color: #E6007D;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.inline-button:hover {
+    background-color: #C4006A;
+    transform: translateY(-2px);
+}
+
+/* Font Size Controls */
 .font-size-control {
     display: flex;
     align-items: center;
@@ -2265,57 +2325,82 @@ button.add-vehicle-button {
     margin-top: 10px;
 }
 
-/* Font size control label */
+.font-size-control button {
+    background-color: #E6007D;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
 .font-size-control span {
     font-size: 18px;
     font-weight: 500;
     color: #333;
-    margin: 0 8px;
-    align-self: center;
 }
 
-/* Buttons Styles */
-.mode-buttons button,
-.font-size-control button,
-.save-button {
+/* Colorblind Mode Controls */
+.colorblind-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.colorblind-toggle button {
     background-color: #E6007D;
     color: white;
     border: none;
-    padding: 14px 28px;
-    border-radius: 8px;
-    font-size: 16px;
+    padding: 4px 8px;  
+    border-radius: 6px;
+    font-size: 14px; 
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.mode-buttons button:hover,
-.font-size-control button:hover,
-.save-button:hover {
+.colorblind-toggle button:hover {
     background-color: #C4006A;
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
 }
 
-/* Save Button Styling */
+#cb-mode-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    min-width: 130px;
+    text-align: center;
+}
+
+/* Save Changes Button */
+.save-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px; 
+    margin-bottom: 10px; 
+}
+
 .save-button {
-    padding: 16px;
-    font-size: 18px;
     background-color: #4CAF50;
-    border-radius: 8px;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .save-button:hover {
     background-color: #45a049;
+    transform: translateY(-2px);
 }
 
-/* Glow effect for labels and checkboxes */
-.settings-container label:hover,
-.settings-container input[type="checkbox"]:hover {
-    color: #E6007D;
-    transform: scale(1.05);
-}
+
+
 
 /* - end - */
 
