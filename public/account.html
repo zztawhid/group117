@@ -84,38 +84,6 @@
             </div>
         </section>
 
-        <!--payment option buttons -->
-        <!-- Payment Options Section -->
-        <section class="payment-options">
-            <h2>Payment Methods</h2>
-            <div class="payment-methods-container">
-                <!-- Add Payment Method Button -->
-                <div class="add-payment-method">
-                    <button class="add-payment-btn">
-                        <i class="fas fa-plus"></i> Add Payment Method
-                    </button>
-                </div>
-
-                <!-- Saved Payment Methods (will be populated by JavaScript) -->
-                <div class="saved-payments" id="savedPayments">
-                    <!-- Example saved payment (can be removed, just for demo) -->
-                    <div class="payment-method">
-                        <div class="payment-icon">
-                            <i class="fab fa-cc-visa"></i>
-                        </div>
-                        <div class="payment-details">
-                            <span class="card-type">VISA</span>
-                            <span class="card-number">•••• •••• •••• 4242</span>
-                            <span class="card-expiry">Expires 04/25</span>
-                        </div>
-                        <button class="remove-payment">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- extra account managing options -->
         <section class="actions">
             <button class="close-account">Close your account</button>
@@ -171,53 +139,6 @@
     </div>
 </div>
 
-<div id="payment-popup" class="popup-overlay">
-    <div class="popup-content">
-        <div class="popup-header">
-            <h2>Add Payment Method</h2>
-            <span class="popup-close" onclick="closePaymentPopup()">&times;</span>
-        </div>
-        <div class="popup-body">
-            <form id="payment-form">
-                <div class="form-group">
-                    <label for="card-number">Card Number</label>
-                    <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required
-                           pattern="[\d ]{16,19}" maxlength="19">
-                    <div class="card-icons">
-                        <i class="fab fa-cc-visa"></i>
-                        <i class="fab fa-cc-mastercard"></i>
-                        <i class="fab fa-cc-amex"></i>
-                        <i class="fab fa-cc-discover"></i>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="card-name">Name on Card</label>
-                    <input type="text" id="card-name" required>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="card-expiry">Expiry Date</label>
-                        <input type="text" id="card-expiry" placeholder="MM/YY" required
-                               pattern="(0[1-9]|1[0-2])\/\d{2}" maxlength="5">
-                    </div>
-                    <div class="form-group">
-                        <label for="card-cvv">CVV</label>
-                        <input type="text" id="card-cvv" placeholder="123" required
-                               pattern="\d{3,4}" maxlength="4">
-                        <div class="cvv-hint">
-                            <i class="fas fa-question-circle"></i>
-                            <span class="cvv-tooltip">3 or 4 digits on back of card</span>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="popup-footer">
-            <button type="button" class="vbtnR" onclick="closePaymentPopup()">Cancel</button>
-            <button type="button" class="vbtnG" onclick="savePaymentMethod()">Save Payment Method</button>
-        </div>
-    </div>
-</div>
 
 
 <!-- Close Account Popup -->
