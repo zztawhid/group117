@@ -4,7 +4,7 @@
 }
 
 /*
-@import url('https://fonts.googleapis.com/css?family=Poppins:wght@400;500;700&display=swap'); 
+@import url('https://fonts.googleapis.com/css?family=Poppins:wght@400;500;700&display=swap');
 */
 
 *{
@@ -12,7 +12,7 @@
     margin:0;
     padding:0;
     font-family: ueafont;
-    
+
 }
 
 #parkuealogo {
@@ -169,7 +169,7 @@ button.header-button:hover {
       overflow: hidden;
       background-color: #333;
     }
-    
+
 /* Style the topnav links  */
 .topnav a {
     float: left;
@@ -198,7 +198,7 @@ button.header-button:hover {
     transform: translateX(-50%);
     width: 0;
     height: 3px;
-    background-color: white; 
+    background-color: white;
     transition: width 0.3s ease;
 }
 
@@ -216,7 +216,7 @@ button.header-button:hover {
 /*centering the topnav */
 
 #topnav ul {
-    display: flex; 
+    display: flex;
     justify-content: center; /* display and justify, actually centering the links*/
     padding: 0; /* get rid of default pad */
     margin: 0; /* get rid of default margin */
@@ -275,7 +275,7 @@ main {
 
   transition: transform 0.7s ease, color 0.3s ease; /* make text color transition smoother */
   font-weight: bolder; /* make text bold and uppercased, important buttons*/
-  
+
 }
 
 #container .btn:hover {
@@ -305,7 +305,7 @@ main {
   font-size: 32px;
   transition: transform 0.7s ease, color 0.3s ease; /* make text color transition smoother */
   font-weight: bolder; /* make text bold and uppercased, important buttons*/
-  
+
 }
 
 #container .btn1:hover {
@@ -335,7 +335,7 @@ main {
   font-size: 32px;
   transition: transform 0.7s ease, color 0.3s ease; /* make text color transition smoother */
   font-weight: bolder; /* make text bold and uppercased, important buttons*/
-  
+
 }
 
 #container .btn2:hover {
@@ -1180,7 +1180,7 @@ main {
 
 /* Make inputs editable */
 input:not([readonly]) {
-    background-color: #fff;
+
     border: 1px solid #E6007D !important;
 }
 /* ACCOUNT MANAGEMENT popups */
@@ -1762,7 +1762,7 @@ input:not([readonly]) {
     display: flex;
     height: 550px;
     justify-content: center;
-    gap: 0px;         
+    gap: 0px;
     margin: 50px auto;
 }
 
@@ -1779,8 +1779,8 @@ input:not([readonly]) {
     overflow: hidden; /* So that the svg doesn't overflow the box that i kept it in*/
 }
 
-.payment-map svg, 
-.payment-map object, 
+.payment-map svg,
+.payment-map object,
 .payment-map img {
     max-width: 100%;
     height: auto;
@@ -2481,7 +2481,7 @@ button.add-vehicle-button {
 
 /* Settings */
 /* Settings Container */
-/* Settings Container */
+
 .settings-container {
     background-color: white;
     padding: 30px;
@@ -2502,6 +2502,10 @@ button.add-vehicle-button {
     color: #333;
     text-align: center;
     margin-bottom: 10px;
+}
+
+#settings-noti {
+    color: black;
 }
 
 /* Individual Setting Row */
@@ -2554,7 +2558,7 @@ button.add-vehicle-button {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-top: 20px; 
+    margin-top: 20px;
 }
 
 .setting-group h3 {
@@ -2578,13 +2582,13 @@ button.add-vehicle-button {
     height: 20px !important;
     padding: 0 !important;
     margin: 0 8px 0 0 !important;
-    accent-color: #568203; 
+    accent-color: #568203;
     flex-shrink: 0;
     cursor: pointer;
 }
 
 .setting-group input[type="checkbox"]:hover {
-    transform: scale(1.1); 
+    transform: scale(1.1);
     transition: transform 0.2s ease;
 }
 
@@ -2641,9 +2645,9 @@ button.add-vehicle-button {
     background-color: #E6007D;
     color: white;
     border: none;
-    padding: 4px 8px;  
+    padding: 4px 8px;
     border-radius: 6px;
-    font-size: 14px; 
+    font-size: 14px;
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.3s ease, transform 0.2s ease;
@@ -2666,8 +2670,8 @@ button.add-vehicle-button {
 .save-button-container {
     display: flex;
     justify-content: center;
-    margin-top: 10px; 
-    margin-bottom: 10px; 
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .save-button {
@@ -2822,7 +2826,7 @@ header button:hover,
     display: flex;
     height: 100%;
     justify-content: center;
-    gap: 0px;         
+    gap: 0px;
     margin: 50px auto;
 }
 
@@ -3254,7 +3258,7 @@ header button:hover,
     min-height: 435px;
     max-height: 600px;
     background-color: #F7F0E4;
-    
+
 }
 
 .chat-messages .message {
@@ -3323,9 +3327,9 @@ header button:hover,
     font-size: 2rem;
     color:  #E6007D;
     text-align: center;
-    z-index: 2; 
+    z-index: 2;
     text-shadow: 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff;
-    
+
 }
 
 .error-text p {
@@ -3339,7 +3343,7 @@ header button:hover,
     background-color: #F7F0E4;
     color: #333;
     transform: rotate(-45deg);
-    
+
 }
 
 .bg-text {
@@ -3348,12 +3352,12 @@ header button:hover,
     padding: 30px;
     opacity: 0.4;
     text-align: center;
-    width: 100%; 
-    height: 100%; 
-    z-index: 1; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .bg-text:nth-child(even) {
     animation: moving 3.5s linear infinite;
@@ -3366,9 +3370,9 @@ header button:hover,
     50%
     {
         transform: translateX(100%);
-        
+
     }
-    
+
 }
 
 
@@ -3377,25 +3381,25 @@ header button:hover,
 @media (max-width: 768px) {
 
     header {
-        min-height: 80px; 
-        padding: 10px; 
+        min-height: 80px;
+        padding: 10px;
     }
 
     #headtxt {
-        font-size: 18px; 
-        margin: 5px; 
+        font-size: 18px;
+        margin: 5px;
     }
 
     .header-button {
-        min-height: 60px; 
-        min-width: 120px; 
-        padding: 6px 10px; 
-        font-size: 10px; 
+        min-height: 60px;
+        min-width: 120px;
+        padding: 6px 10px;
+        font-size: 10px;
     }
 
     .header-button img {
-        width: 120px; 
-        height: 60px; 
+        width: 120px;
+        height: 60px;
     }
 
 
@@ -3427,15 +3431,15 @@ header button:hover,
     }
 
     .topnav {
-        display: none; 
-        flex-direction: column; 
+        display: none;
+        flex-direction: column;
     }
 
     .nav-container {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        position: relative; 
+        position: relative;
     }
 
 
@@ -3464,45 +3468,45 @@ header button:hover,
 
 
     #info-box {
-        padding: 10px; 
+        padding: 10px;
     }
 
     .info-header {
-        font-size: 20px; 
+        font-size: 20px;
     }
 
     .info-content {
         display: grid;
-        grid-template-columns: repeat(3, 1fr); 
-        gap: 10px; 
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
     }
 
     .info-item {
-        margin: 0; 
-        text-align: center; 
+        margin: 0;
+        text-align: center;
     }
 
     .info-item i {
-        font-size: 2em; 
+        font-size: 2em;
     }
 
     .info-item p {
-        font-size: 14px; 
+        font-size: 14px;
     }
 
-    
+
     #bottom-section {
-        flex-direction: column; 
+        flex-direction: column;
     }
 
     .text-UEA,
     .phone-box {
-        max-width: 100%; 
-        text-align: center; 
+        max-width: 100%;
+        text-align: center;
     }
 
     .text-box {
-        padding: 15px; 
+        padding: 15px;
     }
 
     .text-box h2 {
@@ -3514,12 +3518,12 @@ header button:hover,
     }
 
     .pink-button {
-        width: 50%; 
-        font-size: 18px; 
+        width: 50%;
+        font-size: 18px;
     }
 
     .phone-box {
-        margin-top: 10px; 
+        margin-top: 10px;
     }
 
 /* ===== CORE STYLES (No Media Queries) ===== */
@@ -3563,8 +3567,8 @@ header {
 /* Account management Queries */
 .account-management {
     width: 100%; /*take the full width of the screen */
-    padding: 15px; 
-    
+    padding: 15px;
+
 }
 
 .profile {
@@ -3639,5 +3643,3 @@ header {
 
 
 
-
-/* Media queries */

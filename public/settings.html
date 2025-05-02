@@ -95,7 +95,8 @@
                 <label>Colorblind Mode</label>
                 <div class="colorblind-toggle">
                     <button type="button" id="prev-cb-mode">&#9664;</button>
-                    <span id="cb-mode-label">Colorblind Mode 1</span>
+                    <span id="cb-mode-label">Tritanopia</span>
+
                     <button type="button" id="next-cb-mode">&#9654;</button>
                 </div>
             </div>
@@ -110,7 +111,7 @@
             </div>
 
             <div class="setting-group">
-                <h3>Notifications</h3>
+                <h3 id="settings-noti">Notifications</h3>
                 <label><input type="checkbox" name="pushNotifications"> Opt in to push notifications</label>
                 <label><input type="checkbox" name="textNotifications"> Opt in to text notifications</label>
             </div>
@@ -144,15 +145,33 @@
         let cbMode = 1;
 
         function updateCBMode() {
-            document.getElementById('cb-mode-label').innerText = `Colorblind Mode ${cbMode}`;
+            const label = document.getElementById('cb-mode-label');
+
+            // Change the displayed text based on cbMode value
+            switch(cbMode) {
+                case 1:
+                    label.innerText = "Default";
+                    break;
+                case 2:
+                    label.innerText = "Protanopia (Red-Blind) Mode";
+                    break;
+                case 3:
+                    label.innerText = "Tritanopia (Blue-Blind) Mode";
+                    break;
+                default:
+                    label.innerText = "Colorblind Mode " + cbMode;
+            }
         }
 
-        document.getElementById('next-cb-mode').addEventListener('click', function () {
+        // Initialize on page load
+        updateCBMode();
+
+        document.getElementById('next-cb-mode').addEventListener('click', function() {
             cbMode = cbMode === 3 ? 1 : cbMode + 1;
             updateCBMode();
         });
 
-        document.getElementById('prev-cb-mode').addEventListener('click', function () {
+        document.getElementById('prev-cb-mode').addEventListener('click', function() {
             cbMode = cbMode === 1 ? 3 : cbMode - 1;
             updateCBMode();
         });
