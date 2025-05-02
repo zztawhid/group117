@@ -80,7 +80,7 @@ header {
 .header-button {
     margin: 30px;
     height: 75px;
-    min-width: 100px;
+    width: 150px;
     color: white;
     padding: 0 15px;
     background-color: #3c3c3cfc;
@@ -88,7 +88,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 100px;
+    border-radius: 10px;
     border: none;
     font-size: 16px;
     transition: all 0.3s ease;
@@ -101,16 +101,16 @@ button.header-button {
 }
 
 button.header-button:hover {
-  color: black;
+  color: white;
   background-color: #555;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 .header-button img {
-  width: 100px;
-  height: 50px;
-  border-radius: 250px;
+  width: 350px;
+  height: 55px;
+  border-radius: 5px;
 }
 
 /* trying to make dropdown box work with flags */
@@ -119,12 +119,12 @@ button.header-button:hover {
 #language-dropdown {
     position: absolute;
     top: 120px; /* adjust up-down position */
-    left: 40px;
+    left: 50px;
     background-color: rgba(26, 26, 26, 0.854);
-    border-radius: 5px;
+    border-radius: none;
     z-index: 1000;
     overflow: hidden;
-    min-width: 160px;
+    width: 150px;
 }
 
 
@@ -152,7 +152,6 @@ button.header-button:hover {
 .hidden {
     display: none;
 }
-
 
 
 /* Nav bar */
@@ -281,11 +280,9 @@ main {
 
 #container .btn:hover {
   background-color: #767676;
-  color: black;
+  color: white;
   transform: translate(-50%, -50%) scale(1.1); /*smoothly scale button transition */
-  
 }
-
 
 #container .btn1 {
   position: absolute;
@@ -313,7 +310,7 @@ main {
 
 #container .btn1:hover {
   background-color: #767676;
-  color: black;
+  color: white;
   transform: translate(-50%, -50%) scale(1.1); /*smoothly scale button transition */
 }
 
@@ -343,7 +340,7 @@ main {
 
 #container .btn2:hover {
   background-color: #767676;
-  color: black;
+  color: white;
   transform: translate(-50%, -50%) scale(1.1); /*smoothly scale button transition */
 }
 
@@ -640,7 +637,7 @@ main {
     padding: 12px 25px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 1250px;
+    width: 1170px;
     margin: 20px auto;
     display: flex;
     justify-content: space-between;
@@ -3267,7 +3264,7 @@ header {
     background-color: #333;
     color: white;
     border: 2px solid #F7F0E4;
-    border-radius: 5px;
+    border-radius: 2px;
     font-size: 20px;
 }
 
