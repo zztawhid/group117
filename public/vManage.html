@@ -89,6 +89,39 @@
     </footer>
 </div>
 
+<!-- Parking History Popup -->
+<div id="parking-history-popup" class="popup-overlay">
+    <div class="popup-content">
+        <div class="popup-header">
+            <h2>Parking History</h2>
+            <span class="popup-close" onclick="closePopup()">&times;</span>
+        </div>
+        <div class="popup-body">
+            <table class="history-table">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Entry Time</th>
+                    <th>Exit Time</th>
+                    <th>Location</th>
+                    <th>Duration</th>
+                    <th>Cost</th>
+                </tr>
+                </thead>
+                <tbody id="history-table-body">
+                <!-- Data will be inserted here by JavaScript -->
+                <tr><td colspan="6" class="loading-msg">Loading history...</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="popup-footer">
+            <button class="vbtnG" onclick="downloadHistory()">Download History</button>
+            <button class="vbtnR" onclick="closePopup()">Close</button>
+        </div>
+    </div>
+</div>
+
+
 <script src="vManage.js"></script>
 </body>
 </html>
