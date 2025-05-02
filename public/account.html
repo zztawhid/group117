@@ -139,7 +139,27 @@
     </div>
 </div>
 
-
+<!-- pfp edit -->
+<div id="edit-profile-pic-popup" class="popup-overlay">
+    <div class="popup-content">
+        <div class="popup-header">
+            <h2>Edit Profile Picture</h2>
+            <span class="popup-close" onclick="closeEditProfilePicPopup()">&times;</span>
+        </div>
+        <div class="popup-body">
+            <form id="edit-profile-pic-form">
+                <div class="form-group">
+                    <label for="profile-pic-input">Upload a new profile picture:</label>
+                    <input type="file" id="profile-pic-input" accept="image/*">
+                </div>
+            </form>
+        </div>
+        <div class="popup-footer">
+            <button class="vbtnG" onclick="saveProfilePic()">Save Changes</button>
+            <button class="vbtnR" onclick="closeEditProfilePicPopup()">Cancel</button>
+        </div>
+    </div>
+</div>
 
 <!-- Close Account Popup -->
 <div id="close-account-popup" class="popup-overlay">

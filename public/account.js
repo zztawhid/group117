@@ -50,7 +50,70 @@ function saveProfileChanges() {
     alert('Profile updated successfully!');
 }
 
+// -*PROFILE PICTURE FUNCTIONALITY*- //
+// handles pfp upload and display
+document.addEventListener('DOMContentLoaded', function () {
+    // load current pfp from localstorage
+    const savedProfilePic = localStorage.getItem('profilePicture');
+    if (savedProfilePic) {
+        document.querySelector('.profile-pic').src = savedProfilePic;
+    }
+    
+    document.querySelector('.edit-icon').addEventListener('click', openEditProfilePicPopup);
+});
 
+function openEditProfilePicPopup() {
+    // show popup for editing profile picc
+    document.getElementById('edit-profile-pic-popup').style.display = 'flex';
+}
+
+function closeEditProfilePicPopup() {
+    // close the popup for editing the profile picture
+    document.getElementById('edit-profile-pic-popup').style.display = 'none';
+}
+
+function saveProfilePic() {
+    const fileInput = document.getElementById('profile-pic-input');
+    const profilePic = document.querySelector('.profile-pic');
+
+    // check if a file is selected
+    if (fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+
+        // set restriction on max file size for images (2)
+        const maxFileSize = 2 * 1024 * 1024; // 2mb limit
+        if (file.size > maxFileSize) {
+            alert('File size exceeds 2MB. Please upload a smaller image.');
+            return;
+        }
+
+        // Validate file type (allow only PNG, JPEG, JPG)
+        const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+        if (!allowedTypes.includes(file.type)) {
+            alert('Invalid file type. Please upload a PNG, JPEG, or JPG image.');
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            // Update the profile picture
+            profilePic.src = e.target.result;
+
+            // Save the new profile picture to localStorage
+            localStorage.setItem('profilePicture', e.target.result);
+
+            // Close the popup
+            closeEditProfilePicPopup();
+
+            alert('Profile picture updated successfully!');
+        };
+
+        reader.readAsDataURL(file); 
+    } else {
+        alert('Please select a picture to upload.');
+    }
+}
 
 // Close Account Functionality
 document.addEventListener('DOMContentLoaded', function() {
