@@ -2405,15 +2405,19 @@ button.add-vehicle-button {
 /* - end - */
 
 /* Footer Styles */
+
 footer {
-    background-color: #E6007D;
-    color: white;
-    padding: 30px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
-    border-radius: 12px 12px 0 0;
+    padding: 16px;
+    background-color: #333;
+    color: white;
+}
+
+.logo-footer {
+    padding-top: 15px;
+    background-color: #333;
 }
 
 footer p {
@@ -2421,10 +2425,6 @@ footer p {
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 0.5px;
-}
-
-footer .logo-footer img {
-    width: 180px;
 }
 
 footer .text-left,
@@ -2441,6 +2441,8 @@ footer .text-center {
 footer .text-right {
     text-align: right;
 }
+/* Footer Styles */
+
 
 /* Header button hover effect */
 header button:hover,
@@ -2482,38 +2484,11 @@ header button:hover,
     100% { transform: rotate(360deg); }
 }
 
-.alert-message {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 15px 20px;
-    border-radius: 5px;
-    color: white;
-    display: flex;
-    align-items: center;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    animation: slideIn 0.3s ease-out;
-}
-
-.alert-message.error {
-    background-color: #dc3545;
-}
-
-.alert-message.success {
-    background-color: #28a745;
-}
-
-.alert-message i {
-    margin-right: 10px;
-    font-size: 1.2em;
-}
-
 @keyframes slideIn {
     from { transform: translateX(100%); opacity: 0; }
     to { transform: translateX(0); opacity: 1; }
 }
-*/
+
 
 /* Location Management Page Styles */
 #admin-controls {
@@ -2857,21 +2832,6 @@ header button:hover,
     border: 1px solid #f5c6cb;
 }
 
-
-/* Footer */
-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-    background-color: #333;
-    color: white;
-    }
-
-.logo-footer {
-    padding-top: 15px;
-    background-color: #333;
-}
 
 /* messaging users */
 .message-container {
