@@ -2424,27 +2424,80 @@ button.add-vehicle-button {
 
 /* Notifications CSS (START) */
 
-.notification-container {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
+
+/* Notifications Page Specific Styles */ 
+.notifications-page .dashboard-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Current Session Box */
+.notifications-page .current-session-box {
+    background-color: #ffffff;
+    border: 2px solid #E6007D;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.notifications-page .current-session-box h2 {
+    font-size: 24px;
+    color: #E6007D;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Session Table */
+.notifications-page .session-table {
     width: 100%;
-    max-width: 1200px;
+    border-collapse: collapse;
+    font-size: 18px;
     margin: 0 auto;
 }
 
-.notification-box {
-    background-color:  #F7F0E4;
-    color: #F7F0E4;
-    padding: 25px;
-    border-radius: 10px;
-    width: 100%;
-    max-width: 500px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    border: 2px solid #E6007D;
+.notifications-page .session-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #ccc;
 }
 
-.notification-title {
+/* Layout for Notifs + Spaces */
+.notifications-page .grid-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+/* Styling for Notifs & Spaces Columns */
+.notifications-page .notif-column, .right-column {
+    background-color: #ffffff;
+    color: #333;
+    border: 2px solid #E6007D;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    width: 45%;
+    max-width: 500px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.notifications-page .notif-column:hover, .right-column:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Heading for Notifs & Spaces */
+.notifications-page .notif-column h2, .right-column h2 {
     color: black;
     text-align: center;
     margin-bottom: 25px;
@@ -2455,40 +2508,128 @@ button.add-vehicle-button {
     border-bottom: 2px solid #E6007D;
 }
 
-.notification-content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+/* Notifs & Spaces List Styling */
+.notifications-page .notif-column ul, .right-column ul {
+    list-style: none;
+    padding: 0;
 }
 
-.notification-item {
+.notifications-page .notif-column ul li, .right-column ul li {
     background-color: #444;
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 18px;
+    color: white;
+    margin-bottom: 10px;
+    padding: 10px;
     border-left: 4px solid #E6007D;
-    transition: all 0.3s ease;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.notification-item:hover {
+.notifications-page .notif-column ul li:hover, .right-column ul li:hover {
     background-color: #555;
     transform: translateX(5px);
 }
-.box-row {
-    margin-top: 20px;
-    margin-bottom: 20px;
+
+/* Message Admin Box */
+.notifications-page .message-admin-box {
+    margin-top: 30px;
+    text-align: center;
+    width: 60%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
 }
-.main-container {
-    padding-top: 30px;
-    padding-bottom: 30px;
+
+/* Message Admin Title */
+.notifications-page .message-admin-box h3 {
+    color: #E6007D;
+    font-size: 22px;
+    margin-bottom: 15px;
 }
-.parking-box, .notification-box {
-    background-color: white;
-    color: #F7F0E4;
-    border: 2px solid #FF1493;
-    margin-top: 20px;
-    margin-bottom: 20px;
+
+/* Message Admin Button */
+.notifications-page .message-admin-box button {
+    background-color: #E6007D;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+
+.notifications-page .message-admin-box button:hover {
+    background-color: #c2006c;
+    transform: translateY(-5px);
+}
+
+/* Footer Styling */
+.notifications-page footer {
+    background-color: #222;
+    color: white;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.notifications-page footer .text-left, .notifications-page footer .text-center, .notifications-page footer .text-right {
+    flex: 1;
+    text-align: center;
+}
+
+.notifications-page footer .logo-footer img {
+    width: 240px;
+    height: auto;
+}
+
+.notifications-page footer a:hover {
+    color: #E6007D;
+    text-decoration: underline;
+}
+
+/* Top Navigation */
+.notifications-page .topnav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px 0;
+}
+
+.notifications-page .topnav .nav-link {
+    text-decoration: none;
+    color: #222;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.notifications-page .topnav .nav-link.active {
+    color: #E6007D;
+}
+
+.notifications-page .nav-link:hover {
+    color: #E6007D;
+}
+
+.notifications-page .dropdown-icon {
+    cursor: pointer;
+}
+
+.notifications-page .header-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.notifications-page .header-button img {
+    width: 24px;
+    height: 24px;
+}
+
+
 
 /* Notifications CSS (END)*/
 
@@ -3601,28 +3742,10 @@ header button:hover,
 
 @media (max-width: 768px) {
 
-    header {
-        min-height: 80px;
-        padding: 10px;
-    }
-
     #headtxt {
         font-size: 18px;
         margin: 5px;
     }
-
-    .header-button {
-        min-height: 60px;
-        min-width: 120px;
-        padding: 6px 10px;
-        font-size: 10px;
-    }
-
-    .header-button img {
-        width: 120px;
-        height: 60px;
-    }
-
 
     .active-page {
         display: block;
@@ -3760,34 +3883,49 @@ body {
     color: black;
 }
 
-/* Header */
-#parkuealogo{
-    height: 200px;
+/* Header changing */
+#parkuealogo {
+    width: 200px; /* Scale down the logo */
+    height: auto;
+    
 }
 
 header {
-    min-height: 120px;
+    height: 100px;
     background: #E6007D;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px;
+    padding: 0px;
     border: 2px solid black;
 }
 
 .header-button {
-    min-height: 100px;
-    min-width: 180px;
-    background-color: #333;
+    width: 18%; /* Full width for buttons */
+    height: 60%;
+    padding: 10px;
+    font-size: 14px; /* Adjust font size for smaller screens */
+    margin: 5px 5px; /* Add spacing between buttons */
+    text-align: center;
+    background-color: #333; /* Dark background for buttons */
     color: white;
-    border: 2px solid #F7F0E4;
-    border-radius: 2px;
-    font-size: 20px;
+
+   
+    
 }
 
+.header-button:hover {
+    background-color: #FF0080; /* Highlight on hover */
+}
+
+.header-button img {
+    
+    width: 65px;
+    height: 40px;
+}
 /* Account management Queries */
 .account-management {
-    width: 100%; /*take the full width of the screen */
+    width: 90%; /*take the full width of the screen */
     padding: 15px;
 
 }
