@@ -41,7 +41,7 @@ html{
 */
 
 
-/* Header */
+/* Header (START) */
 .nav-container {
     display: hidden;
 }
@@ -224,7 +224,11 @@ button.header-button:hover {
     font-weight: bold;
 }
 
-/* Body */
+/* HEADER (END) */
+
+
+
+/* Body (START) */
 body{
     margin: 0;
     color: Black;
@@ -247,7 +251,12 @@ main {
 }
 
 
-/* Index Page */
+/* BODY (END) */
+
+
+
+
+/* Index Page (START) */
 #container {
   position: relative;
 }
@@ -496,9 +505,12 @@ main {
     border-radius: 10px; /* Optional: Add rounded corners */
 }
 
-/* Index Page */
+/* Index Page (END) */
 
-/* Main Page */
+
+
+
+/* Main Page (START) */
 
 /* Welcome Section */
 .welcome-section {
@@ -728,9 +740,71 @@ main {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Main Page */
+.no-session {
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 
-/* Contact Page */
+.no-session p {
+    margin: 15px 0;
+    color: #666;
+}
+
+.btn-park {
+    display: inline-block;
+    background: #2c3e50;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Timer styles */
+.timer-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.timer-label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.timer {
+    font-size: 2rem;
+    font-family: monospace;
+    font-weight: bold;
+    color: #ffffff; /* Default green color */
+    letter-spacing: 2px;
+}
+
+/* Warning and danger states for timer */
+.timer.warning {
+    color: #ffffff; /* Yellow */
+}
+
+.timer.danger {
+    color: #ff6f65; /* Red */
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+
+/* Main Page (END) */
+
+
+
+/* Contact Page (START) */
 #email {
     margin-bottom: 20px;
 }
@@ -835,8 +909,6 @@ main {
     transform: rotate(180deg);
 }
 
-/* Contact Page */
-
 .form-description {
     text-align: center;
     color: #ffffff;
@@ -877,7 +949,77 @@ main {
     background-color: #C4006A;
 }
 
-/* ACCOUNT MANAGEMENT CSS */
+
+/* FEEDBACK FORM */
+.fb-form {
+    width: 850px;
+    margin: 30px auto;
+    padding: 30px;
+    background: #F7F0E4;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 2px solid #E6007D;
+}
+
+/* FORM TITLE STYLES */
+.fb-form h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+}
+
+/* DESCRIPTION TEXT */
+.form-description {
+    text-align: center;
+    color: #555;
+    margin-bottom: 25px;
+    line-height: 1.2;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+
+.form-group textarea {
+    width: 100%;
+    min-height: 100px; /* Reduced from 200px for slightly shorter box */
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    resize: vertical;
+}
+
+
+.form-group input[type="email"] {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #f9f9f9;
+}
+
+
+.form-group textarea:focus,
+.form-group input[type="email"]:focus {
+    outline: none;
+    border-color: #E6007D;
+    box-shadow: 0 0 0 4px rgba(230,0,125,0.15);
+    background-color: #fff;
+}
+
+/* CONTACT PAGE (END) */
+
+
+/* ACCOUNT MANAGEMENT (START) */
 .account-management {
     max-width: 800px;
     margin: 20px auto;
@@ -1186,9 +1328,131 @@ input:not([readonly]) {
     border: 1px solid #E6007D !important;
 }
 /* ACCOUNT MANAGEMENT popups */
-/* ACCOUNT MANAGEMENT CSS */
+/* ACCOUNT MANAGEMENT (END) */
 
-/* PAYMENT PAGE */
+
+
+
+/* PAYMENT PAGE (START) */
+
+/*Payment Page*/
+#payment-page-text{
+    margin: 20px;
+    background-color: #F7F0E4;
+    padding: 10px;
+    display: flex;
+    align-items: 50px auto;
+    justify-content: center;
+    align-items: center;
+}
+
+#payment-page-text h2{
+    color: #0f0f0f;
+    font-size: 2rem;
+}
+
+#payment-section {
+    display: flex;
+    height: 750px;
+    justify-content: center;
+    gap: 0px;
+    margin: 50px auto;
+}
+
+.payment-map {
+    width: 800px;
+    padding: 0px;
+    background: #F7F0E4;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 2px solid #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* So that the svg doesn't overflow the box that i kept it in*/
+}
+
+.payment-map svg,
+.payment-map object,
+.payment-map img {
+    max-width: 100%;
+    height: auto;
+}
+
+.payment-form {
+    width: 500px;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 2px solid #E6007D;
+    margin-left: 5px;
+}
+
+.payment-form h2{
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 1.8rem;
+}
+
+.payment-form-group{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+
+.payment-form-group #paymentlabel {
+    display: flex;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+    width: 80%;
+    font-size: 1.3rem;
+}
+
+
+.payment-form-group {
+    width: 100%;
+    font-size: 1rem;
+}
+
+
+#location-select, #duration-select, #vehicle-select, #location-select-later, #vehicle-select-later, #duration-select-later, .datetime-input{
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: #fff;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+
+    outline: none;
+    border-color: #E6007D;
+    background-color: #fff;
+}
+
+
+.payment-continue-button {
+    height: 75px;
+    margin-top: 10%;
+    width: 100%;
+    padding: 14px;
+    background-color: #34a51dd8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    text-transform: uppercase;
+}
+
+
+
 /* Main container styling - matches account page */
 .account-management {
     max-width: 800px;
@@ -1224,6 +1488,130 @@ input:not([readonly]) {
     height: 2px;
     background-color: #E6007D;
 }
+
+/* FOR NOW EDIT */
+
+/* Tab styles */
+.tab-container {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab-button {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #666;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-button.active {
+    color: #2c3e50;
+    border-bottom: 3px solid #2c3e50;
+    font-weight: bold;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active-tab {
+    display: block;
+}
+
+/* Card form styles */
+.card-form {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+/* Modal styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.confirmation-details {
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+.confirmation-details strong {
+    color: #2c3e50;
+}
+
+/* Checkbox styles */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.checkbox-group input {
+    margin-right: 10px;
+}
+
+/* Availability result */
+.availability-details {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 15px 0;
+}
+
+.availability-details p {
+    margin: 5px 0;
+}
+
+.hidden {
+    display: none;
+}
+
+/* END OF FOR NOW*/
+
 
 /* Payment details section */
 .payment-details {
@@ -1498,9 +1886,11 @@ input:not([readonly]) {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-/* PAYMENT PAGE */
+/* PAYMENT PAGE (END)*/
 
-/* VEHICLE MANAGEMENT CSS */
+
+
+/* VEHICLE MANAGEMENT (START) */
 .manage-vehicles-container {
     display: flex;
     justify-content: center; /* Center horizontally */
@@ -1677,190 +2067,11 @@ input:not([readonly]) {
 /* Parking History and Download */
 
 
-/* FEEDBACK FORM CONTACT US */
-.fb-form {
-    width: 850px;
-    margin: 30px auto;
-    padding: 30px;
-    background: #F7F0E4;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    border: 2px solid #E6007D;
-}
-
-/* FORM TITLE STYLES */
-.fb-form h3 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 25px;
-    font-size: 1.8rem;
-}
-
-/* DESCRIPTION TEXT */
-.form-description {
-    text-align: center;
-    color: #555;
-    margin-bottom: 25px;
-    line-height: 1.2;
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 10px;
-    font-weight: 600;
-    color: #333;
-    font-size: 1.1rem;
-}
+/* VEHICLE MANAGEMENT (END) */
 
 
-.form-group textarea {
-    width: 100%;
-    min-height: 100px; /* Reduced from 200px for slightly shorter box */
-    padding: 15px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    resize: vertical;
-}
 
-
-.form-group input[type="email"] {
-    width: 100%;
-    padding: 15px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background-color: #f9f9f9;
-}
-
-
-.form-group textarea:focus,
-.form-group input[type="email"]:focus {
-    outline: none;
-    border-color: #E6007D;
-    box-shadow: 0 0 0 4px rgba(230,0,125,0.15);
-    background-color: #fff;
-}
-
-
-/*Payment Page*/
-#payment-page-text{
-    margin: 20px;
-    background-color: #F7F0E4;
-    padding: 10px;
-    display: flex;
-    align-items: 50px auto;
-    justify-content: center;
-    align-items: center;
-}
-
-#payment-page-text h2{
-    color: #0f0f0f;
-    font-size: 2rem;
-}
-
-#payment-section {
-    display: flex;
-    height: 550px;
-    justify-content: center;
-    gap: 0px;
-    margin: 50px auto;
-}
-
-.payment-map {
-    width: 800px;
-    padding: 0px;
-    background: #F7F0E4;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    border: 2px solid #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* So that the svg doesn't overflow the box that i kept it in*/
-}
-
-.payment-map svg,
-.payment-map object,
-.payment-map img {
-    max-width: 100%;
-    height: auto;
-}
-
-.payment-form {
-    width: 500px;
-    padding: 30px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    border: 2px solid #E6007D;
-    margin-left: 5px;
-}
-
-.payment-form h2{
-    text-align: center;
-    color: #333;
-    margin-bottom: 25px;
-    font-size: 1.8rem;
-}
-
-.payment-form-group{
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-
-.payment-form-group #paymentlabel {
-    display: flex;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #444;
-    width: 80%;
-    font-size: 1.3rem;
-}
-
-
-.payment-form-group {
-    width: 100%;
-    font-size: 1rem;
-}
-
-
-#location-select, #duration-select, #vehicle-select{
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 20px;
-    background: #fff;
-    border-radius: 6px;
-    border: 2px solid #ddd;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-
-    outline: none;
-    border-color: #E6007D;
-    background-color: #fff;
-}
-
-
-.payment-continue-button {
-    height: 75px;
-    margin-top: 10%;
-    width: 100%;
-    padding: 14px;
-    background-color: #34a51dd8;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.3rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    text-transform: uppercase;
-}
-
-/* Login Page */
+/* Login Page (START)*/
 .fb-form {
     width: 850px;
     margin: 30px auto;
@@ -1930,7 +2141,9 @@ input:not([readonly]) {
     font-weight: 600;
 }
 
-/* REGISTER PAGE */
+/* LOGIN PAGE (END) */
+
+/* REGISTER PAGE (START)*/
 .register-container {
     width: 850px;
     margin: 30px auto;
@@ -2144,8 +2357,6 @@ button.add-vehicle-button {
     z-index: 999;
 }
 
-/* Register Page */
-
 .register-container {
     margin: 40px auto;
     width: 600px;
@@ -2208,10 +2419,10 @@ button.add-vehicle-button {
     transition: 0.5s;
 }
 
+/* Register Page (END) */
 
 
-
-/* Notifications CSS */
+/* Notifications CSS (START) */
 
 .notification-container {
     display: flex;
@@ -2279,9 +2490,9 @@ button.add-vehicle-button {
     margin-bottom: 20px;
 }
 
-/* Notifications CSS */
+/* Notifications CSS (END)*/
 
-/* Vmanage CSS */
+/* Vmanage CSS (START)*/
 
 .vehicles-container {
     text-align: center;
@@ -2479,9 +2690,9 @@ button.add-vehicle-button {
     transition: color 0.3s ease;
 }
 
-/* Vmanage CSS */
+/* Vmanage CSS (END) */
 
-/* Settings */
+/* Settings (START) */
 /* Settings Container */
 
 .settings-container {
@@ -2697,7 +2908,7 @@ button.add-vehicle-button {
 
 
 
-/* - end - */
+/* - SETTINGS (END) - */
 
 /* Footer Styles */
 
@@ -3650,6 +3861,11 @@ header {
 }
 
 }
+
+
+
+
+
 
 
 

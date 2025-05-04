@@ -2,17 +2,13 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Configuration - Remove everything above login.html after
     const PUBLIC_ROUTES = [
-        '/main.html',
-        '/parking.html',
-        '/account.html',
-        '/vManage.html',
-        '/notif.html',
-        '/settings.html',
         '/login.html',
         '/register.html',
         '/contact.html',
         '/index.html' 
     ];
+    
+
     
     // Get current user and page
     const user = JSON.parse(localStorage.getItem('user'));
@@ -69,6 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+
 //logs out current user
 function logout() {
     localStorage.removeItem('user');
@@ -86,3 +83,15 @@ function getAuthHeaders() {
         'Content-Type': 'application/json'
     } : {};
 }
+
+
+// /* MIGHT REMOVE */
+// function checkAuth() {
+//     const user = JSON.parse(localStorage.getItem('user'));
+//     if (!user) {
+//         window.location.href = 'login.html';
+//     }
+//     return user;
+// }
+
+// checkAuth();

@@ -503,6 +503,306 @@ app.get('/api/parking/locations/:id', async (req, res) => {
     }
 });
 
+
+// Handle parking reservations
+app.post('/api/parking/reservations', async (req, res) => {
+    try {
+        const { user_id, vehicle_id, location_id, start_time, duration_hours, needs_disabled } = req.body;
+        
+        // Validate inputs
+        if (!user_id || !vehicle_id || !location_id || !start_time || !duration_hours) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        const startTime = new Date(start_time);
+        const endTime = new Date(startTime.getTime() + duration_hours * 60 * 60 * 1000);
+        
+        // Check if location is available
+        const [location] = await pool.execute(
+            'SELECT * FROM parking_locations WHERE location_id = ? AND disabled = FALSE',
+            [location_id]
+        );
+        
+        if (location.length === 0) {
+            return res.status(400).json({ error: 'Location is not available' });
+        }
+        
+        // Find available space
+        let spaceQuery = `
+            SELECT ps.space_id, ps.space_number 
+            FROM parking_spaces ps
+            LEFT JOIN parking_reservations pr ON ps.space_id = pr.space_id 
+                AND NOT (pr.end_time <= ? OR pr.start_time >= ?)
+                AND pr.payment_status = 'paid'
+            WHERE ps.location_id = ? 
+            AND ps.is_disabled = FALSE
+            AND pr.reservation_id IS NULL
+        `;
+        
+        if (needs_disabled) {
+            spaceQuery += " AND ps.special_type = 'disabled'";
+        } else {
+            spaceQuery += " AND ps.special_type != 'disabled'";
+        }
+        
+        spaceQuery += " LIMIT 1";
+        
+        const [availableSpaces] = await pool.execute(spaceQuery, [startTime, endTime, location_id]);
+        
+        if (availableSpaces.length === 0) {
+            return res.status(400).json({ error: 'No available spaces for the selected time' });
+        }
+        
+        const space_id = availableSpaces[0].space_id;
+        const space_number = availableSpaces[0].space_number;
+        
+        // Calculate cost
+        const hourly_rate = location[0].hourly_rate;
+        let total_cost = hourly_rate * duration_hours;
+        
+        // Apply discounts
+        if (duration_hours >= 24) total_cost *= 0.8;
+        else if (duration_hours >= 12) total_cost *= 0.85;
+        else if (duration_hours >= 8) total_cost *= 0.9;
+        
+        // Generate unique reference number
+        const reference_number = `RES-${Math.random().toString(36).substr(2, 8).toUpperCase()}`;
+        
+        // Create reservation
+        const [result] = await pool.execute(
+            `INSERT INTO parking_reservations 
+            (user_id, vehicle_id, location_id, space_id, space_number, start_time, end_time, 
+             amount_paid, reference_number, payment_status) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'unpaid')`,
+            [user_id, vehicle_id, location_id, space_id, space_number, 
+             startTime, endTime, total_cost, reference_number]
+        );
+        
+        res.status(201).json({
+            reservation_id: result.insertId,
+            space_id,
+            space_number,
+            start_time: startTime,
+            end_time: endTime,
+            total_cost: total_cost.toFixed(2),
+            reference_number,
+            hourly_rate,
+            duration_hours,
+            location_name: location[0].name
+        });
+        
+    } catch (error) {
+        console.error('Reservation error:', error);
+        
+        if (error.code === 'ER_NO_DEFAULT_FOR_FIELD') {
+            res.status(500).json({ error: 'Database configuration error. Missing required field.' });
+        } else {
+            res.status(500).json({ error: 'Failed to create reservation' });
+        }
+    }
+});
+
+
+// Process payment
+app.post('/api/payment/process', async (req, res) => {
+    try {
+        const { reservation_id, card_number, card_expiry, card_cvv, card_name } = req.body;
+        
+        // Validate card with Luhn algorithm
+        if (!validateCardWithLuhn(card_number)) {
+            return res.status(400).json({ error: 'Invalid card number' });
+        }
+        
+        // Basic validation
+        if (!card_number || !card_expiry || !card_cvv || !card_name) {
+            return res.status(400).json({ error: 'All card details are required' });
+        }
+        
+        // Update reservation payment status
+        await pool.execute(
+            'UPDATE parking_reservations SET payment_status = "paid" WHERE reservation_id = ?',
+            [reservation_id]
+        );
+        
+        res.json({ success: true, message: 'Payment processed successfully' });
+        
+    } catch (error) {
+        console.error('Payment error:', error);
+        res.status(500).json({ error: 'Payment processing failed' });
+    }
+});
+
+// Luhn algorithm validation
+function validateCardWithLuhn(cardNumber) {
+    // Remove all non-digit characters
+    cardNumber = cardNumber.replace(/\D/g, '');
+    
+    // Check if empty or not all digits
+    if (!cardNumber || !/^\d+$/.test(cardNumber)) {
+        return false;
+    }
+    
+    let sum = 0;
+    let shouldDouble = false;
+    
+    // Loop through digits from right to left
+    for (let i = cardNumber.length - 1; i >= 0; i--) {
+        let digit = parseInt(cardNumber.charAt(i));
+        
+        if (shouldDouble) {
+            digit *= 2;
+            if (digit > 9) {
+                digit -= 9;
+            }
+        }
+        
+        sum += digit;
+        shouldDouble = !shouldDouble;
+    }
+    
+    return (sum % 10) === 0;
+}
+
+// Sessions endpoint
+app.post('/api/parking/sessions', async (req, res) => {
+    try {
+        const { user_id, vehicle_id, location_id, duration, amount_paid, needs_disabled } = req.body;
+        
+        // Validate inputs
+        if (!user_id || !vehicle_id || !location_id || !duration || !amount_paid) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        // Find an available space
+        const [availableSpace] = await pool.execute(`
+            SELECT ps.space_id, ps.space_number 
+            FROM parking_spaces ps
+            LEFT JOIN parking_occupancy po ON ps.space_id = po.space_id 
+                AND po.time_out IS NULL
+            WHERE ps.location_id = ?
+            AND ps.is_disabled = FALSE
+            AND (ps.special_type = 'disabled' = ?)
+            AND po.occupancy_id IS NULL
+            LIMIT 1
+        `, [location_id, needs_disabled || false]);
+
+        if (!availableSpace || availableSpace.length === 0) {
+            return res.status(400).json({ error: 'No available parking spaces' });
+        }
+
+        const space_id = availableSpace[0].space_id;
+        const space_number = availableSpace[0].space_number;
+        const reference_number = `PARK-${Math.random().toString(36).substr(2, 8).toUpperCase()}`;
+
+        // Create parking session
+        const [result] = await pool.execute(
+            `INSERT INTO parking_occupancy 
+            (space_id, vehicle_id, time_in, time_out, payment_status, amount_paid, reference_number) 
+            VALUES (?, ?, NOW(), NULL, 'paid', ?, ?)`,
+            [space_id, vehicle_id, amount_paid, reference_number]
+        );
+
+        res.status(201).json({
+            success: true,
+            reference: reference_number,
+            space_number: space_number,
+            space_id: space_id,
+            amount_paid: amount_paid
+        });
+
+    } catch (error) {
+        console.error('Parking session error:', error);
+        res.status(500).json({ error: 'Failed to create parking session' });
+    }
+});
+
+// Get active parking session for a user
+app.get('/api/parking/sessions/active', async (req, res) => {
+    try {
+        const userId = req.query.user_id;
+        
+        // Get active parking session (either immediate parking or reservation)
+        const [activeSessions] = await pool.execute(`
+            (
+                -- Immediate parking sessions
+                SELECT 
+                    o.occupancy_id,
+                    o.reference_number,
+                    o.time_in,
+                    o.time_out,
+                    s.space_number,
+                    l.name AS location_name,
+                    l.code AS location_code,
+                    l.hourly_rate,
+                    l.max_stay_hours AS duration_hours,
+                    -- Calculate end time based on max stay duration
+                    DATE_ADD(o.time_in, INTERVAL l.max_stay_hours HOUR) AS end_time,
+                    'immediate' AS session_type,
+                    -- Calculate remaining minutes
+                    GREATEST(0, l.max_stay_hours * 60 - TIMESTAMPDIFF(MINUTE, o.time_in, NOW())) AS remaining_minutes
+                FROM parking_occupancy o
+                JOIN parking_spaces s ON o.space_id = s.space_id
+                JOIN parking_locations l ON s.location_id = l.location_id
+                WHERE o.vehicle_id IN (
+                    SELECT vehicle_id FROM driver_vehicles WHERE user_id = ?
+                ) 
+                AND o.time_out IS NULL
+                ORDER BY o.time_in DESC
+                LIMIT 1
+            )
+            UNION
+            (
+                -- Reservation sessions
+                SELECT 
+                    r.reservation_id,
+                    r.reference_number,
+                    r.start_time AS time_in,
+                    NULL AS time_out,
+                    r.space_number,
+                    l.name AS location_name,
+                    l.code AS location_code,
+                    l.hourly_rate,
+                    TIMESTAMPDIFF(HOUR, r.start_time, r.end_time) AS duration_hours,
+                    r.end_time,
+                    'reservation' AS session_type,
+                    -- Calculate remaining minutes for reservation
+                    GREATEST(0, TIMESTAMPDIFF(MINUTE, NOW(), r.end_time)) AS remaining_minutes
+                FROM parking_reservations r
+                JOIN parking_locations l ON r.location_id = l.location_id
+                WHERE r.user_id = ?
+                AND r.start_time <= NOW()
+                AND r.end_time >= NOW()
+                AND r.payment_status = 'paid'
+                ORDER BY r.start_time DESC
+                LIMIT 1
+            )
+            ORDER BY time_in DESC
+            LIMIT 1
+        `, [userId, userId]);
+
+        if (activeSessions.length > 0) {
+            const session = activeSessions[0];
+            // Convert remaining minutes to hours and minutes
+            const remainingHours = Math.floor(session.remaining_minutes / 60);
+            const remainingMinutes = session.remaining_minutes % 60;
+            
+            res.json({ 
+                activeSession: {
+                    ...session,
+                    remaining_hours: remainingHours,
+                    remaining_minutes: remainingMinutes,
+                    total_remaining_minutes: session.remaining_minutes
+                }
+            });
+        } else {
+            res.json({ activeSession: null });
+        }
+    } catch (error) {
+        console.error('Error fetching active session:', error);
+        res.status(500).json({ error: 'Failed to fetch active session' });
+    }
+});
+
 // Default route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -513,6 +813,7 @@ app.get('/', (req, res) => {
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'public', 'error.html'));
 });
+
 
 
 const PORT = process.env.PORT || 3000;

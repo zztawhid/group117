@@ -8,48 +8,45 @@
     <script src="https://kit.fontawesome.com/cab31170e8.js" crossorigin="anonymous"></script>
     <script src="toggle.js"></script>
     <script src="auth.js"></script>
-    <script src="payment.js"></script> <!-- New payment JavaScript file -->
+    <script src="payment.js"></script>
 </head>
 <body>
-
-<div id="wrapper">
-
-    <header>
-        <button class="header-button" onclick="toggleLanguageDropdown()">
-            <img src="images/england.jpg" alt="English Flag">
-        </button>
-        <div id="language-dropdown" class="dropdown hidden">
-            <button onclick="changeLanguage('en')">
-                <img src="images/england.jpg" alt="English Flag"> English
+    <div id="wrapper">
+        <header>
+            <button class="header-button" onclick="toggleLanguageDropdown()">
+                <img src="images/england.jpg" alt="English Flag">
             </button>
-            <button onclick="changeLanguage('fr')">
-                <img src="images/france.png" alt="French Flag"> Français
-            </button>
-            <button onclick="changeLanguage('cn')">
-                <img src="images/china.png" alt="Chinese Flag"> Chinese
-            </button>
-        </div>
-
-        <a href="main.html"><img id="parkuealogo" src="./Images/logo.png"></a>
-        <button class="header-button" onclick="document.location='contact.html'">Contact Us</button>
-    </header>
-
-    <nav id="topnav">
-        <div class="nav-container">
-            <div class="dropdown-icon" onclick="toggleDropdown()">
-                <i class="fas fa-bars"></i>
+            <div id="language-dropdown" class="dropdown hidden">
+                <button onclick="changeLanguage('en')">
+                    <img src="images/england.jpg" alt="English Flag"> English
+                </button>
+                <button onclick="changeLanguage('fr')">
+                    <img src="images/france.png" alt="French Flag"> Français
+                </button>
+                <button onclick="changeLanguage('cn')">
+                    <img src="images/china.png" alt="Chinese Flag"> Chinese
+                </button>
             </div>
-            <div class="active-page">Payment</div>
-            <ul class="topnav">
-                <ul><a href="main.html" class="nav-link">Home Page</a></ul>
-                <ul><a href="parking.html" class="nav-link">Parking</a></ul>
-                <ul><a href="account.html" class="nav-link">Account Management</a></ul>
-                <ul><a href="vManage.html" class="nav-link">Vehicle Management</a></ul>
-                <ul><a href="notif.html" class="nav-link">Notifications</a></ul>
-            </ul>
-        </div>
-    </nav>
-
+    
+            <a href="a-main.html"><img id="parkuealogo" src="./Images/logo.png"></a>
+            <button class="header-button" onclick="document.location='contact.html'">Contact Us</button>
+        </header>
+    
+        <nav id="topnav">
+            <div class="nav-container">
+                <div class="dropdown-icon" onclick="toggleDropdown()">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="active-page">Dashboard</div>
+                <ul class="topnav">
+                    <ul><a href="main.html" class="nav-link">Home Page</a></ul>
+                    <ul><a href="parking.html" class="nav-link">Parking</a></ul>
+                    <ul><a href="account.html" class="nav-link">Account Management</a></ul>
+                    <ul><a href="vManage.html" class="nav-link">Vehicle Management</a></ul>
+                    <ul><a href="notif.html" class="nav-link">Notifications</a></ul>
+                </ul>
+            </div>
+        </nav>
     <main class="main">
         <div class="account-management">
             <section class="payment-summary">
@@ -64,8 +61,24 @@
                         <span id="summary-vehicle">Loading...</span>
                     </div>
                     <div class="detail-row">
+                        <span>Space Number:</span>
+                        <span id="summary-space">Loading...</span>
+                    </div>
+                    <div class="detail-row">
                         <span>Duration:</span>
                         <span id="summary-duration">Loading...</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Start Time:</span>
+                        <span id="summary-start">Loading...</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>End Time:</span>
+                        <span id="summary-end">Loading...</span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Bay Type:</span>
+                        <span id="summary-bay-type">Loading...</span>
                     </div>
                     <div class="detail-row">
                         <span>Hourly Rate:</span>
@@ -85,42 +98,24 @@
             <section class="payment-method">
                 <h2>Payment Method</h2>
                 <div class="payment-options">
-                    <div class="payment-card">
-                        <input type="radio" name="payment-method" id="card-payment" checked>
-                        <label for="card-payment">
-                            <i class="fab fa-cc-visa"></i>
-                            <span>•••• •••• •••• 3931</span>
-                        </label>
-                    </div>
-                    <button class="add-new-card">
-                        <i class="fas fa-plus"></i> Add New Payment Method
-                    </button>
-                </div>
-            </section>
-
-            <section class="billing-info">
-                <h2>Billing Information</h2>
-                <div class="billing-form">
-                    <div class="form-group">
-                        <label for="full-name">Full Name</label>
-                        <input type="text" id="full-name" placeholder="Full Name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="address-line1">Address Line 1</label>
-                        <input type="text" id="address-line1" placeholder="Street address" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="address-line2">Address Line 2 (Optional)</label>
-                        <input type="text" id="address-line2" placeholder="Apartment, suite, unit, etc.">
-                    </div>
-                    <div class="form-row">
+                    <div class="card-form">
                         <div class="form-group">
-                            <label for="city">City</label>
-                            <input type="text" id="city" placeholder="City" required>
+                            <label for="card-name">Name on Card</label>
+                            <input type="text" id="card-name" placeholder="Full Name" required>
                         </div>
                         <div class="form-group">
-                            <label for="postcode">Postcode</label>
-                            <input type="text" id="postcode" placeholder="Post Code" required>
+                            <label for="card-number">Card Number</label>
+                            <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="card-expiry">Expiry Date</label>
+                                <input type="text" id="card-expiry" placeholder="MM/YY" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="card-cvv">CVV</label>
+                                <input type="text" id="card-cvv" placeholder="123" required>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -147,6 +142,23 @@
         </div>
     </footer>
 
+
+</div>
+
+<!-- Confirmation Modal -->
+<div id="confirmation-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <h2>Payment Successful!</h2>
+        <div class="confirmation-details">
+            <p>Your parking reservation has been confirmed.</p>
+            <p>Reference: <strong id="confirmation-ref"></strong></p>
+            <p>Space: <strong id="confirmation-space"></strong></p>
+            <p>Time: <strong id="confirmation-time"></strong></p>
+            <p>Amount Paid: <strong id="confirmation-amount"></strong></p>
+        </div>
+        <button class="confirm-button" onclick="redirectToHome()">OK</button>
+    </div>
 </div>
 
 </body>
