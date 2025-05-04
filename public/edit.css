@@ -2214,6 +2214,7 @@ button.add-vehicle-button {
 /* Notifications CSS */
 
 
+/* Notifications Page Specific Styles */ 
 .notifications-page .dashboard-container {
     max-width: 1000px;
     margin: 0 auto;
@@ -2224,7 +2225,7 @@ button.add-vehicle-button {
 
 /* Current Session Box */
 .notifications-page .current-session-box {
-    background-color: #F7F0E4;
+    background-color: #ffffff;
     border: 2px solid #E6007D;
     border-radius: 10px;
     padding: 20px;
@@ -2264,7 +2265,7 @@ button.add-vehicle-button {
 
 /* Styling for Notifs & Spaces Columns */
 .notifications-page .notif-column, .right-column {
-    background-color: #F7F0E4;
+    background-color: #ffffff;
     color: #333;
     border: 2px solid #E6007D;
     border-radius: 10px;
@@ -2416,6 +2417,7 @@ button.add-vehicle-button {
     width: 24px;
     height: 24px;
 }
+
 
 
 /* Notifications CSS */
