@@ -2793,7 +2793,6 @@ button.add-vehicle-button {
     font-size: 16px;
     font-weight: 600;
     transition: all 0.3s ease;
-    text-transform: uppercase;
     letter-spacing: 1px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
@@ -2814,6 +2813,61 @@ button.add-vehicle-button {
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
+/* Image Upload Popup Styles */
+.image-preview-container {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#image-preview {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+}
+
+.profile-pic-preview {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.vbtnB {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Enabled state (green) */
+.vbtnB:not(:disabled) {
+    background-color: green; /* Green */
+    color: white;
+}
+
+/* Enabled hover effect */
+.vbtnB:not(:disabled):hover {
+    background-color: #45a049; /* Darker green */
+
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Disabled state (grey) */
+.vbtnB:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+}
 
 
 .vehicle-buttons-bottom {
@@ -3942,6 +3996,94 @@ header {
 .actions button {
     width: 50%; /* Make buttons take the full width */
 }
+
+
+    /* MAIN.HTML MEDIA QUERY */
+    .welcome-section h2 {
+        font-size: 24px; 
+        
+    }
+
+    .user-info {
+        gap: 15px; 
+        width: 100%; 
+        margin: 0 auto;
+    }
+
+    .info-left, .info-right {
+        width: 100%; 
+        padding: 10px; 
+    }
+
+    .active-session {
+        width: 1%;
+    }
+
+    /*boxes */
+    .nav-area {
+        width: 100%; 
+        padding: 10px; 
+        margin-top: 10px;
+    }
+
+    .nav-box {
+        height: 120px; 
+        width: 100px;
+        padding: 10px;
+        font-size: 0.9rem; 
+    }
+
+    .nav-box i {
+        font-size: 40px; 
+        margin-bottom: 5px; 
+    }
+
+    .nav-box h3 {
+        font-size: 14px; 
+    }
+
+    /* PARKING SECTION QUERIES */
+    #payment-section {
+        flex-direction: column; /* arrange items vertical */
+        padding: 10px; /* Add padding for better spacing */
+        height: 1000px;
+        margin-top: 10px;
+        margin-bottom: 100px;
+    }
+
+    .payment-map {
+        width: 100%; /* Full width for the map */
+        height: auto; /* Maintain aspect ratio */
+        margin-bottom: 20px; /* Add spacing below the map */
+    }
+
+    .payment-form {
+        width: 100%; /* Full width for the form */
+        
+    }
+    .payment-form h2 {
+        font-size: 30px; /* Adjust font size for smaller screens */
+        text-align: center; /* Center align the heading */
+        
+    }
+
+    #location-select, #vehicle-select, #duration-select {
+        font-size: 18px; /* Adjust font size for readability */
+        
+    }
+    .payment-continue-button {
+        width: 100%; /* Full width for the button */
+        font-size: 16px; /* Adjust font size */
+        padding: 12px; /* Add padding for better spacing */
+        margin-top: 15px; /* Add spacing above the button */
+    }
+
+    .tab-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
 
 /* attempting to make the hamburger sidebar work */
 .topnav {
