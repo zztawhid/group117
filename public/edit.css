@@ -3529,28 +3529,10 @@ header button:hover,
 
 @media (max-width: 768px) {
 
-    header {
-        min-height: 80px;
-        padding: 10px;
-    }
-
     #headtxt {
         font-size: 18px;
         margin: 5px;
     }
-
-    .header-button {
-        min-height: 60px;
-        min-width: 120px;
-        padding: 6px 10px;
-        font-size: 10px;
-    }
-
-    .header-button img {
-        width: 120px;
-        height: 60px;
-    }
-
 
     .active-page {
         display: block;
@@ -3688,34 +3670,49 @@ body {
     color: black;
 }
 
-/* Header */
-#parkuealogo{
-    height: 200px;
+/* Header changing */
+#parkuealogo {
+    width: 200px; /* Scale down the logo */
+    height: auto;
+    
 }
 
 header {
-    min-height: 120px;
+    height: 100px;
     background: #E6007D;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px;
+    padding: 0px;
     border: 2px solid black;
 }
 
 .header-button {
-    min-height: 100px;
-    min-width: 180px;
-    background-color: #333;
+    width: 18%; /* Full width for buttons */
+    height: 60%;
+    padding: 10px;
+    font-size: 14px; /* Adjust font size for smaller screens */
+    margin: 5px 5px; /* Add spacing between buttons */
+    text-align: center;
+    background-color: #333; /* Dark background for buttons */
     color: white;
-    border: 2px solid #F7F0E4;
-    border-radius: 2px;
-    font-size: 20px;
+
+   
+    
 }
 
+.header-button:hover {
+    background-color: #FF0080; /* Highlight on hover */
+}
+
+.header-button img {
+    
+    width: 65px;
+    height: 40px;
+}
 /* Account management Queries */
 .account-management {
-    width: 100%; /*take the full width of the screen */
+    width: 90%; /*take the full width of the screen */
     padding: 15px;
 
 }
