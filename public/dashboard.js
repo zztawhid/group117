@@ -41,9 +41,11 @@ async function loadActiveParkingSession(userId) {
             }
         } else {
             currentSessionId = null;
+            displayNoActiveSession();
         }
     } catch (error) {
         console.error('Error loading parking session:', error);
+        displayNoActiveSession();
     }
 }
 
@@ -147,6 +149,28 @@ function startCountdownTimer(initialSeconds) {
     
     // Update every second
     countdownInterval = setInterval(updateTimer, 1000);
+}
+
+function displayNoActiveSession() {
+    const activeSessionSection = document.querySelector('.active-session');
+    
+    // Only update if not already showing "no session"
+    if (!activeSessionSection.innerHTML.includes('no-session')) {
+        activeSessionSection.innerHTML = `
+            <div class="no-session">
+                <i class="fas fa-parking"></i>
+                <p>No active parking session</p>
+                <a href="parking.html" class="btn btn-park">Park Now</a>
+            </div>
+        `;
+    }
+    
+    // Clear any existing countdown
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+    }
+    currentSessionId = null;
 }
 
 async function extendParking(referenceNumber) {

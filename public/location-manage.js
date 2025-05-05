@@ -119,7 +119,8 @@ function updateStatusTable(statusData) {
         row.innerHTML = `
             <td>${location.name}</td>
             <td><span class="${statusClass}">${statusText}</span></td>
-            <td>${location.available_spaces} / ${location.total_spaces} spaces</td>
+            <td>${location.total_spaces} spaces</td>
+            <td>${location.available_spaces} (${location.occupancy_percentage}%)</td>
             <td>${restrictions}</td>
             <td>${location.last_updated}</td>
         `;

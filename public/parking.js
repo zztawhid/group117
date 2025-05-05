@@ -5,15 +5,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         return;
     }
 
-    // Check for active session first
-    const hasActiveSession = await checkActiveSession(user.user_id);
-    if (hasActiveSession) {
-        showActiveSessionWarning();
-        disableBookingForms();
-        return;
-    }
-
-    // Rest of your existing initialization code...
+    // Initialize date picker
     flatpickr("#start-time", {
         enableTime: true,
         dateFormat: "Y-m-d H:i",
@@ -21,6 +13,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         time_24hr: true
     });
 
+    // Load data for both tabs
     await Promise.all([
         loadUserVehicles(user.user_id),
         loadParkingLocations(),
@@ -252,50 +245,4 @@ async function bookAdvancedParking() {
 
     // Redirect to payment page with reservation details
     window.location.href = `payment.html?reservation_id=${reservationId}&total_cost=${totalCost}&type=reservation`;
-}
-
-async function checkActiveSession(userId) {
-    try {
-        const response = await fetch(`/api/parking/sessions/active?user_id=${userId}`);
-        if (!response.ok) throw new Error('Failed to check active session');
-        
-        const data = await response.json();
-        return !!data.activeSession;
-    } catch (error) {
-        console.error('Error checking active session:', error);
-        return false;
-    }
-}
-
-function showActiveSessionWarning() {
-    const paymentForm = document.querySelector('.payment-form');
-    const heading = document.querySelector('.payment-form h2');
-    
-    const warningHTML = `
-        <div class="active-session-warning">
-            <div class="warning-content">
-                <h3>You already have an active parking session</h3>
-                <p>You cannot book another parking session while you have an active one.</p>
-                <p>Please end your current session before booking a new one.</p>
-                <a href="main.html" class="btn btn-view-session">View Current Session</a>
-            </div>
-        </div>
-    `;
-    
-    // Insert the warning after the heading instead of at the beginning
-    heading.insertAdjacentHTML('afterend', warningHTML);
-    document.querySelector('.tab-container').style.display = 'none';
-}
-
-function disableBookingForms() {
-    // Disable all form elements
-    const formElements = document.querySelectorAll('select, input, button');
-    formElements.forEach(element => {
-        element.disabled = true;
-    });
-    
-    // Hide the booking tabs
-    document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.style.display = 'none';
-    });
 }
