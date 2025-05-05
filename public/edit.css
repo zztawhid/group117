@@ -2468,115 +2468,80 @@ button.add-vehicle-button {
 /* Notifications CSS (START) */
 
 
-/* Notifications Page - Layout and Styling */
+/* Notifications Page Specific Styles */ 
 .notifications-page .dashboard-container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 40px 20px;
+    text-align: center;
     box-sizing: border-box;
 }
 
-/* Main Content Grid */
-.notifications-page .main-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+/* Current Session Box */
+.notifications-page .current-session-box {
+    background-color: #ffffff;
+    border: 2px solid #E6007D;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.notifications-page .current-session-box h2 {
+    font-size: 24px;
+    color: #E6007D;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Session Table */
+.notifications-page .session-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 18px;
+    margin: 0 auto;
+}
+
+.notifications-page .session-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Layout for Notifs + Spaces */
+.notifications-page .grid-row {
+    display: flex;
+    justify-content: center;
     gap: 30px;
     margin-top: 30px;
+    flex-wrap: wrap;
+    align-items: stretch;
 }
 
-/* Left Column - Notifs */
-.notifications-page .notif-column {
-    grid-row: 1;
-    background-color: white;
+/* Styling for Notifs & Spaces Columns */
+.notifications-page .notif-column, .right-column {
+    background-color: #ffffff;
+    color: #333;
     border: 2px solid #E6007D;
     border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 25px;
-    min-height: 600px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 45%;
+    max-width: 500px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: left;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
 }
 
-/* Notifications List */
-.notifications-page .notif-column ul {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    margin: 20px 0;
+.notifications-page .notif-column:hover, .right-column:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
-.notifications-page .notif-column ul li {
-    padding: 15px;
-    margin: 10px 0;
-    border-left: none;
-    background: none;
-    color: inherit;
-    border-radius: 0;
-    transition: none;
-    display: block;
-    height: 40px; /* keeps space visible */
-}
-
-/* Right Column Container */
-.notifications-page .right-column {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-}
-
-/* Spaces Box */
-.notifications-page .spaces-box {
-    background-color: white;
-    border: 2px solid #E6007D;
-    border-radius: 10px;
-    padding: 25px;
-    flex: 1;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Remove hover effect on spaces box */
-.notifications-page .spaces-box:hover {
-    cursor: default;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Message Admin Button Only */
-.notifications-page .message-admin-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 40px;
-    padding: 0;
-}
-
-/* Message Admin Button */
-.notifications-page .message-admin-box button {
-    background-color: #E6007D;
-    color: white;
-    border: none;
-    padding: 18px 35px;
-    font-size: 17px;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 100%;
-    max-width: 300px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.notifications-page .message-admin-box button:hover {
-    background-color: #D5006D;
-}
-
-/* Heading Styles */
-.notifications-page .notif-column h2,
-.notifications-page .spaces-box h2,
-.notifications-page .message-admin-box h2 {
-    color: #E6007D;
+/* Heading for Notifs & Spaces */
+.notifications-page .notif-column h2, .right-column h2 {
+    color: black;
     text-align: center;
     margin-bottom: 25px;
     font-size: 26px;
@@ -2586,118 +2551,126 @@ button.add-vehicle-button {
     border-bottom: 2px solid #E6007D;
 }
 
-/* Spaces List */
-.notifications-page .spaces-box ul {
+/* Notifs & Spaces List Styling */
+.notifications-page .notif-column ul, .right-column ul {
     list-style: none;
     padding: 0;
-    margin: 0;
 }
 
-.notifications-page .spaces-box ul li {
-    padding: 15px;
+.notifications-page .notif-column ul li, .right-column ul li {
+    background-color: #444;
+    color: white;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-left: 4px solid #E6007D;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.notifications-page .notif-column ul li:hover, .right-column ul li:hover {
+    background-color: #555;
+    transform: translateX(5px);
+}
+
+/* Message Admin Box */
+.notifications-page .message-admin-box {
+    margin-top: 30px;
+    text-align: center;
+    width: 60%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Message Admin Title */
+.notifications-page .message-admin-box h3 {
+    color: #E6007D;
+    font-size: 22px;
     margin-bottom: 15px;
-    border-left: none;
-    background: none;
-    color: inherit;
-    border-radius: 0;
-    transition: none;
-    height: 40px;
 }
 
-/* ===== Popup Overlay Styling for Message Admin ===== */
-/* Overlay for Popup */
-.popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
+/* Message Admin Button */
+.notifications-page .message-admin-box button {
+    background-color: #E6007D;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.notifications-page .message-admin-box button:hover {
+    background-color: #c2006c;
+    transform: translateY(-5px);
+}
+
+/* Footer Styling */
+.notifications-page footer {
+    background-color: #222;
+    color: white;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.notifications-page footer .text-left, .notifications-page footer .text-center, .notifications-page footer .text-right {
+    flex: 1;
+    text-align: center;
+}
+
+.notifications-page footer .logo-footer img {
+    width: 240px;
+    height: auto;
+}
+
+.notifications-page footer a:hover {
+    color: #E6007D;
+    text-decoration: underline;
+}
+
+/* Top Navigation */
+.notifications-page .topnav {
     display: flex;
     justify-content: center;
-    align-items: center;
-    z-index: 999;
+    gap: 20px;
+    padding: 10px 0;
 }
 
-.popup-overlay.hidden {
-    display: none;
+.notifications-page .topnav .nav-link {
+    text-decoration: none;
+    color: #222;
+    font-size: 16px;
+    text-transform: uppercase;
 }
 
-/* Popup Box */
-.popup-content {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-/* Header */
-.popup-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #E6007D; 
-    padding-bottom: 10px;
-}
-
-/* Header Text */
-.popup-header h2 {
-    color: #E6007D;
-    font-size: 24px;
-    margin: 0;
-}
-
-/* Close Button */
-.popup-close {
-    font-size: 24px;
-    cursor: pointer;
-    color: #999;
-    transition: color 0.3s;
-}
-
-.popup-close:hover {
+.notifications-page .topnav .nav-link.active {
     color: #E6007D;
 }
 
-/* Popup Body (with added instructional text) */
-.popup-body p {
-    margin-bottom: 10px;
-    color: #333;
-    font-size: 15px;
+.notifications-page .nav-link:hover {
+    color: #E6007D;
 }
 
-/* Footer Buttons */
-.popup-footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-/* Generic Button Styles */
-.vbtnG {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 6px;
+.notifications-page .dropdown-icon {
     cursor: pointer;
-    font-size: 16px;
 }
 
-.vbtnR {
-    background-color: #dc3545;
-    color: white;
+.notifications-page .header-button {
+    background-color: transparent;
     border: none;
-    padding: 10px 25px;
-    border-radius: 6px;
     cursor: pointer;
-    font-size: 16px;
+    padding: 10px;
 }
 
+.notifications-page .header-button img {
+    width: 24px;
+    height: 24px;
+}
 
 
 

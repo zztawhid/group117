@@ -27,6 +27,7 @@
         <button class="header-button" onclick="document.location='contact.html'">Contact Us</button>
     </header>
 
+    <!-- Site navigation menu -->
     <nav id="topnav">
         <div class="nav-container">
             <div class="dropdown-icon" onclick="toggleDropdown()">
@@ -42,81 +43,73 @@
             </ul>
         </div>
     </nav>
+</div>
+
 
 <main class="notifications-page">
     <div class="dashboard-container">
 
+       
         <div class="current-session-box">
             <h2>Current Session</h2>
             <table class="session-table">
-                <tr><td></td><td></td></tr>
-                <tr><td></td><td></td></tr>
-                <tr><td></td><td></td></tr>
-                <tr><td></td><td></td></tr>
+                <tr><td>Start Time:</td><td>10:00 AM</td></tr>
+                <tr><td>End Time:</td><td>12:00 PM</td></tr>
+                <tr><td>Location:</td><td>Car Park A</td></tr>
+                <tr><td>Status:</td><td>Active</td></tr>
             </table>
         </div>
 
-        <div class="main-grid">
-            <!-- Left Column -->
+        
+        <div class="grid-row">
             <div class="notif-column">
-                <div class="dashboard-card tall-card">
-                    <h2>Notifications</h2>
+                <div class="dashboard-card">
+                    <h2>Notifs</h2>
                     <ul>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
+                        <li>Your parking session expires in 30 minutes</li>
+                        <li>New regulations effective May 1st</li>
+                        <li>Car Park B closed Friday</li>
+                        <li>Monthly pass renews in 3 days</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Right Column -->
-            <div class="right-side">
-                <div class="spaces-box">
-                    <div class="dashboard-card">
-                        <h2>Spaces</h2>
-                        <ul>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="message-admin-box">
-                    <div class="dashboard-card">
-                        <button class="chat-toggle" onclick="openMessagePopup()">
-                            Message Admin
-                            <i class="fas fa-comment-dots"></i>
-                        </button>
-                    </div>
+            <div class="right-column">
+                <div class="dashboard-card">
+                    <h2>Spaces</h2>
+                    <ul>
+                        <li>Car Park A: 15</li>
+                        <li>Car Park B: 32</li>
+                        <li>Car Park C: 8</li>
+                        <li>Disabled Bays: 4</li>
+                    </ul>
                 </div>
             </div>
+        </div>
+
+        <!-- Message Admin Section -->
+        <div class="message-admin-box">
+            <button onclick="document.location='contact.html'">Send a Message</button>
         </div>
 
     </div>
 </main>
 
-<!-- Message Admin Popup -->
-<div id="message-popup" class="popup-overlay hidden">
-    <div class="popup-content">
-        <div class="popup-header">
-            <h2>Message Admin</h2> 
-        </div>
-        <div class="popup-body">
-            <textarea id="admin-message" placeholder="Type your message here..." rows="5" style="width: 100%;"></textarea>
-        </div>
-        <div class="popup-footer">
-            <button class="vbtnG" onclick="sendMessageToAdmin()">Send</button>
-            <button class="vbtnR" onclick="closeMessagePopup()">Cancel</button>
+<footer>
+    <div class="text-left">
+        <p>Contact US:<br>07345678910<br>Parking@vea.ac.uk</p>
+    </div>
+    <div class="text-center">
+        <div class="logo-footer">
+            <img src="images/ueaWhite.png" alt="UEA Logo" width="240.75" height="50.68">
         </div>
     </div>
-</div>
-
-<footer>
+    <div class="text-right">
+        <p>University of East Anglia<br>Norwich research park<br>NR4 7TJ</p>
+    </div>
 </footer>
 
+<<<<<<< HEAD
 
 <script>
 function openMessagePopup() {
@@ -138,5 +131,7 @@ function sendMessageToAdmin() {
 }
 </script>
 
+=======
+>>>>>>> parent of 07e2797 (changes)
 </body>
 </html>
