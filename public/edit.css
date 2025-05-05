@@ -741,11 +741,18 @@ main {
 }
 
 .no-session {
-    background: white;
+    font-family: ueafont;
+    background: linear-gradient(135deg, #c310678f, #ba0a5ca2);
+    color: white;
+    padding: 12px 25px;
     border-radius: 8px;
-    padding: 30px;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 1170px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 120px;
 }
 
 .no-session p {
@@ -1451,6 +1458,43 @@ input:not([readonly]) {
     text-transform: uppercase;
 }
 
+/* Active session warning styles */
+.active-session-warning {
+    background-color: #FFF3CD;
+    border-left: 5px solid #FFC107;
+    padding: 20px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.warning-content h3 {
+    color: #856404;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.warning-content p {
+    color: #856404;
+    margin-bottom: 10px;
+}
+
+.btn-view-session {
+    display: inline-block;
+    background-color: #2c3e50;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.btn-view-session:hover {
+    background-color: #1a252f;
+}
+
 
 
 /* Main container styling - matches account page */
@@ -1682,7 +1726,6 @@ input:not([readonly]) {
 }
 
 .payment-method {
-    display: flex;
     align-items: center;
     padding: 15px;
     background-color: #f9f9f9;
