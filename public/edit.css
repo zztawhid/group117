@@ -73,7 +73,7 @@ header {
     border-bottom: 2px solid rgba(0,0,0,0.1);
     font-weight: bold;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
+  }
 
 
 /* Header Buttons */
@@ -101,16 +101,16 @@ button.header-button {
 }
 
 button.header-button:hover {
-    color: white;
-    background-color: #555;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  color: white;
+  background-color: #555;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 .header-button img {
-    width: 350px;
-    height: 55px;
-    border-radius: 5px;
+  width: 350px;
+  height: 55px;
+  border-radius: 5px;
 }
 
 /* trying to make dropdown box work with flags */
@@ -166,9 +166,9 @@ button.header-button:hover {
 }
 
 .topnav {
-    overflow: hidden;
-    background-color: #333;
-}
+      overflow: hidden;
+      background-color: #333;
+    }
 
 /* Style the topnav links  */
 .topnav a {
@@ -211,7 +211,7 @@ button.header-button:hover {
     background-color: #767676;
     color: white;
 
-}
+  }
 
 /*centering the topnav */
 
@@ -258,99 +258,99 @@ main {
 
 /* Index Page (START) */
 #container {
-    position: relative;
+  position: relative;
 }
 
 
 #container .btn {
-    position: absolute;
-    top: 25%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #333;
-    color: white;
-    font-size: 20px;
-    padding: 12px 24px;
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #333;
+  color: white;
+  font-size: 20px;
+  padding: 12px 24px;
 
-    border: solid, 2px;
-    border-color: #E6007D;
-    cursor: pointer;
-    border-radius: 10px;
-    text-align: center;
+  border: solid, 2px;
+  border-color: #E6007D;
+  cursor: pointer;
+  border-radius: 10px;
+  text-align: center;
 
-    height: 200px;
-    width: 300px;
-    font-size: 32px;
+  height: 200px;
+  width: 300px;
+  font-size: 32px;
 
-    transition: transform 0.7s ease, color 0.3s ease; /* make text color transition smoother */
-    font-weight: bolder; /* make text bold and uppercased, important buttons*/
+  transition: transform 0.7s ease, color 0.3s ease; /* make text color transition smoother */
+  font-weight: bolder; /* make text bold and uppercased, important buttons*/
 
 }
 
 #container .btn:hover {
-    background-color: #767676;
-    color: white;
-    transform: translate(-50%, -50%) scale(1.1); /*smoothly scale button transition */
+  background-color: #767676;
+  color: white;
+  transform: translate(-50%, -50%) scale(1.1); /*smoothly scale button transition */
 }
 
 #container .btn1 {
-    position: absolute;
-    top: 60%;
-    left: 35%;
-    transform: translate(-50%, -50%);
-    background-color: #333;
-    color: white;
-    font-size: 20px;
-    padding: 12px 24px;
+  position: absolute;
+  top: 60%;
+  left: 35%;
+  transform: translate(-50%, -50%);
+  background-color: #333;
+  color: white;
+  font-size: 20px;
+  padding: 12px 24px;
 
-    border: solid, 2px;
-    border-color: #E6007D;
-    cursor: pointer;
-    border-radius: 10px;
-    text-align: center;
+  border: solid, 2px;
+  border-color: #E6007D;
+  cursor: pointer;
+  border-radius: 10px;
+  text-align: center;
 
-    height: 200px;
-    width: 300px;
-    font-size: 32px;
-    transition: transform 0.7s ease, color 0.3s ease; /* make text color transition smoother */
-    font-weight: bolder; /* make text bold and uppercased, important buttons*/
+  height: 200px;
+  width: 300px;
+  font-size: 32px;
+  transition: transform 0.7s ease, color 0.3s ease; /* make text color transition smoother */
+  font-weight: bolder; /* make text bold and uppercased, important buttons*/
 
 }
 
 #container .btn1:hover {
-    background-color: #767676;
-    color: white;
-    transform: translate(-50%, -50%) scale(1.1); /*smoothly scale button transition */
+  background-color: #767676;
+  color: white;
+  transform: translate(-50%, -50%) scale(1.1); /*smoothly scale button transition */
 }
 
 #container .btn2 {
-    position: absolute;
-    top: 60%;
-    left: 65%;
-    transform: translate(-50%, -50%);
-    background-color: #333;
-    color: white;
-    font-size: 20px;
-    padding: 12px 24px;
+  position: absolute;
+  top: 60%;
+  left: 65%;
+  transform: translate(-50%, -50%);
+  background-color: #333;
+  color: white;
+  font-size: 20px;
+  padding: 12px 24px;
 
-    border: solid, 2px;
-    border-color: #E6007D;
-    cursor: pointer;
-    border-radius: 10px;
-    text-align: center;
+  border: solid, 2px;
+  border-color: #E6007D;
+  cursor: pointer;
+  border-radius: 10px;
+  text-align: center;
 
-    height: 200px;
-    width: 300px;
-    font-size: 32px;
-    transition: transform 0.7s ease, color 0.3s ease; /* make text color transition smoother */
-    font-weight: bolder; /* make text bold and uppercased, important buttons*/
+  height: 200px;
+  width: 300px;
+  font-size: 32px;
+  transition: transform 0.7s ease, color 0.3s ease; /* make text color transition smoother */
+  font-weight: bolder; /* make text bold and uppercased, important buttons*/
 
 }
 
 #container .btn2:hover {
-    background-color: #767676;
-    color: white;
-    transform: translate(-50%, -50%) scale(1.1); /*smoothly scale button transition */
+  background-color: #767676;
+  color: white;
+  transform: translate(-50%, -50%) scale(1.1); /*smoothly scale button transition */
 }
 
 #info-box {
@@ -408,10 +408,10 @@ main {
 }
 
 #bell {
-    margin-left: 10px;
-    margin-right: 5px;
-    color: #B232B2; /* Icon color */
-}
+     margin-left: 10px;
+     margin-right: 5px;
+     color: #B232B2; /* Icon color */
+ }
 
 .info-item p {
     font-size: 25px;
@@ -741,18 +741,11 @@ main {
 }
 
 .no-session {
-    font-family: ueafont;
-    background: linear-gradient(135deg, #c310678f, #ba0a5ca2);
-    color: white;
-    padding: 12px 25px;
+    background: white;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 1170px;
-    margin: 20px auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 120px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .no-session p {
@@ -1458,43 +1451,6 @@ input:not([readonly]) {
     text-transform: uppercase;
 }
 
-/* Active session warning styles */
-.active-session-warning {
-    background-color: #FFF3CD;
-    border-left: 5px solid #FFC107;
-    padding: 20px;
-    margin-bottom: 30px;
-    display: flex;
-    align-items: center;
-    border-radius: 4px;
-}
-
-.warning-content h3 {
-    color: #856404;
-    margin-top: 0;
-    margin-bottom: 10px;
-}
-
-.warning-content p {
-    color: #856404;
-    margin-bottom: 10px;
-}
-
-.btn-view-session {
-    display: inline-block;
-    background-color: #2c3e50;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-.btn-view-session:hover {
-    background-color: #1a252f;
-}
-
 
 
 /* Main container styling - matches account page */
@@ -1726,6 +1682,7 @@ input:not([readonly]) {
 }
 
 .payment-method {
+    display: flex;
     align-items: center;
     padding: 15px;
     background-color: #f9f9f9;
@@ -2426,17 +2383,17 @@ button.add-vehicle-button {
 .password-requirements li {
     margin: 5px 0;
     transition: color 0.3s;
-}
+  }
 
-/* Valid (green checkmark) */
-.password-requirements li.valid {
+  /* Valid (green checkmark) */
+  .password-requirements li.valid {
     color: #4CAF50;
-}
+  }
 
-/* Invalid (gray, no checkmark) */
-.password-requirements li:not(.valid) {
+  /* Invalid (gray, no checkmark) */
+  .password-requirements li:not(.valid) {
     color: #888;
-}
+  }
 
 .add-vehicle{
     font-size: 25px;
@@ -2468,115 +2425,80 @@ button.add-vehicle-button {
 /* Notifications CSS (START) */
 
 
-/* Notifications Page - Layout and Styling */
+/* Notifications Page Specific Styles */
 .notifications-page .dashboard-container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 40px 20px;
+    text-align: center;
     box-sizing: border-box;
 }
 
-/* Main Content Grid */
-.notifications-page .main-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+/* Current Session Box */
+.notifications-page .current-session-box {
+    background-color: #ffffff;
+    border: 2px solid #E6007D;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.notifications-page .current-session-box h2 {
+    font-size: 24px;
+    color: #E6007D;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Session Table */
+.notifications-page .session-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 18px;
+    margin: 0 auto;
+}
+
+.notifications-page .session-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Layout for Notifs + Spaces */
+.notifications-page .grid-row {
+    display: flex;
+    justify-content: center;
     gap: 30px;
     margin-top: 30px;
+    flex-wrap: wrap;
+    align-items: stretch;
 }
 
-/* Left Column - Notifs */
-.notifications-page .notif-column {
-    grid-row: 1;
-    background-color: white;
+/* Styling for Notifs & Spaces Columns */
+.notifications-page .notif-column, .right-column {
+    background-color: #ffffff;
+    color: #333;
     border: 2px solid #E6007D;
     border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 25px;
-    min-height: 600px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 45%;
+    max-width: 500px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: left;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
 }
 
-/* Notifications List */
-.notifications-page .notif-column ul {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    margin: 20px 0;
+.notifications-page .notif-column:hover, .right-column:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
-.notifications-page .notif-column ul li {
-    padding: 15px;
-    margin: 10px 0;
-    border-left: none;
-    background: none;
-    color: inherit;
-    border-radius: 0;
-    transition: none;
-    display: block;
-    height: 40px; /* keeps space visible */
-}
-
-/* Right Column Container */
-.notifications-page .right-column {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-}
-
-/* Spaces Box */
-.notifications-page .spaces-box {
-    background-color: white;
-    border: 2px solid #E6007D;
-    border-radius: 10px;
-    padding: 25px;
-    flex: 1;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Remove hover effect on spaces box */
-.notifications-page .spaces-box:hover {
-    cursor: default;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Message Admin Button Only */
-.notifications-page .message-admin-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 40px;
-    padding: 0;
-}
-
-/* Message Admin Button */
-.notifications-page .message-admin-box button {
-    background-color: #E6007D;
-    color: white;
-    border: none;
-    padding: 18px 35px;
-    font-size: 17px;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 100%;
-    max-width: 300px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.notifications-page .message-admin-box button:hover {
-    background-color: #D5006D;
-}
-
-/* Heading Styles */
-.notifications-page .notif-column h2,
-.notifications-page .spaces-box h2,
-.notifications-page .message-admin-box h2 {
-    color: #E6007D;
+/* Heading for Notifs & Spaces */
+.notifications-page .notif-column h2, .right-column h2 {
+    color: black;
     text-align: center;
     margin-bottom: 25px;
     font-size: 26px;
@@ -2586,118 +2508,126 @@ button.add-vehicle-button {
     border-bottom: 2px solid #E6007D;
 }
 
-/* Spaces List */
-.notifications-page .spaces-box ul {
+/* Notifs & Spaces List Styling */
+.notifications-page .notif-column ul, .right-column ul {
     list-style: none;
     padding: 0;
-    margin: 0;
 }
 
-.notifications-page .spaces-box ul li {
-    padding: 15px;
+.notifications-page .notif-column ul li, .right-column ul li {
+    background-color: #444;
+    color: white;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-left: 4px solid #E6007D;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.notifications-page .notif-column ul li:hover, .right-column ul li:hover {
+    background-color: #555;
+    transform: translateX(5px);
+}
+
+/* Message Admin Box */
+.notifications-page .message-admin-box {
+    margin-top: 30px;
+    text-align: center;
+    width: 60%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Message Admin Title */
+.notifications-page .message-admin-box h3 {
+    color: #E6007D;
+    font-size: 22px;
     margin-bottom: 15px;
-    border-left: none;
-    background: none;
-    color: inherit;
-    border-radius: 0;
-    transition: none;
-    height: 40px;
 }
 
-/* ===== Popup Overlay Styling for Message Admin ===== */
-/* Overlay for Popup */
-.popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
+/* Message Admin Button */
+.notifications-page .message-admin-box button {
+    background-color: #E6007D;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.notifications-page .message-admin-box button:hover {
+    background-color: #c2006c;
+    transform: translateY(-5px);
+}
+
+/* Footer Styling */
+.notifications-page footer {
+    background-color: #222;
+    color: white;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.notifications-page footer .text-left, .notifications-page footer .text-center, .notifications-page footer .text-right {
+    flex: 1;
+    text-align: center;
+}
+
+.notifications-page footer .logo-footer img {
+    width: 240px;
+    height: auto;
+}
+
+.notifications-page footer a:hover {
+    color: #E6007D;
+    text-decoration: underline;
+}
+
+/* Top Navigation */
+.notifications-page .topnav {
     display: flex;
     justify-content: center;
-    align-items: center;
-    z-index: 999;
+    gap: 20px;
+    padding: 10px 0;
 }
 
-.popup-overlay.hidden {
-    display: none;
+.notifications-page .topnav .nav-link {
+    text-decoration: none;
+    color: #222;
+    font-size: 16px;
+    text-transform: uppercase;
 }
 
-/* Popup Box */
-.popup-content {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-/* Header */
-.popup-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #E6007D;
-    padding-bottom: 10px;
-}
-
-/* Header Text */
-.popup-header h2 {
-    color: #E6007D;
-    font-size: 24px;
-    margin: 0;
-}
-
-/* Close Button */
-.popup-close {
-    font-size: 24px;
-    cursor: pointer;
-    color: #999;
-    transition: color 0.3s;
-}
-
-.popup-close:hover {
+.notifications-page .topnav .nav-link.active {
     color: #E6007D;
 }
 
-/* Popup Body (with added instructional text) */
-.popup-body p {
-    margin-bottom: 10px;
-    color: #333;
-    font-size: 15px;
+.notifications-page .nav-link:hover {
+    color: #E6007D;
 }
 
-/* Footer Buttons */
-.popup-footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-/* Generic Button Styles */
-.vbtnG {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 6px;
+.notifications-page .dropdown-icon {
     cursor: pointer;
-    font-size: 16px;
 }
 
-.vbtnR {
-    background-color: #dc3545;
-    color: white;
+.notifications-page .header-button {
+    background-color: transparent;
     border: none;
-    padding: 10px 25px;
-    border-radius: 6px;
     cursor: pointer;
-    font-size: 16px;
+    padding: 10px;
 }
 
+.notifications-page .header-button img {
+    width: 24px;
+    height: 24px;
+}
 
 
 
@@ -3894,7 +3824,7 @@ header button:hover,
 
     #topnav {
 
-        background-color: #333;
+            background-color: #333;
     }
     #topnav ul {
         display: none;
@@ -4107,10 +4037,6 @@ header button:hover,
 
     }
 
-    .active-session {
-        width: 100%;
-    }
-
     .user-info {
         gap: 15px;
         width: 100%;
@@ -4211,6 +4137,7 @@ header button:hover,
         justify-content: center;
         align-items: center;
     }
+<<<<<<< HEAD
 
     /*VEHICLE MANAGE PAGE QUERIES*/
     .vehicle-buttons-top {
@@ -4239,6 +4166,9 @@ header button:hover,
         font-size: 16px; /* Adjust font size for readability */
         padding: 12px; /* Add padding for better spacing */
     }
+=======
+
+>>>>>>> parent of c42d41b (Merge branch 'main' of https://github.com/zztawhid/group117)
 
     .dropdown-icon {
         display: block; /* Show hamburger icon */
@@ -4263,7 +4193,6 @@ header button:hover,
     }
 
 }
-
 
 
 
