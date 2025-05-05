@@ -139,24 +139,25 @@
     </div>
 </div>
 
-<!-- pfp edit -->
-<div id="edit-profile-pic-popup" class="popup-overlay">
+<!-- Image Upload Popup -->
+<div id="image-upload-popup" class="popup-overlay">
     <div class="popup-content">
         <div class="popup-header">
-            <h2>Edit Profile Picture</h2>
-            <span class="popup-close" onclick="closeEditProfilePicPopup()">&times;</span>
+            <h2>Change Profile Picture</h2>
+            <span class="popup-close" onclick="closeImageUploadPopup()">&times;</span>
         </div>
         <div class="popup-body">
-            <form id="edit-profile-pic-form">
-                <div class="form-group">
-                    <label for="profile-pic-input">Upload a new profile picture:</label>
-                    <input type="file" id="profile-pic-input" accept="image/*">
-                </div>
-            </form>
+            <div class="image-preview-container">
+                <img id="image-preview" src="" alt="Preview" class="profile-pic-preview">
+            </div>
+            <input type="file" id="image-upload" accept="image/*" style="display: none;">
+            <div class="button-group">
+                <button class="vbtnG" onclick="document.getElementById('image-upload').click()">Choose Image</button>
+                <button class="vbtnB" id="upload-button" onclick="saveProfileImage()">Save Changes</button>
+            </div>
         </div>
         <div class="popup-footer">
-            <button class="vbtnG" onclick="saveProfilePic()">Save Changes</button>
-            <button class="vbtnR" onclick="closeEditProfilePicPopup()">Cancel</button>
+            <button class="vbtnR" onclick="closeImageUploadPopup()">Cancel</button>
         </div>
     </div>
 </div>
