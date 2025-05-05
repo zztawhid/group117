@@ -46,53 +46,55 @@
 </div>
 
 
-<main class="notifications-page">
-    <div class="dashboard-container">
+<main>
+    <section class="active-session">
+        <div class="status-bar">
+            <div class="status-header">
+                <h2 class="status-title">Current Parking</h2>
+                <span class="status-active">ACTIVE</span>
+            </div>
 
-       
-        <div class="current-session-box">
-            <h2>Current Session</h2>
-            <table class="session-table">
-                <tr><td>Start Time:</td><td>10:00 AM</td></tr>
-                <tr><td>End Time:</td><td>12:00 PM</td></tr>
-                <tr><td>Location:</td><td>Car Park A</td></tr>
-                <tr><td>Status:</td><td>Active</td></tr>
-            </table>
-        </div>
+            <div class="status-details">
+                <div class="detail-item">
+                    <div class="detail-label">Location</div>
+                    <div class="detail-value">Blackdale (4348)</div>
+                </div>
 
-        
-        <div class="grid-row">
-            <div class="notif-column">
-                <div class="dashboard-card">
-                    <h2>Notifs</h2>
-                    <ul>
-                        <li>Your parking session expires in 30 minutes</li>
-                        <li>New regulations effective May 1st</li>
-                        <li>Car Park B closed Friday</li>
-                        <li>Monthly pass renews in 3 days</li>
-                    </ul>
+                <div class="detail-item">
+                    <div class="detail-label">Spot</div>
+                    <div class="detail-value">21</div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-label">Started</div>
+                    <div class="detail-value">10:15 AM</div>
                 </div>
             </div>
 
-            <div class="right-column">
-                <div class="dashboard-card">
-                    <h2>Spaces</h2>
-                    <ul>
-                        <li>Car Park A: 15</li>
-                        <li>Car Park B: 32</li>
-                        <li>Car Park C: 8</li>
-                        <li>Disabled Bays: 4</li>
-                    </ul>
-                </div>
+            <div class="timer" id="parkingTimer">01:10:33 hrs</div>
+
+            <div class="action-buttons">
+                <button class="btn btn-extend">Extend</button>
+                <button class="btn btn-end">End</button>
             </div>
         </div>
+    </section>
 
-        <!-- Message Admin Section -->
-        <div class="message-admin-box">
-            <button onclick="document.location='contact.html'">Send a Message</button>
-        </div>
-
+    <div class="noti-box">
+        <h3>Notifications</h3>
+        <p>noti options here</p>
     </div>
+
+    <div class="spaces-box">
+        <h3>Parking Availability</h3>
+        <p>parking space table here</p>
+    </div>
+
+    <div class="message-admin-box">
+        <a href="message-admin.html"><button class="">Message an Admin</button></a>
+    </div>
+
+
 </main>
 
 <footer>
