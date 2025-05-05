@@ -34,16 +34,29 @@ async function loadActiveParkingSession(userId) {
         const data = await response.json();
         
         if (data.activeSession) {
-            // Only update if it's a new session
+            // Only update if it's a new session or data has changed
             if (currentSessionId !== data.activeSession.reference_number) {
                 currentSessionId = data.activeSession.reference_number;
                 displayActiveSession(data.activeSession);
             }
         } else {
             currentSessionId = null;
+            clearActiveSessionDisplay();
         }
     } catch (error) {
         console.error('Error loading parking session:', error);
+        // Don't redirect or show error - might be temporary network issue
+    }
+}
+
+function clearActiveSessionDisplay() {
+    const activeSessionSection = document.querySelector('.active-session');
+    if (activeSessionSection) {
+        activeSessionSection.innerHTML = '';
+    }
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
     }
 }
 
@@ -78,7 +91,7 @@ function displayActiveSession(session) {
                 
                 <div class="detail-item">
                     <div class="detail-label">Started</div>
-                    <div class="detail-value">${startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                    <div class="detail-value">${formatTime(startTime)}</div>
                 </div>
                 
                 <div class="detail-item">
@@ -100,15 +113,22 @@ function displayActiveSession(session) {
     `;
     
     // Add event listeners
-    document.querySelector('.btn-extend').addEventListener('click', () => extendParking(session.reference_number));
+    document.querySelector('.btn-extend').addEventListener('click', () => extendParking(session));
     document.querySelector('.btn-end').addEventListener('click', () => endParking(session.reference_number));
     
     // Calculate remaining time in seconds
     const now = new Date();
-    const endTime = new Date(now.getTime() + (session.duration_hours * 60 * 60 * 1000));
-    const remainingSeconds = Math.floor((endTime - now) / 1000);
+    const remainingSeconds = Math.max(0, Math.floor((endTime - now) / 1000));
     
     startCountdownTimer(remainingSeconds);
+}
+
+function formatTime(date) {
+    return date.toLocaleTimeString([], { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: true
+    });
 }
 
 function startCountdownTimer(initialSeconds) {
@@ -121,6 +141,22 @@ function startCountdownTimer(initialSeconds) {
             clearInterval(countdownInterval);
             timerElement.textContent = "00:00:00";
             timerElement.className = "timer danger";
+            
+            // Show expired message
+            const statusHeader = document.querySelector('.status-header');
+            if (statusHeader) {
+                const expiredElement = document.createElement('span');
+                expiredElement.className = "status-expired";
+                expiredElement.textContent = "EXPIRED";
+                statusHeader.appendChild(expiredElement);
+                
+                // Remove active status if it exists
+                const activeElement = document.querySelector('.status-active');
+                if (activeElement) {
+                    activeElement.remove();
+                }
+            }
+            
             return;
         }
 
@@ -152,8 +188,9 @@ function startCountdownTimer(initialSeconds) {
     countdownInterval = setInterval(updateTimer, 1000);
 }
 
-async function extendParking(referenceNumber) {
-    window.location.href = `parking.html?extend=${referenceNumber}`;
+async function extendParking(session) {
+    // Redirect to parking page with extend parameters
+    window.location.href = `parking.html?extend=${session.reference_number}&duration=${session.duration_hours}`;
 }
 
 async function endParking(referenceNumber) {
@@ -164,15 +201,30 @@ async function endParking(referenceNumber) {
             });
             
             if (response.ok) {
-                // Force a refresh to get updated status
-                await loadActiveParkingSession(JSON.parse(localStorage.getItem('user')).user_id);
+                // Clear the current session display
+                currentSessionId = null;
+                clearActiveSessionDisplay();
+                
+                // Show success message
+                alert('Parking session ended successfully');
             } else {
-                alert('Failed to end parking session');
+                const errorData = await response.json();
+                alert(errorData.error || 'Failed to end parking session');
             }
         } catch (error) {
             console.error('Error ending parking session:', error);
-            alert('Error ending parking session');
+            alert('Error ending parking session. Please try again.');
         }
     }
 }
 
+// Handle page visibility changes to prevent timer drift
+document.addEventListener('visibilitychange', function() {
+    if (!document.hidden && currentSessionId) {
+        // When page becomes visible again, force a refresh
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            loadActiveParkingSession(user.user_id);
+        }
+    }
+});
