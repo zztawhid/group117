@@ -2425,7 +2425,11 @@ button.add-vehicle-button {
 /* Notifications CSS (START) */
 
 
+<<<<<<< HEAD
 /* Notifications Page Specific Styles */
+=======
+/* Notifications Page Specific Styles */ 
+>>>>>>> parent of 07e2797 (changes)
 .notifications-page .dashboard-container {
     max-width: 1000px;
     margin: 0 auto;

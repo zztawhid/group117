@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         '/register.html',
         '/contact.html',
 <<<<<<< HEAD
+<<<<<<< HEAD
         '/index.html'
     ];
 
@@ -19,6 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinksContainer = document.querySelector('.topnav');
 
 =======
+=======
+>>>>>>> parent of 07e2797 (changes)
         '/index.html' 
     ];
     
@@ -31,6 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Navigation management
     const navLinksContainer = document.querySelector('.topnav');
     
+<<<<<<< HEAD
+>>>>>>> parent of 07e2797 (changes)
+=======
 >>>>>>> parent of 07e2797 (changes)
     if (navLinksContainer) {
         if (user) {
@@ -43,7 +49,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 <ul><a href="notif.html" class="nav-link">Notifications</a></ul>
             `;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> parent of 07e2797 (changes)
 =======
             
 >>>>>>> parent of 07e2797 (changes)
@@ -69,7 +79,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> parent of 07e2797 (changes)
 =======
     
 >>>>>>> parent of 07e2797 (changes)
@@ -79,7 +93,11 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> parent of 07e2797 (changes)
 =======
     
 >>>>>>> parent of 07e2797 (changes)
@@ -99,6 +117,9 @@ function logout() {
     window.location.href = 'login.html';
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 07e2797 (changes)
 
 /**
  * Gets authorization headers for API calls
@@ -106,7 +127,11 @@ function logout() {
  */
 function getAuthHeaders() {
     const user = JSON.parse(localStorage.getItem('user'));
+<<<<<<< HEAD
     return user ? {
+=======
+    return user ? { 
+>>>>>>> parent of 07e2797 (changes)
         'Authorization': `Bearer ${user.token}`,
         'Content-Type': 'application/json'
     } : {};
@@ -122,6 +147,7 @@ function getAuthHeaders() {
 //     return user;
 // }
 
+<<<<<<< HEAD
 =======
 
 /**
@@ -146,5 +172,7 @@ function getAuthHeaders() {
 //     return user;
 // }
 
+>>>>>>> parent of 07e2797 (changes)
+=======
 >>>>>>> parent of 07e2797 (changes)
 // checkAuth();
