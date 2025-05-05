@@ -3837,8 +3837,11 @@ header button:hover,
 
 
 
+/* media queries start */
+
 @media (max-width: 768px) {
 
+    /* header media queries */
     #headtxt {
         font-size: 18px;
         margin: 5px;
@@ -3861,7 +3864,6 @@ header button:hover,
         top: 90px;
         left: 0px;
     }
-    /* attempting to make the hamburger sidebar work */
 
     #topnav {
 
@@ -3876,16 +3878,101 @@ header button:hover,
         flex-direction: column;
     }
 
+    #parkuealogo {
+        width: 200px; /* Scale down the logo */
+        height: auto;
+
+    }
+
+    header {
+        height: 100px;
+        background: #E6007D;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0px;
+        border: 2px solid black;
+    }
+
+    .header-button {
+        width: 18%; /* Full width for buttons */
+        height: 60%;
+        padding: 10px;
+        font-size: 14px; /* Adjust font size for smaller screens */
+        margin: 5px 5px; /* Add spacing between buttons */
+        text-align: center;
+        background-color: #333; /* Dark background for buttons */
+        color: white;
+    }
+
+    .header-button:hover {
+        background-color: #FF0080; /* Highlight on hover */
+    }
+
+    .header-button img {
+
+        width: 65px;
+        height: 40px;
+    }
+
+    /* header media queries */
+
+    /* nav bar media queries */
     .nav-container {
         display: flex;
+        width: auto;
         justify-content: space-between;
         align-items: center;
         position: relative;
     }
 
+    .topnav {
+        position: fixed;
+        top: 0;
+        left: -250px; /* Initially hidden off-screen */
+        width: 180px;
+        height: 100%;
+        background: linear-gradient(135deg, #333, #333); /* Gradient background */
+        overflow-y: auto;
+        transition: left 0.3s ease; /* Smooth slide-in effect */
+        display: flex;
+        flex-direction: column;
+        padding-top: 60px; /* Space for header */
+        z-index: 1000;
+        border-right: 2px solid #333;
+        border-radius: 5px;
+    }
 
+    .topnav.slide-in {
+        left: 0; /* Slide into view */
+    }
 
+    .topnav a {
+        padding: 10px 20px;
+        text-decoration: none;
+        font-size: 18px;
+        color: white;
+        display: block;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle white divider */
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
 
+    .topnav a:hover {
+        background-color: #FF0080;
+        color: black;
+        transform: scale(1.05);
+    }
+
+    #topnav ul {
+        display: flex; /* Ensure links are displayed in the sidebar */
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* nav bar media queries */
+
+    /* index page media queries */
     #container .btn {
         height: 80px;
         width: 120px;
@@ -3903,10 +3990,6 @@ header button:hover,
         width: 120px;
         font-size: 14px;
     }
-
-
-
-
 
     #info-box {
         padding: 10px;
@@ -3934,7 +4017,6 @@ header button:hover,
     .info-item p {
         font-size: 14px;
     }
-
 
     #bottom-section {
         flex-direction: column;
@@ -3967,84 +4049,35 @@ header button:hover,
         margin-top: 10px;
     }
 
-/* ===== CORE STYLES (No Media Queries) ===== */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: ueafont;
-}
-
-body {
-    background-color: #F7F0E4;
-    color: black;
-}
-
-/* Header changing */
-#parkuealogo {
-    width: 200px; /* Scale down the logo */
-    height: auto;
-    
-}
-
-header {
-    height: 100px;
-    background: #E6007D;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0px;
-    border: 2px solid black;
-}
-
-.header-button {
-    width: 18%; /* Full width for buttons */
-    height: 60%;
-    padding: 10px;
-    font-size: 14px; /* Adjust font size for smaller screens */
-    margin: 5px 5px; /* Add spacing between buttons */
-    text-align: center;
-    background-color: #333; /* Dark background for buttons */
-    color: white;
-
-   
-    
-}
-
-.header-button:hover {
-    background-color: #FF0080; /* Highlight on hover */
-}
-
-.header-button img {
-    
-    width: 65px;
-    height: 40px;
-}
-/* Account management Queries */
-.account-management {
-    width: 90%; /*take the full width of the screen */
-    padding: 15px;
-
-}
-
-.profile {
-    flex-direction: column; /* makes pfp and info vertically organised */
-}
-
-.info {
-    width: 100%;
-}
+    /* index page media queries */
 
 
-.actions button {
-    width: 50%; /* Make buttons take the full width */
-}
 
+    /* Account management Queries */
+    .account-management {
+        width: 90%; /*take the full width of the screen */
+        padding: 15px;
+
+    }
+
+    .profile {
+        flex-direction: column; /* makes pfp and info vertically organised */
+    }
+
+    .info {
+        width: 100%;
+    }
+
+
+    .actions button {
+        width: 50%; /* Make buttons take the full width */
+    }
+    /* account management media queries */
 
     /* MAIN.HTML MEDIA QUERY */
     .welcome-section h2 {
-        font-size: 24px; 
-        
+        font-size: 24px;
+
     }
 
     .active-session {
@@ -4052,42 +4085,63 @@ header {
     }
 
     .user-info {
-        gap: 15px; 
-        width: 100%; 
+        gap: 15px;
+        width: 100%;
         margin: 0 auto;
     }
 
     .info-left, .info-right {
-        width: 100%; 
-        padding: 10px; 
+        width: 100%;
+        padding: 10px;
     }
 
     .active-session {
         width: 1%;
     }
 
-    /*boxes */
     .nav-area {
-        width: 100%; 
-        padding: 10px; 
+        width: 100%;
+        padding: 10px;
         margin-top: 10px;
     }
 
+    .box-row {
+        display: flex;
+        margin-bottom: 20px;
+        gap: 10px;
+        width: 120px;
+    }
+
     .nav-box {
-        height: 120px; 
-        width: 100px;
+        height: 120px;
+        min-width: 100px;
         padding: 10px;
-        font-size: 0.9rem; 
+        font-size: 0.9rem;
     }
 
     .nav-box i {
-        font-size: 40px; 
-        margin-bottom: 5px; 
+        font-size: 30px;
+        margin-bottom: 5px;
     }
 
     .nav-box h3 {
-        font-size: 14px; 
+        margin: 0;
+        padding-top: 5px;
+        font-size: 0.65rem;
+        text-transform: uppercase;
     }
+    /* main media queries */
+
+    .info-left p, .info-right p {
+        margin: 0;
+        font-weight: bold;
+        color: #E6007D;
+        font-size: 16px;
+        text-align: center;
+
+    }
+
+    /* main media queries */
 
     /* PARKING SECTION QUERIES */
     #payment-section {
@@ -4106,17 +4160,17 @@ header {
 
     .payment-form {
         width: 100%; /* Full width for the form */
-        
+
     }
     .payment-form h2 {
         font-size: 30px; /* Adjust font size for smaller screens */
         text-align: center; /* Center align the heading */
-        
+
     }
 
     #location-select, #vehicle-select, #duration-select {
         font-size: 18px; /* Adjust font size for readability */
-        
+
     }
     .payment-continue-button {
         width: 100%; /* Full width for the button */
@@ -4158,62 +4212,28 @@ header {
         font-size: 16px; /* Adjust font size for readability */
         padding: 12px; /* Add padding for better spacing */
     }
-    
 
-/* attempting to make the hamburger sidebar work */
-.topnav {
-    position: fixed;
-    top: 0;
-    left: -250px; /* Initially hidden off-screen */
-    width: 180px;
-    height: 100%;
-    background: linear-gradient(135deg, #333, #333); /* Gradient background */
-    overflow-y: auto;
-    transition: left 0.3s ease; /* Smooth slide-in effect */
-    display: flex;
-    flex-direction: column;
-    padding-top: 60px; /* Space for header */
-    z-index: 1000;
-    border-right: 2px solid #333;
-    border-radius: 5px;
-}
+    .dropdown-icon {
+        display: block; /* Show hamburger icon */
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        left: 342px;
+        z-index: 1100; /* Ensure it stays above the sidebar */
+    }
 
-.topnav.slide-in {
-    left: 0; /* Slide into view */
-}
-
-.topnav a {
-    padding: 10px 20px;
-    text-decoration: none;
-    font-size: 18px;
-    color: white;
-    display: block;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle white divider */
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.topnav a:hover {
-    background-color: #FF0080;
-    color: black;
-    transform: scale(1.05);
-}
+    /* footer media queries */
 
 
-.dropdown-icon {
-    display: block; /* Show hamburger icon */
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    left: 450px;
-    z-index: 1100; /* Ensure it stays above the sidebar */
-}
+    .logo-footer img {
+        width: 120.375px;
+        height: 25.34px;
 
-#topnav ul {
-    display: flex; /* Ensure links are displayed in the sidebar */
-    flex-direction: column;
-    padding: 0;
-    margin: 0;
-}
+    }
+
+    footer p {
+        font-size: 9px;
+    }
 
 }
 
