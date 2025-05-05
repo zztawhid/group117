@@ -51,9 +51,6 @@
     </nav>
 
     <main class="main">
-
-        <h2>LOCATION MANAGEMENT</h2>
-
         <div id="location-management-section">
             <div class="location-map-container">
                 <object type="image/svg+xml" data="parking-map.svg" id="admin-map"></object>
@@ -120,7 +117,7 @@
 
 
                 <section id="admin-controls">
-
+                    <h2>LOCATION MANAGEMENT</h2>
                     <div class="admin-actions">
                         <button id="refresh-btn" class="admin-button">
                             <i class="fas fa-sync-alt"></i> Refresh Status
@@ -141,12 +138,37 @@
                     <tr>
                         <th>Car Park</th>
                         <th>Status</th>
-                        <th>Availability</th>
+                        <th>Capacity</th>
+                        <th>Current Occupancy</th>
                         <th>Restrictions</th>
                         <th>Last Updated</th>
                     </tr>
                     </thead>
                     <tbody>
+                    <tr>
+                        <td>Car Park A</td>
+                        <td><span class="status-open">Open</span></td>
+                        <td>250 spaces</td>
+                        <td>187 (75%)</td>
+                        <td>None</td>
+                        <td>Today, 09:45</td>
+                    </tr>
+                    <tr>
+                        <td>Car Park B</td>
+                        <td><span class="status-event">Event Only</span></td>
+                        <td>180 spaces</td>
+                        <td>92 (51%)</td>
+                        <td>Valid event pass required</td>
+                        <td>Today, 10:30</td>
+                    </tr>
+                    <tr>
+                        <td>Car Park C</td>
+                        <td><span class="status-closed">Closed</span></td>
+                        <td>300 spaces</td>
+                        <td>0 (0%)</td>
+                        <td>Maintenance work</td>
+                        <td>Yesterday, 16:15</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

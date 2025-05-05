@@ -50,75 +50,70 @@ function saveProfileChanges() {
     alert('Profile updated successfully!');
 }
 
-
-// Global variable to store the selected image
-let selectedImageFile = null;
-
-// Open image upload popup when edit icon is clicked
-document.querySelector('.edit-icon').addEventListener('click', function() {
-    openImageUploadPopup();
+// -*PROFILE PICTURE FUNCTIONALITY*- //
+// handles pfp upload and display
+document.addEventListener('DOMContentLoaded', function () {
+    // load current pfp from localstorage
+    const savedProfilePic = localStorage.getItem('profilePicture');
+    if (savedProfilePic) {
+        document.querySelector('.profile-pic').src = savedProfilePic;
+    }
+    
+    document.querySelector('.edit-icon').addEventListener('click', openEditProfilePicPopup);
 });
 
-// Handle file selection
-document.getElementById('image-upload').addEventListener('change', function(e) {
-    if (e.target.files && e.target.files[0]) {
-        selectedImageFile = e.target.files[0];
-        const reader = new FileReader();
+function openEditProfilePicPopup() {
+    // show popup for editing profile picc
+    document.getElementById('edit-profile-pic-popup').style.display = 'flex';
+}
 
-        reader.onload = function(event) {
-            // Update preview image
-            document.getElementById('image-preview').src = event.target.result;
-            document.getElementById('upload-button').disabled = false;
+function closeEditProfilePicPopup() {
+    // close the popup for editing the profile picture
+    document.getElementById('edit-profile-pic-popup').style.display = 'none';
+}
+
+function saveProfilePic() {
+    const fileInput = document.getElementById('profile-pic-input');
+    const profilePic = document.querySelector('.profile-pic');
+
+    // check if a file is selected
+    if (fileInput.files && fileInput.files[0]) {
+        const file = fileInput.files[0];
+
+        // set restriction on max file size for images (2)
+        const maxFileSize = 2 * 1024 * 1024; // 2mb limit
+        if (file.size > maxFileSize) {
+            alert('File size exceeds 2MB. Please upload a smaller image.');
+            return;
         }
 
-        reader.readAsDataURL(e.target.files[0]);
+        // Validate file type (allow only PNG, JPEG, JPG)
+        const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+        if (!allowedTypes.includes(file.type)) {
+            alert('Invalid file type. Please upload a PNG, JPEG, or JPG image.');
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            // Update the profile picture
+            profilePic.src = e.target.result;
+
+            // Save the new profile picture to localStorage
+            localStorage.setItem('profilePicture', e.target.result);
+
+            // Close the popup
+            closeEditProfilePicPopup();
+
+            alert('Profile picture updated successfully!');
+        };
+
+        reader.readAsDataURL(file); 
+    } else {
+        alert('Please select a picture to upload.');
     }
-});
-
-// Save the selected image
-function saveProfileImage() {
-    if (!selectedImageFile) {
-        alert('Please select an image first');
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function(event) {
-        // Update the main profile picture
-        document.querySelector('.profile-pic').src = event.target.result;
-
-        // Here you would typically send the image to your server
-        // For demonstration, we'll just store it in localStorage
-        localStorage.setItem('profileImage', event.target.result);
-
-        closeImageUploadPopup();
-    };
-    reader.readAsDataURL(selectedImageFile);
 }
-
-function openImageUploadPopup() {
-    document.getElementById('image-upload-popup').style.display = 'flex';
-    // Reset the file input
-    document.getElementById('image-upload').value = '';
-    // Clear any previous selection
-    selectedImageFile = null;
-    // Disable save button until new image is selected
-    document.getElementById('upload-button').disabled = true;
-    // Set preview to current profile image
-    document.getElementById('image-preview').src = document.querySelector('.profile-pic').src;
-}
-
-function closeImageUploadPopup() {
-    document.getElementById('image-upload-popup').style.display = 'none';
-}
-
-// Load saved image when page loads
-window.addEventListener('DOMContentLoaded', function() {
-    const savedImage = localStorage.getItem('profileImage');
-    if (savedImage) {
-        document.querySelector('.profile-pic').src = savedImage;
-    }
-});
 
 // Close Account Functionality
 document.addEventListener('DOMContentLoaded', function() {

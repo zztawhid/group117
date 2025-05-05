@@ -82,8 +82,8 @@ function displayActiveSession(session) {
                 </div>
                 
                 <div class="detail-item">
-                    <div class="detail-label">Ends At</div>
-                    <div class="detail-value">${endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                    <div class="detail-label">Duration</div>
+                    <div class="detail-value">${session.duration_hours} hours</div>
                 </div>
             </div>
             
@@ -103,8 +103,11 @@ function displayActiveSession(session) {
     document.querySelector('.btn-extend').addEventListener('click', () => extendParking(session.reference_number));
     document.querySelector('.btn-end').addEventListener('click', () => endParking(session.reference_number));
     
-    // Start countdown with remaining time in seconds
-    const remainingSeconds = Math.floor((endTime - new Date()) / 1000);
+    // Calculate remaining time in seconds
+    const now = new Date();
+    const endTime = new Date(now.getTime() + (session.duration_hours * 60 * 60 * 1000));
+    const remainingSeconds = Math.floor((endTime - now) / 1000);
+    
     startCountdownTimer(remainingSeconds);
 }
 
@@ -172,3 +175,4 @@ async function endParking(referenceNumber) {
         }
     }
 }
+
