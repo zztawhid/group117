@@ -4,7 +4,6 @@ const pool = require('./config/db');
 const bcrypt = require('bcryptjs');
 const app = express();
 
-
 // Middleware
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -503,7 +502,6 @@ app.get('/api/parking/locations/:id', async (req, res) => {
     }
 });
 
-
 // Handle parking reservations
 app.post('/api/parking/reservations', async (req, res) => {
     try {
@@ -602,7 +600,6 @@ app.post('/api/parking/reservations', async (req, res) => {
     }
 });
 
-
 // Process payment
 app.post('/api/payment/process', async (req, res) => {
     try {
@@ -663,7 +660,7 @@ function validateCardWithLuhn(cardNumber) {
     return (sum % 10) === 0;
 }
 
-// Sessions endpoint
+// Parking sessions endpoint
 app.post('/api/parking/sessions', async (req, res) => {
     try {
         const { user_id, vehicle_id, location_id, duration, amount_paid, needs_disabled } = req.body;
@@ -694,12 +691,12 @@ app.post('/api/parking/sessions', async (req, res) => {
         const space_number = availableSpace[0].space_number;
         const reference_number = `PARK-${Math.random().toString(36).substr(2, 8).toUpperCase()}`;
 
-        // Create parking session
+        // Create parking session with duration
         const [result] = await pool.execute(
             `INSERT INTO parking_occupancy 
-            (space_id, vehicle_id, time_in, time_out, payment_status, amount_paid, reference_number) 
-            VALUES (?, ?, NOW(), NULL, 'paid', ?, ?)`,
-            [space_id, vehicle_id, amount_paid, reference_number]
+            (space_id, vehicle_id, time_in, time_out, payment_status, amount_paid, reference_number, duration_hours) 
+            VALUES (?, ?, NOW(), NULL, 'paid', ?, ?, ?)`,
+            [space_id, vehicle_id, amount_paid, reference_number, duration]
         );
 
         res.status(201).json({
@@ -707,12 +704,37 @@ app.post('/api/parking/sessions', async (req, res) => {
             reference: reference_number,
             space_number: space_number,
             space_id: space_id,
-            amount_paid: amount_paid
+            amount_paid: amount_paid,
+            duration_hours: duration
         });
 
     } catch (error) {
         console.error('Parking session error:', error);
         res.status(500).json({ error: 'Failed to create parking session' });
+    }
+});
+
+// End parking session
+app.post('/api/parking/sessions/:reference/end', async (req, res) => {
+    try {
+        const { reference } = req.params;
+        
+        // Update the parking session to set time_out
+        const [result] = await pool.execute(
+            `UPDATE parking_occupancy 
+            SET time_out = NOW() 
+            WHERE reference_number = ? AND time_out IS NULL`,
+            [reference]
+        );
+        
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: 'No active session found with this reference' });
+        }
+        
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error ending parking session:', error);
+        res.status(500).json({ error: 'Failed to end parking session' });
     }
 });
 
@@ -732,8 +754,8 @@ app.get('/api/parking/sessions/active', async (req, res) => {
                     l.name AS location_name,
                     l.code AS location_code,
                     TIMESTAMPDIFF(HOUR, o.time_in, NOW()) AS hours_parked,
-                    l.max_stay_hours AS duration_hours,
-                    DATE_ADD(o.time_in, INTERVAL l.max_stay_hours HOUR) AS end_time,
+                    o.duration_hours,
+                    DATE_ADD(o.time_in, INTERVAL o.duration_hours HOUR) AS end_time,
                     'immediate' AS session_type
                 FROM parking_occupancy o
                 JOIN parking_spaces s ON o.space_id = s.space_id
@@ -787,13 +809,10 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-
 // redirect routes that do not exist to error
 app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'public', 'error.html'));
 });
-
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
