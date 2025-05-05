@@ -721,25 +721,20 @@ app.get('/api/parking/sessions/active', async (req, res) => {
     try {
         const userId = req.query.user_id;
         
-        // Get active parking session (either immediate parking or reservation)
+        // Check both parking_occupancy and parking_reservations
         const [activeSessions] = await pool.execute(`
             (
-                -- Immediate parking sessions
                 SELECT 
-                    o.occupancy_id,
                     o.reference_number,
                     o.time_in,
                     o.time_out,
                     s.space_number,
                     l.name AS location_name,
                     l.code AS location_code,
-                    l.hourly_rate,
+                    TIMESTAMPDIFF(HOUR, o.time_in, NOW()) AS hours_parked,
                     l.max_stay_hours AS duration_hours,
-                    -- Calculate end time based on max stay duration
                     DATE_ADD(o.time_in, INTERVAL l.max_stay_hours HOUR) AS end_time,
-                    'immediate' AS session_type,
-                    -- Calculate remaining minutes
-                    GREATEST(0, l.max_stay_hours * 60 - TIMESTAMPDIFF(MINUTE, o.time_in, NOW())) AS remaining_minutes
+                    'immediate' AS session_type
                 FROM parking_occupancy o
                 JOIN parking_spaces s ON o.space_id = s.space_id
                 JOIN parking_locations l ON s.location_id = l.location_id
@@ -752,21 +747,17 @@ app.get('/api/parking/sessions/active', async (req, res) => {
             )
             UNION
             (
-                -- Reservation sessions
                 SELECT 
-                    r.reservation_id,
                     r.reference_number,
                     r.start_time AS time_in,
                     NULL AS time_out,
                     r.space_number,
                     l.name AS location_name,
                     l.code AS location_code,
-                    l.hourly_rate,
+                    TIMESTAMPDIFF(HOUR, r.start_time, NOW()) AS hours_parked,
                     TIMESTAMPDIFF(HOUR, r.start_time, r.end_time) AS duration_hours,
                     r.end_time,
-                    'reservation' AS session_type,
-                    -- Calculate remaining minutes for reservation
-                    GREATEST(0, TIMESTAMPDIFF(MINUTE, NOW(), r.end_time)) AS remaining_minutes
+                    'reservation' AS session_type
                 FROM parking_reservations r
                 JOIN parking_locations l ON r.location_id = l.location_id
                 WHERE r.user_id = ?
@@ -781,19 +772,7 @@ app.get('/api/parking/sessions/active', async (req, res) => {
         `, [userId, userId]);
 
         if (activeSessions.length > 0) {
-            const session = activeSessions[0];
-            // Convert remaining minutes to hours and minutes
-            const remainingHours = Math.floor(session.remaining_minutes / 60);
-            const remainingMinutes = session.remaining_minutes % 60;
-            
-            res.json({ 
-                activeSession: {
-                    ...session,
-                    remaining_hours: remainingHours,
-                    remaining_minutes: remainingMinutes,
-                    total_remaining_minutes: session.remaining_minutes
-                }
-            });
+            res.json({ activeSession: activeSessions[0] });
         } else {
             res.json({ activeSession: null });
         }
