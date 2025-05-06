@@ -2781,7 +2781,7 @@ button.add-vehicle-button {
     margin-top: 20px;
 }
 
-.vbtnB {
+.choose-btn {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -2791,25 +2791,81 @@ button.add-vehicle-button {
 }
 
 /* Enabled state (green) */
-.vbtnB:not(:disabled) {
+.choose-btn:not(:disabled) {
     background-color: green; /* Green */
     color: white;
 }
 
 /* Enabled hover effect */
-.vbtnB:not(:disabled):hover {
+.choose-btn:not(:disabled):hover {
     background-color: #45a049; /* Darker green */
 
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-/* Disabled state (grey) */
-.vbtnB:disabled {
+
+.save-btn:disabled {
     background-color: #cccccc;
     color: #666666;
     cursor: not-allowed;
 }
 
+/* save image popup */
+/* BASE BUTTON STYLES */
+.save-btn, .cancel-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+/* SAVE BUTTON (GREEN) */
+.save-btn {
+    background-color: green; /* Green */
+    color: white;
+}
+
+/* Save Button - Hover State */
+.save-btn:not(:disabled):hover {
+    background-color: green;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+/* Save Button - Disabled State (Grey) */
+.save-btn:disabled {
+    background-color: #e0e0e0;
+    color: #fff;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.save-btn:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+.cancel-btn {
+    background-color: #f44336; /* Red */
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #d32f2f; /* Darker red */
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+.cancel-btn:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+/* save image popup */
 
 .vehicle-buttons-bottom {
     display: flex;

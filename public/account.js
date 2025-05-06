@@ -72,48 +72,115 @@ function closeEditProfilePicPopup() {
     document.getElementById('edit-profile-pic-popup').style.display = 'none';
 }
 
-function saveProfilePic() {
-    const fileInput = document.getElementById('profile-pic-input');
-    const profilePic = document.querySelector('.profile-pic');
+// Image Upload Functionality
+let selectedImageFile = null;
 
-    // check if a file is selected
-    if (fileInput.files && fileInput.files[0]) {
-        const file = fileInput.files[0];
-
-        // set restriction on max file size for images (2)
-        const maxFileSize = 2 * 1024 * 1024; // 2mb limit
-        if (file.size > maxFileSize) {
-            alert('File size exceeds 2MB. Please upload a smaller image.');
-            return;
-        }
-
-        // Validate file type (allow only PNG, JPEG, JPG)
-        const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
-        if (!allowedTypes.includes(file.type)) {
-            alert('Invalid file type. Please upload a PNG, JPEG, or JPG image.');
-            return;
-        }
-
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            // Update the profile picture
-            profilePic.src = e.target.result;
-
-            // Save the new profile picture to localStorage
-            localStorage.setItem('profilePicture', e.target.result);
-
-            // Close the popup
-            closeEditProfilePicPopup();
-
-            alert('Profile picture updated successfully!');
-        };
-
-        reader.readAsDataURL(file); 
-    } else {
-        alert('Please select a picture to upload.');
+document.addEventListener('DOMContentLoaded', function() {
+    // Load saved image if exists
+    const savedImage = localStorage.getItem('profileImage');
+    if (savedImage) {
+        document.querySelector('.profile-pic').src = savedImage;
     }
+
+    // Set up event listeners
+    document.querySelector('.edit-icon').addEventListener('click', openImageUploadPopup);
+
+    document.getElementById('image-upload').addEventListener('change', function(e) {
+        const uploadButton = document.getElementById('upload-button');
+        const statusMessage = document.getElementById('upload-status');
+
+        statusMessage.style.display = 'none';
+
+        if (e.target.files && e.target.files[0]) {
+            // Validate file type and size
+            const file = e.target.files[0];
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            const maxSize = 2 * 1024 * 1024; // 2MB
+
+            if (!validTypes.includes(file.type)) {
+                showStatus('Please select a valid image file (JPEG, PNG, GIF)', 'error');
+                uploadButton.disabled = true;
+                return;
+            }
+
+            selectedImageFile = file;
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                document.getElementById('image-preview').src = event.target.result;
+                uploadButton.disabled = false;
+            }
+
+            reader.readAsDataURL(file);
+        } else {
+            uploadButton.disabled = true;
+        }
+    });
+});
+
+function uploadProfileImage() {
+    if (!selectedImageFile) return;
+
+    const uploadButton = document.getElementById('upload-button');
+    const statusMessage = document.getElementById('upload-status');
+
+    // Show loading state
+    uploadButton.classList.add('uploading');
+    uploadButton.disabled = true;
+    statusMessage.style.display = 'none';
+
+    // Simulate upload delay (replace with actual AJAX call in production)
+    setTimeout(function() {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            // Update profile picture
+            document.querySelector('.profile-pic').src = event.target.result;
+
+            // Save to localStorage
+            localStorage.setItem('profileImage', event.target.result);
+
+            // Reset button state
+            uploadButton.classList.remove('uploading');
+            uploadButton.disabled = false;
+            // Close popup after delay
+            setTimeout(closeImageUploadPopup, 1500);
+        };
+        reader.readAsDataURL(selectedImageFile);
+    }, 1500);
 }
+
+function showStatus(message, type) {
+    const statusElement = document.getElementById('upload-status');
+    statusElement.textContent = message;
+    statusElement.className = 'status-message ' + type;
+    statusElement.style.display = 'block';
+}
+
+function openImageUploadPopup() {
+    document.getElementById('image-upload-popup').style.display = 'flex';
+    document.getElementById('image-upload').value = '';
+    selectedImageFile = null;
+    document.getElementById('upload-button').disabled = true;
+    document.getElementById('upload-status').style.display = 'none';
+
+    // Show current profile image in preview
+    const currentImage = document.querySelector('.profile-pic').src;
+    document.getElementById('image-preview').src = currentImage;
+}
+
+function closeImageUploadPopup() {
+    document.getElementById('image-upload-popup').style.display = 'none';
+}
+
+
+
+// Load saved image on page load
+window.addEventListener('DOMContentLoaded', function() {
+    const savedImage = localStorage.getItem('profileImage');
+    if (savedImage) {
+        document.querySelector('.profile-pic').src = savedImage;
+    }
+});
 
 // Close Account Functionality
 document.addEventListener('DOMContentLoaded', function() {
