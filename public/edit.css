@@ -2483,215 +2483,123 @@ button.add-vehicle-button {
 
 
 /* Notifications CSS (START) */
-
-
-/* Notifications Page Specific Styles */ 
-.notifications-page .dashboard-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    text-align: center;
-    box-sizing: border-box;
-}
-
-/* Current Session Box */
-.notifications-page .current-session-box {
-    background-color: #ffffff;
+.noti-box {
+    background-color: #fff;
     border: 2px solid #E6007D;
     border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.notifications-page .current-session-box h2 {
-    font-size: 24px;
-    color: #E6007D;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-/* Session Table */
-.notifications-page .session-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 18px;
-    margin: 0 auto;
-}
-
-.notifications-page .session-table td {
-    padding: 8px 12px;
-    border-bottom: 1px solid #ccc;
-}
-
-/* Layout for Notifs + Spaces */
-.notifications-page .grid-row {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-top: 30px;
-    flex-wrap: wrap;
-    align-items: stretch;
-}
-
-/* Styling for Notifs & Spaces Columns */
-.notifications-page .notif-column, .right-column {
-    background-color: #ffffff;
-    color: #333;
-    border: 2px solid #E6007D;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 25px;
-    width: 45%;
-    max-width: 500px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 400px;
+    height: 500px;
+    margin: 30px;
     text-align: left;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
 }
 
-.notifications-page .notif-column:hover, .right-column:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-
-/* Heading for Notifs & Spaces */
-.notifications-page .notif-column h2, .right-column h2 {
-    color: black;
-    text-align: center;
-    margin-bottom: 25px;
-    font-size: 26px;
-    font-weight: bold;
-    text-transform: uppercase;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #E6007D;
-}
-
-/* Notifs & Spaces List Styling */
-.notifications-page .notif-column ul, .right-column ul {
-    list-style: none;
-    padding: 0;
-}
-
-.notifications-page .notif-column ul li, .right-column ul li {
-    background-color: #444;
-    color: white;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-left: 4px solid #E6007D;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.notifications-page .notif-column ul li:hover, .right-column ul li:hover {
-    background-color: #555;
-    transform: translateX(5px);
-}
-
-/* Message Admin Box */
-.notifications-page .message-admin-box {
-    margin-top: 30px;
-    text-align: center;
-    width: 60%;
-    max-width: 400px;
+.noti-box h3 {
+    color: #E6007D;
+    font-size: 1.5rem;
     margin-left: auto;
     margin-right: auto;
 }
 
-/* Message Admin Title */
-.notifications-page .message-admin-box h3 {
-    color: #E6007D;
-    font-size: 22px;
-    margin-bottom: 15px;
+.notification-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
 }
 
-/* Message Admin Button */
-.notifications-page .message-admin-box button {
-    background-color: #E6007D;
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.notifications-page .message-admin-box button:hover {
-    background-color: #c2006c;
-    transform: translateY(-5px);
-}
-
-/* Footer Styling */
-.notifications-page footer {
-    background-color: #222;
-    color: white;
-    padding: 20px 0;
+.notification-item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 20px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
 }
 
-.notifications-page footer .text-left, .notifications-page footer .text-center, .notifications-page footer .text-right {
-    flex: 1;
-    text-align: center;
+.notification-title {
+    font-weight: bold;
+    color: #333;
 }
 
-.notifications-page footer .logo-footer img {
-    width: 240px;
-    height: auto;
+.notification-time {
+    font-size: 0.9rem;
+    color: #888;
 }
 
-.notifications-page footer a:hover {
-    color: #E6007D;
-    text-decoration: underline;
+.notification-item:last-child {
+    border-bottom: none; /* Remove border for the last item */
 }
 
-/* Top Navigation */
-.notifications-page .topnav {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    padding: 10px 0;
-}
 
-.notifications-page .topnav .nav-link {
-    text-decoration: none;
-    color: #222;
-    font-size: 16px;
-    text-transform: uppercase;
-}
-
-.notifications-page .topnav .nav-link.active {
-    color: #E6007D;
-}
-
-.notifications-page .nav-link:hover {
-    color: #E6007D;
-}
-
-.notifications-page .dropdown-icon {
-    cursor: pointer;
-}
-
-.notifications-page .header-button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
+/*parking spaces box */
+.spaces-box {
+    background-color: #fff;
+    border: 2px solid #E6007D;
+    border-radius: 10px;
+    width: 100px;
+    min-height: 300px;
+    text-align: left;
     padding: 10px;
 }
 
-.notifications-page .header-button img {
-    width: 24px;
-    height: 24px;
+.spaces-box h3 {
+    font-size: 1.3rem;
 }
 
+.spaces-table {
+    border-collapse: collapse;
+    margin-top: 20px;
+}
 
+.spaces-table th, .spaces-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.spaces-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+.spaces-table tr:hover {
+    background-color: #f9f9f9;
+}
+.noti-box, .spaces-box {
+    flex-direction: column; /* Ensure both boxes are treated as inline-block elements */
+    vertical-align: top; /* Align them to the top */
+    width: 600px;
+    margin: 40px; /* spacing between boxes */
+
+}
+
+.message-admin-box {
+    margin: 10px auto; /* Center the button horizontally */
+    text-align: center; /* Align the button in the center */
+}
+
+.message-admin-box button {
+    position: relative;
+    top: -200px;
+    background-color: #E6007D;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 15%;
+    font-size: 1.2rem;
+    margin-left: 850px;
+}
+
+.message-admin-box button:hover {
+    background-color: #C4006A;
+
+}
 
 /* Notifications CSS (END)*/
+
 
 /* Vmanage CSS (START)*/
 
