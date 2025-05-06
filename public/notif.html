@@ -82,16 +82,41 @@
 
     <div class="noti-box">
         <h3>Notifications</h3>
-        <p>noti options here</p>
+        <p id="markread">Mark all as read</p>
     </div>
 
     <div class="spaces-box">
         <h3>Parking Availability</h3>
-        <p>parking space table here</p>
+        <table class="spaces-table">
+            <thead>
+                <tr>
+                    <th>Car Park</th>
+                    <th>Status</th>
+                    <th>Capacity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Car Park A</td>
+                    <td><span class="status-open">Open</span></td>
+                    <td>250 spaces</td>
+                </tr>
+                <tr>
+                    <td>Car Park B</td>
+                    <td><span class="status-event">Event Only</span></td>
+                    <td>180 spaces</td>
+                </tr>
+                <tr>
+                    <td>Car Park C</td>
+                    <td><span class="status-closed">Closed</span></td>
+                    <td>300 spaces</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <div class="message-admin-box">
-        <a href="message-admin.html"><button class="">Message an Admin</button></a>
+        <a href="message-admin.html"><button class="">Message an Admin  <i class="fa-solid fa-comment-dots"></i>  </button></a>
     </div>
 
 

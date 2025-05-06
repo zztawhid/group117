@@ -2465,6 +2465,112 @@ button.add-vehicle-button {
 
 
 /* Notifications CSS (START) */
+.noti-box {
+    background-color: #fff;
+    border: 2px solid #E6007D;
+    border-radius: 10px;
+    width: 40%;
+    height: auto;
+    min-height: 500px;
+    margin: 30px;
+    text-align: left;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.noti-box h3 {
+    color: #E6007D;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.noti-box #markread {
+    margin-right: auto; /* Push it to the right */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #414141;
+    font-size: 1rem;
+    align-self: center; /* Align vertically */
+    margin-top: auto; /* Adjust vertical alignment */
+    
+}
+
+.noti-box #markread:hover {
+    transform: scale(1.05);
+    color: #E6007D;
+}
+
+
+/*parking spaces box */
+.spaces-box {
+    background-color: #fff;
+    border: 2px solid #E6007D;
+    border-radius: 10px;
+    width: 50%;
+    min-height: 300px;
+    height: auto;
+    text-align: left;
+    padding: 10px;
+}
+
+.spaces-box h3 {
+    font-size: 1.3rem;
+}
+
+.spaces-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.spaces-table th, .spaces-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.spaces-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+.spaces-table tr:hover {
+    background-color: #f9f9f9;
+}
+.noti-box, .spaces-box {
+    display: inline-block; /* Ensure both boxes are treated as inline-block elements */
+    vertical-align: top; /* Align them to the top */
+    width: 45%; 
+    margin: 45px; /* spacing between boxes */
+
+}
+
+.message-admin-box {
+    margin: 10px auto; /* Center the button horizontally */
+    text-align: center; /* Align the button in the center */
+}
+
+.message-admin-box button {
+    position: relative;
+    top: -200px;
+    background-color: #E6007D;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 15%;
+    font-size: 1.2rem;
+    margin-left: 850px;
+}
+
+.message-admin-box button:hover {
+    background-color: #C4006A;
+    transform: scale(1.05);
+}
+
 
 /* Notifications CSS (END)*/
 
