@@ -2469,9 +2469,8 @@ button.add-vehicle-button {
     background-color: #fff;
     border: 2px solid #E6007D;
     border-radius: 10px;
-    width: 40%;
-    height: auto;
-    min-height: 500px;
+    width: 400px;
+    height: 500px;
     margin: 30px;
     text-align: left;
     padding: 10px;
@@ -2482,7 +2481,8 @@ button.add-vehicle-button {
 .noti-box h3 {
     color: #E6007D;
     font-size: 1.5rem;
-    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .notification-list {
@@ -2512,20 +2512,14 @@ button.add-vehicle-button {
     border-bottom: none; /* Remove border for the last item */
 }
 
-.noti-box #markread:hover {
-    
-    color: #E6007D;
-}
-
 
 /*parking spaces box */
 .spaces-box {
     background-color: #fff;
     border: 2px solid #E6007D;
     border-radius: 10px;
-    width: 50%;
+    width: 100px;
     min-height: 300px;
-    height: auto;
     text-align: left;
     padding: 10px;
 }
@@ -2535,7 +2529,6 @@ button.add-vehicle-button {
 }
 
 .spaces-table {
-    width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
 }
@@ -2555,9 +2548,9 @@ button.add-vehicle-button {
     background-color: #f9f9f9;
 }
 .noti-box, .spaces-box {
-    display: inline-block; /* Ensure both boxes are treated as inline-block elements */
+    flex-direction: column; /* Ensure both boxes are treated as inline-block elements */
     vertical-align: top; /* Align them to the top */
-    width: 45%; 
+    width: 600px;
     margin: 40px; /* spacing between boxes */
 
 }
@@ -2586,7 +2579,6 @@ button.add-vehicle-button {
     background-color: #C4006A;
 
 }
-
 
 /* Notifications CSS (END)*/
 

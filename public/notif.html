@@ -96,37 +96,54 @@
                 <!--dynamically loaded content..?-->
                 <span class="notification-time">1 hour ago</span>
             </li>
-        
+        </ul>
     </div>
 
     <div class="spaces-box">
         <h3>Parking Availability</h3>
-        <table class="spaces-table">
-            <thead>
-                <tr>
-                    <th>Car Park</th>
-                    <th>Status</th>
-                    <th>Capacity</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Car Park A</td>
-                    <td><span class="status-open">Open</span></td>
-                    <td>250 spaces</td>
-                </tr>
-                <tr>
-                    <td>Car Park B</td>
-                    <td><span class="status-event">Event Only</span></td>
-                    <td>180 spaces</td>
-                </tr>
-                <tr>
-                    <td>Car Park C</td>
-                    <td><span class="status-closed">Closed</span></td>
-                    <td>300 spaces</td>
-                </tr>
-            </tbody>
-        </table>
+        <section id="location-status-overview">
+            <h2>CURRENT STATUS OVERVIEW</h2>
+            <div class="status-table-container">
+                <table class="status-table">
+                    <thead>
+                    <tr>
+                        <th>Car Park</th>
+                        <th>Status</th>
+                        <th>Capacity</th>
+                        <th>Current Occupancy</th>
+                        <th>Restrictions</th>
+                        <th>Last Updated</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Car Park A</td>
+                        <td><span class="status-open">Open</span></td>
+                        <td>250 spaces</td>
+                        <td>187 (75%)</td>
+                        <td>None</td>
+                        <td>Today, 09:45</td>
+                    </tr>
+                    <tr>
+                        <td>Car Park B</td>
+                        <td><span class="status-event">Event Only</span></td>
+                        <td>180 spaces</td>
+                        <td>92 (51%)</td>
+                        <td>Valid event pass required</td>
+                        <td>Today, 10:30</td>
+                    </tr>
+                    <tr>
+                        <td>Car Park C</td>
+                        <td><span class="status-closed">Closed</span></td>
+                        <td>300 spaces</td>
+                        <td>0 (0%)</td>
+                        <td>Maintenance work</td>
+                        <td>Yesterday, 16:15</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </div>
 
     <div class="message-admin-box">
