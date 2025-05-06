@@ -2485,19 +2485,35 @@ button.add-vehicle-button {
     margin: 0;
 }
 
-.noti-box #markread {
-    margin-right: auto; /* Push it to the right */
-    cursor: pointer;
-    transition: all 0.2s ease;
-    color: #414141;
-    font-size: 1rem;
-    align-self: center; /* Align vertically */
-    margin-top: auto; /* Adjust vertical alignment */
-    
+.notification-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+.notification-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.notification-title {
+    font-weight: bold;
+    color: #333;
+}
+
+.notification-time {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.notification-item:last-child {
+    border-bottom: none; /* Remove border for the last item */
 }
 
 .noti-box #markread:hover {
-    transform: scale(1.05);
+    
     color: #E6007D;
 }
 
@@ -2542,7 +2558,7 @@ button.add-vehicle-button {
     display: inline-block; /* Ensure both boxes are treated as inline-block elements */
     vertical-align: top; /* Align them to the top */
     width: 45%; 
-    margin: 45px; /* spacing between boxes */
+    margin: 40px; /* spacing between boxes */
 
 }
 
@@ -2560,7 +2576,7 @@ button.add-vehicle-button {
     border-radius: 8px;
     padding: 10px 20px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: background 0.3s ease;
     width: 15%;
     font-size: 1.2rem;
     margin-left: 850px;
@@ -2568,7 +2584,7 @@ button.add-vehicle-button {
 
 .message-admin-box button:hover {
     background-color: #C4006A;
-    transform: scale(1.05);
+
 }
 
 
