@@ -804,6 +804,46 @@ app.get('/api/parking/sessions/active', async (req, res) => {
     }
 });
 
+// Extend parking session
+app.post('/api/parking/sessions/extend', async (req, res) => {
+    try {
+        const { reference_number, duration_hours } = req.body;
+        
+        if (!reference_number || !duration_hours) {
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+
+        // Get current session
+        const [session] = await pool.execute(
+            `SELECT * FROM parking_occupancy 
+             WHERE reference_number = ? AND time_out IS NULL`,
+            [reference_number]
+        );
+
+        if (session.length === 0) {
+            return res.status(404).json({ error: 'Active session not found' });
+        }
+
+        // Calculate new end time
+        const newEndTime = new Date();
+        newEndTime.setHours(newEndTime.getHours() + parseInt(duration_hours));
+
+        // Update session
+        await pool.execute(
+            `UPDATE parking_occupancy 
+             SET duration_hours = ?, 
+                 time_out = ?
+             WHERE reference_number = ?`,
+            [duration_hours, newEndTime, reference_number]
+        );
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error extending session:', error);
+        res.status(500).json({ error: 'Failed to extend parking session' });
+    }
+});
+
 // Default route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));

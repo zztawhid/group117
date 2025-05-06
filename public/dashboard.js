@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('userFullName').textContent = user.full_name;
     document.getElementById('userAccountNumber').textContent = user.user_id;
 
+    // Initialize extend modal
+    initExtendModal();
+
     // Load active parking session immediately
     await loadActiveParkingSession(user.user_id);
 
@@ -21,6 +24,38 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 let currentSessionId = null;
 let countdownInterval = null;
+let currentSessionData = null;
+
+// Initialize extend parking modal
+function initExtendModal() {
+    const modal = document.getElementById('extendModal');
+    const closeBtn = document.querySelector('.modal-close');
+    const extendBtn = document.getElementById('confirmExtend');
+    const hoursInput = document.getElementById('extendHours');
+
+    // Close modal when clicking X
+    closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    // Handle extend confirmation
+    extendBtn.addEventListener('click', async () => {
+        const hours = parseInt(hoursInput.value);
+        if (hours > 0 && hours <= 24) {
+            await processExtension(hours);
+            modal.style.display = 'none';
+        } else {
+            alert('Please enter a valid number of hours (1-24)');
+        }
+    });
+}
 
 async function loadActiveParkingSession(userId) {
     try {
@@ -37,15 +72,16 @@ async function loadActiveParkingSession(userId) {
             // Only update if it's a new session or data has changed
             if (currentSessionId !== data.activeSession.reference_number) {
                 currentSessionId = data.activeSession.reference_number;
+                currentSessionData = data.activeSession;
                 displayActiveSession(data.activeSession);
             }
         } else {
             currentSessionId = null;
+            currentSessionData = null;
             clearActiveSessionDisplay();
         }
     } catch (error) {
         console.error('Error loading parking session:', error);
-        // Don't redirect or show error - might be temporary network issue
     }
 }
 
@@ -113,7 +149,7 @@ function displayActiveSession(session) {
     `;
     
     // Add event listeners
-    document.querySelector('.btn-extend').addEventListener('click', () => extendParking(session));
+    document.querySelector('.btn-extend').addEventListener('click', () => showExtendModal(session));
     document.querySelector('.btn-end').addEventListener('click', () => endParking(session.reference_number));
     
     // Calculate remaining time in seconds
@@ -121,6 +157,49 @@ function displayActiveSession(session) {
     const remainingSeconds = Math.max(0, Math.floor((endTime - now) / 1000));
     
     startCountdownTimer(remainingSeconds);
+}
+
+function showExtendModal(session) {
+    const modal = document.getElementById('extendModal');
+    const hoursInput = document.getElementById('extendHours');
+    
+    // Set default value to current duration
+    hoursInput.value = session.duration_hours;
+    
+    // Show current location and spot in modal
+    document.getElementById('extendLocation').textContent = 
+        `${session.location_name} (${session.location_code}) - Spot ${session.space_number}`;
+    
+    // Show modal
+    modal.style.display = 'block';
+}
+
+async function processExtension(hours) {
+    try {
+        const response = await fetch('/api/parking/sessions/extend', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                reference_number: currentSessionData.reference_number,
+                duration_hours: hours
+            })
+        });
+
+        if (response.ok) {
+            // Refresh the session data
+            const user = JSON.parse(localStorage.getItem('user'));
+            await loadActiveParkingSession(user.user_id);
+            alert('Parking session extended successfully!');
+        } else {
+            const errorData = await response.json();
+            alert(errorData.error || 'Failed to extend parking session');
+        }
+    } catch (error) {
+        console.error('Error extending parking session:', error);
+        alert('Error extending parking session. Please try again.');
+    }
 }
 
 function formatTime(date) {
@@ -188,11 +267,6 @@ function startCountdownTimer(initialSeconds) {
     countdownInterval = setInterval(updateTimer, 1000);
 }
 
-async function extendParking(session) {
-    // Redirect to parking page with extend parameters
-    window.location.href = `parking.html?extend=${session.reference_number}&duration=${session.duration_hours}`;
-}
-
 async function endParking(referenceNumber) {
     if (confirm('Are you sure you want to end this parking session?')) {
         try {
@@ -203,6 +277,7 @@ async function endParking(referenceNumber) {
             if (response.ok) {
                 // Clear the current session display
                 currentSessionId = null;
+                currentSessionData = null;
                 clearActiveSessionDisplay();
                 
                 // Show success message

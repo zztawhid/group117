@@ -134,6 +134,23 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'login.html';
     });
 });
+
 </script>
+
+<!-- Extend Parking Modal -->
+<div id="extendModal" style="display:none;">
+    <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <h2>Extend Parking Session</h2>
+        <div class="modal-body">
+            <p>Current Location: <span id="extendLocation"></span></p>
+            <div class="form-group">
+                <label for="extendHours">Additional Hours (1-24):</label>
+                <input type="number" id="extendHours" min="1" max="24" value="1">
+            </div>
+            <button id="confirmExtend" class="btn">Extend Parking</button>
+        </div>
+    </div>
+</div>
 </body>
 </html>
