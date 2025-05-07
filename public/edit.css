@@ -2483,15 +2483,83 @@ button.add-vehicle-button {
 
 
 /* Notifications CSS (START) */
+.spaces-notifications-container {
+    display: flex;
+    gap: 30px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 50px;
+    padding-bottom: 10px;
+}
+
+/* Parking spaces box */
+#spaces-box {
+    background-color: #fff;
+    border: 2px solid #E6007D;
+    border-radius: 10px;
+    width: 60%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+#spaces-box h3 {
+    color: #E6007D;
+    font-size: 1.5rem;
+    margin: 0 auto 20px;
+}
+.status-table-container {
+    overflow-x: auto;
+}
+
+.status-table {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+}
+
+.status-table th,
+.status-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.status-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+    color: #333;
+}
+
+.status-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+.status-open {
+    color: green;
+    font-weight: bold;
+}
+
+.status-event {
+    color: orange;
+    font-weight: bold;
+}
+
+
+.status-closed {
+    color: red;
+    font-weight: bold;
+}
+
+/* Notifications box */
 .noti-box {
     background-color: #fff;
     border: 2px solid #E6007D;
     border-radius: 10px;
-    width: 400px;
-    height: 500px;
-    margin: 30px;
-    text-align: left;
-    padding: 10px;
+    width: 40%;
+    padding: 20px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
 }
@@ -2499,103 +2567,61 @@ button.add-vehicle-button {
 .noti-box h3 {
     color: #E6007D;
     font-size: 1.5rem;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto 20px;
 }
 
 .notification-list {
     list-style: none;
     padding: 0;
-    margin: 10px 0;
+    margin: 0;
+    flex-grow: 1;
 }
 
 .notification-item {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
+    padding: 15px 0;
     border-bottom: 1px solid #ddd;
 }
 
 .notification-title {
     font-weight: bold;
     color: #333;
+    flex-grow: 1;
 }
 
 .notification-time {
     font-size: 0.9rem;
     color: #888;
+    margin-left: 15px;
 }
 
 .notification-item:last-child {
-    border-bottom: none; /* Remove border for the last item */
-}
-
-
-/*parking spaces box */
-.spaces-box {
-    background-color: #fff;
-    border: 2px solid #E6007D;
-    border-radius: 10px;
-    width: 100px;
-    min-height: 300px;
-    text-align: left;
-    padding: 10px;
-}
-
-.spaces-box h3 {
-    font-size: 1.3rem;
-}
-
-.spaces-table {
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.spaces-table th, .spaces-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-.spaces-table th {
-    background-color: #f5f5f5;
-    font-weight: bold;
-}
-
-.spaces-table tr:hover {
-    background-color: #f9f9f9;
-}
-.noti-box, .spaces-box {
-    flex-direction: column; /* Ensure both boxes are treated as inline-block elements */
-    vertical-align: top; /* Align them to the top */
-    width: 600px;
-    margin: 40px; /* spacing between boxes */
-
+    border-bottom: none;
 }
 
 .message-admin-box {
-    margin: 10px auto; /* Center the button horizontally */
-    text-align: center; /* Align the button in the center */
+    margin-top: auto;
+    padding-top: 20px;
+    text-align: center;
 }
 
 .message-admin-box button {
-    position: relative;
-    top: -200px;
     background-color: #E6007D;
     color: white;
     border: none;
     border-radius: 8px;
-    padding: 10px 20px;
+    padding: 12px 25px;
     cursor: pointer;
     transition: background 0.3s ease;
-    width: 15%;
-    font-size: 1.2rem;
-    margin-left: 850px;
+    font-size: 1rem;
+    width: 250px;
+    margin: 0;
+    margin-bottom: 30px;
 }
 
 .message-admin-box button:hover {
     background-color: #C4006A;
-
 }
 
 /* Notifications CSS (END)*/
@@ -2782,6 +2808,7 @@ button.add-vehicle-button {
 }
 
 /* Image Upload Popup Styles */
+
 .image-preview-container {
     text-align: center;
     margin: 20px 0;
@@ -2808,7 +2835,7 @@ button.add-vehicle-button {
     margin-top: 20px;
 }
 
-.vbtnB {
+.choose-btn {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -2818,25 +2845,81 @@ button.add-vehicle-button {
 }
 
 /* Enabled state (green) */
-.vbtnB:not(:disabled) {
+.choose-btn:not(:disabled) {
     background-color: green; /* Green */
     color: white;
 }
 
 /* Enabled hover effect */
-.vbtnB:not(:disabled):hover {
+.choose-btn:not(:disabled):hover {
     background-color: #45a049; /* Darker green */
 
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-/* Disabled state (grey) */
-.vbtnB:disabled {
+
+.save-btn:disabled {
     background-color: #cccccc;
     color: #666666;
     cursor: not-allowed;
 }
 
+/* save image popup */
+/* BASE BUTTON STYLES */
+.save-btn, .cancel-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+/* SAVE BUTTON (GREEN) */
+.save-btn {
+    background-color: green; /* Green */
+    color: white;
+}
+
+/* Save Button - Hover State */
+.save-btn:not(:disabled):hover {
+    background-color: green;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+/* Save Button - Disabled State (Grey) */
+.save-btn:disabled {
+    background-color: #e0e0e0;
+    color: #fff;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.save-btn:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+.cancel-btn {
+    background-color: #f44336; /* Red */
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #d32f2f; /* Darker red */
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+.cancel-btn:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
+
+/* save image popup */
 
 .vehicle-buttons-bottom {
     display: flex;
@@ -3772,15 +3855,6 @@ header button:hover,
     opacity: 0.1;
 }
 
-@keyframes moving {
-    50%
-    {
-        transform: translateX(100%);
-
-    }
-
-}
-
 
 
 
@@ -4036,40 +4110,46 @@ header {
         font-size: 14px; 
     }
 
+    /* DASHBOARD QUERIES */
+    .active-bar {
+        width: 100%; 
+        padding: 10px; 
+        margin-top: 10px; 
+    }
     /* PARKING SECTION QUERIES */
     #payment-section {
-        flex-direction: column; /* arrange items vertical */
-        padding: 10px; /* Add padding for better spacing */
+        flex-direction: column; 
+        padding: 10px; 
         height: 1000px;
         margin-top: 10px;
         margin-bottom: 100px;
     }
 
     .payment-map {
-        width: 100%; /* Full width for the map */
-        height: auto; /* Maintain aspect ratio */
-        margin-bottom: 20px; /* Add spacing below the map */
+        width: 100%; 
+        height: auto; 
+        margin-bottom: 20px; 
     }
 
     .payment-form {
-        width: 100%; /* Full width for the form */
+        width: 100%; 
         
     }
     .payment-form h2 {
-        font-size: 30px; /* Adjust font size for smaller screens */
-        text-align: center; /* Center align the heading */
+        font-size: 30px; 
+        text-align: center; 
         
     }
 
     #location-select, #vehicle-select, #duration-select {
-        font-size: 18px; /* Adjust font size for readability */
+        font-size: 18px; 
         
     }
     .payment-continue-button {
-        width: 100%; /* Full width for the button */
-        font-size: 16px; /* Adjust font size */
-        padding: 12px; /* Add padding for better spacing */
-        margin-top: 15px; /* Add spacing above the button */
+        width: 100%; 
+        font-size: 16px; 
+        padding: 12px; 
+        margin-top: 15px; 
     }
 
     .tab-container {
@@ -4080,32 +4160,93 @@ header {
 
     /*VEHICLE MANAGE PAGE QUERIES*/
     .vehicle-buttons-top {
-        flex-direction: column; /* Stack buttons vertically */
-        align-items: center; /* Center align buttons */
-        gap: 15px; /* Add spacing between buttons */
+        flex-direction: column; 
+        align-items: center; 
+        gap: 15px; 
     }
     .vehicle-list{
         width: 95%;
     }
 
     .vehicle-buttons-top .vbtn {
-        width: 100%; /* Full width for buttons */
-        font-size: 16px; /* Adjust font size for readability */
-        padding: 12px; /* Add padding for better spacing */
+        width: 100%; 
+        font-size: 16px; 
+        padding: 12px; 
     }
 
     .vehicle-buttons-bottom {
-        flex-direction: column; /* Stack buttons vertically */
-        align-items: center; /* Center align buttons */
-        gap: 15px; /* Add spacing between buttons */
+        flex-direction: column; 
+        align-items: center; 
+        gap: 15px; 
     }
 
     .vehicle-buttons-bottom .vbtnG, .vehicle-buttons-bottom .vbtnR {
-        width: 100%; /* Full width for buttons */
-        font-size: 16px; /* Adjust font size for readability */
-        padding: 12px; /* Add padding for better spacing */
+        width: 100%; 
+        font-size: 16px; 
+        padding: 12px; 
     }
-    
+
+    /*NOTIFICATIONS */
+    .spaces-notifications-container {
+        flex-direction: column; 
+        gap: 20px; 
+        width: 95%; 
+        padding: 15px; 
+    }
+
+    /* Parking Spaces Box */
+    #spaces-box {
+        width: 95%; 
+        padding: 15px; 
+        order: 2;
+
+    }
+
+    /* Notifications Box */
+    .noti-box {
+        width: 95%; 
+        padding: 15px; 
+        order: 1;
+    }
+
+    /* Notification List */
+    .notification-list {
+        font-size: 14px; 
+    }
+
+    .notification-item {
+        flex-direction: column; 
+        align-items: flex-start; 
+        gap: 5px; 
+    }
+
+    .notification-title {
+        font-size: 16px; 
+    }
+
+    .notification-time {
+        font-size: 12px; 
+        margin-left: 0; 
+    }
+
+
+    /* CONTACT US PAGE QUERIES */
+    .fb-form {
+        width: 95%;;
+        padding: 20px;
+        font-size: 16px;
+    }
+    .faq-container {
+        width: 95%;
+    }
+    .faq-question {
+        font-size: 12px;
+    }
+    .faq-answer {
+        font-size: 13px;
+    }
+
+
 
 /* attempting to make the hamburger sidebar work */
 .topnav {
