@@ -52,14 +52,6 @@ async function loadUserData() {
         
     } catch (error) {
         console.error('Error loading user data:', error);
-        // Fallback to localStorage data if available
-        const localUser = JSON.parse(localStorage.getItem('user')) || {
-            full_name: 'Bob Smith',
-            email: 'email@email.co.uk',
-            phone_number: '07972931203'
-        };
-        
-        updateUserDisplay(localUser);
     }
 }
 
@@ -109,17 +101,23 @@ async function saveProfileChanges() {
         const response = await fetch(`/api/auth/user/${user.user_id}`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(updatedData)
         });
         
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to update profile');
+        // Check if response is JSON
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            throw new Error(`Unexpected response: ${text.substring(0, 100)}`);
         }
         
         const result = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(result.message || 'Failed to update profile');
+        }
         
         // Update local storage and display
         localStorage.setItem('user', JSON.stringify(result.user));

@@ -133,7 +133,7 @@ app.get('/api/auth/user', async (req, res) => {
         const userId = req.query.userId;
         
         const [users] = await pool.execute(
-            'SELECT user_id, full_name, email, user_type FROM users WHERE user_id = ?',
+            'SELECT user_id, full_name, phone_number, email, user_type FROM users WHERE user_id = ?',
             [userId]
         );
         
@@ -242,24 +242,45 @@ app.get('/api/admin/users', async (req, res) => {
     }
 });
 
-app.put('/api/admin/users/:userId', async (req, res) => {
+// Update user profile endpoint
+app.put('/api/auth/user/:userId', async (req, res) => {
     try {
         const userId = req.params.userId;
-        const { user_type } = req.body;
+        const { full_name, email, phone_number } = req.body;
 
-        if (!['admin', 'driver'].includes(user_type)) {
-            return res.status(400).json({ message: 'Invalid user type' });
+        // Validate inputs
+        if (!full_name || !email || !phone_number) {
+            return res.status(400).json({ 
+                message: 'All fields are required' 
+            });
         }
 
+        // Update user in database
         await pool.execute(
-            'UPDATE users SET user_type = ? WHERE user_id = ?',
-            [user_type, userId]
+            'UPDATE users SET full_name = ?, email = ?, phone_number = ? WHERE user_id = ?',
+            [full_name, email, phone_number, userId]
         );
 
-        res.json({ success: true });
+        // Get updated user data
+        const [users] = await pool.execute(
+            'SELECT user_id, full_name, phone_number, email, user_type FROM users WHERE user_id = ?',
+            [userId]
+        );
+
+        if (users.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json({ 
+            success: true,
+            user: users[0] 
+        });
+
     } catch (error) {
         console.error('Error updating user:', error);
-        res.status(500).json({ message: 'Failed to update user' });
+        res.status(500).json({ 
+            message: 'Failed to update user profile' 
+        });
     }
 });
 
