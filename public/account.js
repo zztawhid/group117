@@ -125,8 +125,7 @@ async function saveProfileChanges() {
         
         // Close popup
         closeEditProfilePopup();
-        
-        alert('Profile updated successfully!');
+
         
     } catch (error) {
         console.error('Error updating profile:', error);
@@ -189,7 +188,7 @@ function handleImageSelect(e) {
         uploadButton.disabled = true;
         return;
     }
-    
+
     selectedImageFile = file;
 
     // Create preview
@@ -214,8 +213,6 @@ function uploadProfileImage() {
     // Show loading state
     uploadButton.classList.add('uploading');
     uploadButton.disabled = true;
-    statusElement.textContent = 'Uploading...';
-    statusElement.className = 'status-message info';
 
     // Simulate upload delay for better UX (remove in production)
     setTimeout(() => {
