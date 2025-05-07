@@ -149,7 +149,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 <label for="extendHours">Additional Hours (1-24):</label>
                 <input type="number" id="extendHours" min="1" max="24" value="1">
             </div>
-            <button id="confirmExtend" class="btn">Extend Parking</button>
+            <section class="payment-method">
+                        <div class="form-group">
+                            <label for="card-name">Name on Card</label>
+                            <input type="text" id="card-name" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="card-number">Card Number</label>
+                            <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="card-expiry">Expiry Date</label>
+                                <input type="text" id="card-expiry" placeholder="MM/YY" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="card-cvv">CVV</label>
+                                <input type="text" id="card-cvv" placeholder="123" required>
+                            </div>
+                        </div>
+            </section>
+            <div class="confirm-btn-group">
+                <button id="confirmExtend">Extend Parking</button>
+            </div>
         </div>
     </div>
 </div>

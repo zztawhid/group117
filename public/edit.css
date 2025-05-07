@@ -1396,6 +1396,17 @@ input:not([readonly]) {
     background-color: #1a252f;
 }
 
+#confirmExtend {
+    width: 300px;
+    margin-bottom: 10px;
+    color: #fff;
+    background-color: green;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: white;
+    padding: 10px;
+}
+
 /*Payment Page*/
 #payment-page-text{
     margin: 20px;
@@ -2730,6 +2741,18 @@ button.add-vehicle-button {
     align-items: center;
     z-index: 1000;
 }
+
+#confirmExtend{
+    width: 30%;
+    cursor: pointer;
+}
+
+.confirm-btn-group{
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+}
+
 
 .add-vehicle-form {
     background-color: white;
