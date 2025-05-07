@@ -137,90 +137,124 @@ async function saveProfileChanges() {
 // Profile Picture Functionality
 let selectedImageFile = null;
 
+// Set up event listeners when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Image upload change handler
+    document.getElementById('image-upload').addEventListener('change', handleImageSelect);
+
+    // Upload button click handler
+    document.getElementById('upload-button').addEventListener('click', uploadProfileImage);
+});
+
 function openImageUploadPopup() {
     document.getElementById('image-upload-popup').style.display = 'flex';
-    document.getElementById('image-upload').value = '';
+    document.getElementById('image-upload').value = ''; // Reset file input
     selectedImageFile = null;
     document.getElementById('upload-button').disabled = true;
-    document.getElementById('upload-status').style.display = 'none';
+    document.getElementById('upload-status').textContent = '';
 
     // Show current profile image in preview
-    const currentImage = document.querySelector('.profile-pic').src;
-    document.getElementById('image-preview').src = currentImage;
+    const savedImage = localStorage.getItem('profileImage');
+    const previewImg = document.getElementById('image-preview');
+    if (savedImage) {
+        previewImg.src = savedImage;
+    } else {
+        // Fallback to default profile picture
+        previewImg.src = document.querySelector('.profile-pic').src;
+    }
 }
 
 function closeImageUploadPopup() {
     document.getElementById('image-upload-popup').style.display = 'none';
 }
 
-document.getElementById('image-upload').addEventListener('change', function(e) {
+function handleImageSelect(e) {
+    const file = e.target.files[0];
+    const statusElement = document.getElementById('upload-status');
     const uploadButton = document.getElementById('upload-button');
-    const statusMessage = document.getElementById('upload-status');
 
-    statusMessage.style.display = 'none';
+    // Reset status
+    statusElement.textContent = '';
+    statusElement.className = 'status-message';
 
-    if (e.target.files && e.target.files[0]) {
-        const file = e.target.files[0];
-        const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        const maxSize = 2 * 1024 * 1024; // 2MB
-
-        if (!validTypes.includes(file.type)) {
-            showStatus('Please select a valid image file (JPEG, PNG, GIF)', 'error');
-            uploadButton.disabled = true;
-            return;
-        }
-
-        if (file.size > maxSize) {
-            showStatus('Image must be less than 2MB', 'error');
-            uploadButton.disabled = true;
-            return;
-        }
-
-        selectedImageFile = file;
-        const reader = new FileReader();
-
-        reader.onload = function(event) {
-            document.getElementById('image-preview').src = event.target.result;
-            uploadButton.disabled = false;
-        }
-
-        reader.readAsDataURL(file);
-    } else {
+    if (!file) {
         uploadButton.disabled = true;
+        return;
     }
-});
+
+    // Validate file type
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!validTypes.includes(file.type)) {
+        showStatus('Please select a JPEG, PNG, or GIF image', 'error');
+        uploadButton.disabled = true;
+        return;
+    }
+    
+    selectedImageFile = file;
+
+    // Create preview
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        document.getElementById('image-preview').src = event.target.result;
+        uploadButton.disabled = false;
+    };
+    reader.onerror = function() {
+        showStatus('Error reading image file', 'error');
+        uploadButton.disabled = true;
+    };
+    reader.readAsDataURL(file);
+}
 
 function uploadProfileImage() {
     if (!selectedImageFile) return;
 
     const uploadButton = document.getElementById('upload-button');
-    const statusMessage = document.getElementById('upload-status');
+    const statusElement = document.getElementById('upload-status');
 
     // Show loading state
     uploadButton.classList.add('uploading');
     uploadButton.disabled = true;
-    statusMessage.style.display = 'none';
+    statusElement.textContent = 'Uploading...';
+    statusElement.className = 'status-message info';
 
-    // Simulate upload (in a real app, you would upload to server)
-    setTimeout(function() {
+    // Simulate upload delay for better UX (remove in production)
+    setTimeout(() => {
         const reader = new FileReader();
         reader.onload = function(event) {
-            // Update profile picture
-            document.querySelector('.profile-pic').src = event.target.result;
-
             // Save to localStorage
             localStorage.setItem('profileImage', event.target.result);
 
-            // Reset button state
+            // Update profile picture on page
+            document.querySelector('.profile-pic').src = event.target.result;
+
+            // Show success
+            showStatus('Profile picture updated!', 'success');
+
+            // Close popup after delay
+            setTimeout(closeImageUploadPopup, 1000);
+        };
+        reader.onerror = function() {
+            showStatus('Error saving image', 'error');
             uploadButton.classList.remove('uploading');
             uploadButton.disabled = false;
-            
-            // Close popup after delay
-            setTimeout(closeImageUploadPopup, 1500);
         };
         reader.readAsDataURL(selectedImageFile);
-    }, 1500);
+    }, 500); // Simulate network delay
 }
+
+function showStatus(message, type) {
+    const statusElement = document.getElementById('upload-status');
+    statusElement.textContent = message;
+    statusElement.className = 'status-message ' + type;
+}
+
+// Load saved image when page loads
+window.addEventListener('load', function() {
+    const savedImage = localStorage.getItem('profileImage');
+    if (savedImage) {
+        document.querySelector('.profile-pic').src = savedImage;
+    }
+});
 
 function showStatus(message, type) {
     const statusElement = document.getElementById('upload-status');
