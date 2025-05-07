@@ -3297,6 +3297,12 @@ header button:hover,
     margin: 50px auto;
 }
 
+#location-status-overview h2 {
+    margin: auto;
+    text-align: center;
+    margin: 35px auto;
+}
+
 
 #admin-map {
     width: 800px;
@@ -4246,6 +4252,69 @@ header {
         font-size: 13px;
     }
 
+    /*LOCATION MANAGEMENT */
+
+    #location-management-section {
+        display: block;
+    }
+
+
+    /*MANAGE USERS PAGE QUERIES */
+    .admin-container {
+        width: 100%;
+        padding: 10px;
+    }
+   
+    .admin-container h1 {
+        text-align: center;
+    }
+   
+    .search-container {
+        width: 100%;
+        margin-bottom: 25px;
+    }
+   
+    #userSearch {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+    }
+   
+    .table-container {
+        overflow-x: auto;
+        width: 100%;
+    }
+   
+    #usersTable {
+        width: 100%;
+        font-size: 16px;
+    }
+   
+    #usersTable th,
+    #usersTable td {
+        padding: 6px;
+        white-space: nowrap;
+    }
+   
+    #usersTable th {
+        font-size: 12px;
+    }
+   
+    .pagination {
+        display: flex;
+        justify-content: center;
+        
+    }
+   
+    .pagination button {
+        padding: 6px 12px;
+        
+    }
+    #pageInfo {
+        
+        margin: 0 10px;
+    }
+
 
 
 /* attempting to make the hamburger sidebar work */
@@ -4292,7 +4361,7 @@ header {
     color: white;
     font-size: 24px;
     cursor: pointer;
-    left: 450px;
+    left: 340px;
     z-index: 1100; /* Ensure it stays above the sidebar */
 }
 
