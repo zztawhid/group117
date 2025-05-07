@@ -4303,6 +4303,20 @@ header {
     margin: 0;
 }
 
+
+
+    footer img {
+        height: 16.89px;
+        width: 80.25px;
+    }
+
+    footer p {
+        margin: 0;
+        font-size: 8px;
+    }
+
+
+
 }
 
 
