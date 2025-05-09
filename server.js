@@ -3,6 +3,16 @@ const path = require('path');
 const pool = require('./config/db');
 const bcrypt = require('bcryptjs');
 const app = express();
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    host: "smtp.ethereal.email",
+    port: 587,
+    auth: {
+        user: "chasity.runolfsson@ethereal.email",  
+        pass: "MS2JWDmVYwxMUuh27u"              
+    }
+});
 
 // Middleware
 app.use(express.json());
@@ -64,6 +74,23 @@ app.post('/api/auth/register', async (req, res) => {
 
             await connection.commit();
             res.status(201).json({ message: 'Registration successful' });
+
+            // Send confirmation email
+            const mailOptions = {
+                from: 'chasity.runolfsson@ethereal.email',
+                to: email,
+                subject: 'Registration Confirmation',
+                text: `Hello ${firstName},\n\nThank you for registering! Your account has been created successfully.\n\nBest regards,\nThe Team`
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.error('Error sending email:', error);
+                } else {
+                    console.log('Email sent:', info.response);
+                }
+            });
+
         } catch (err) {
             await connection.rollback();
             throw err;
