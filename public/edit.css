@@ -4341,6 +4341,43 @@ header {
 
 
 /* attempting to make the hamburger sidebar work */
+.status-bar {
+    width: 470px;
+    height: 100px;
+    padding: 5px;
+
+}
+
+ .status-title {
+    font-size: 12px;
+    padding-left: 2px;
+    max-width: min-content;
+    display: none;
+}
+
+.status-active {
+    margin-right: 5px;
+    font-size: 8px;
+}
+
+.status-header {
+    font-size: 10px;
+    gap: 5px;
+}
+
+.status-details {
+    font-size: 10px;
+    gap: 20px;
+}
+
+.timer{
+    font-size: 20px;
+}
+
+.action-buttons {
+    color: red;
+}
+
 .topnav {
     position: fixed;
     top: 0;
@@ -4394,7 +4431,6 @@ header {
     padding: 0;
     margin: 0;
 }
-
 
 
     footer img {
