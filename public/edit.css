@@ -4047,18 +4047,19 @@ header {
     border: 2px solid black;
 }
 
+    button.header-button {
+        font-size: 12px;
+        justify-content: center;
+    }
+
 .header-button {
     width: 18%; /* Full width for buttons */
     height: 60%;
     padding: 10px;
-    font-size: 14px; /* Adjust font size for smaller screens */
     margin: 5px 5px; /* Add spacing between buttons */
     text-align: center;
     background-color: #333; /* Dark background for buttons */
     color: white;
-
-   
-    
 }
 
 .header-button:hover {
@@ -4066,10 +4067,15 @@ header {
 }
 
 .header-button img {
-    
     width: 65px;
     height: 40px;
 }
+
+.info-left p,
+.info-right p{
+    font-size: 20px;
+}
+
 /* Account management Queries */
 .account-management {
     width: 90%; /*take the full width of the screen */
@@ -4118,8 +4124,8 @@ header {
 
     /*boxes */
     .nav-area {
-        width: 100%; 
-        padding: 10px; 
+        width: 100%;
+        padding: 10px;
         margin-top: 10px;
     }
 
@@ -4132,11 +4138,11 @@ header {
 
     .nav-box i {
         font-size: 40px; 
-        margin-bottom: 5px; 
+        margin-bottom: 5px;
     }
 
     .nav-box h3 {
-        font-size: 14px; 
+        font-size: 14px;
     }
 
     /* DASHBOARD QUERIES */
@@ -4434,13 +4440,13 @@ header {
 
 
     footer img {
-        height: 16.89px;
-        width: 80.25px;
+        height: 18.89px;
+        width: 82.25px;
     }
 
     footer p {
         margin: 0;
-        font-size: 8px;
+        font-size: 10px;
     }
 
 
