@@ -428,7 +428,7 @@ main {
     align-items: center; /* Vertically center the content */
     justify-content: space-between; /* Space between text and image */
     margin-top: 20px; /* Space between this section and the info-box */
-    padding: 20px; /* Padding inside the section */
+    padding: 0px; /* Padding inside the section */
     background-color: #F7F0E4; /* Match the page background */
 }
 
@@ -498,6 +498,7 @@ main {
     flex: 1; /* Take up available space */
     max-width: 50%; /* Limit width to half the container */
     text-align: right; /* Align the image to the right */
+    margin-top: 10px;
 }
 
 .large-image {
@@ -4158,18 +4159,19 @@ header {
     border: 2px solid black;
 }
 
+    button.header-button {
+        font-size: 12px;
+        justify-content: center;
+    }
+
 .header-button {
     width: 18%; /* Full width for buttons */
     height: 60%;
     padding: 10px;
-    font-size: 14px; /* Adjust font size for smaller screens */
     margin: 5px 5px; /* Add spacing between buttons */
     text-align: center;
     background-color: #333; /* Dark background for buttons */
     color: white;
-
-   
-    
 }
 
 .header-button:hover {
@@ -4180,6 +4182,12 @@ header {
     width: 65px;
     height: 40px;
 }
+
+.info-left p,
+.info-right p{
+    font-size: 20px;
+}
+
 /* Account management Queries */
 .account-management {
     width: 90%; /*take the full width of the screen */
@@ -4228,8 +4236,8 @@ header {
 
     /*boxes */
     .nav-area {
-        width: 100%; 
-        padding: 10px; 
+        width: 100%;
+        padding: 10px;
         margin-top: 10px;
     }
 
@@ -4242,11 +4250,11 @@ header {
 
     .nav-box i {
         font-size: 40px; 
-        margin-bottom: 5px; 
+        margin-bottom: 5px;
     }
 
     .nav-box h3 {
-        font-size: 14px; 
+        font-size: 14px;
     }
 
     /* DASHBOARD QUERIES */
@@ -4451,6 +4459,43 @@ header {
 
 
 /* attempting to make the hamburger sidebar work */
+.status-bar {
+    width: 470px;
+    height: 100px;
+    padding: 5px;
+
+}
+
+ .status-title {
+    font-size: 12px;
+    padding-left: 2px;
+    max-width: min-content;
+    display: none;
+}
+
+.status-active {
+    margin-right: 5px;
+    font-size: 8px;
+}
+
+.status-header {
+    font-size: 10px;
+    gap: 5px;
+}
+
+.status-details {
+    font-size: 10px;
+    gap: 20px;
+}
+
+.timer{
+    font-size: 20px;
+}
+
+.action-buttons {
+    color: red;
+}
+
 .topnav {
     position: fixed;
     top: 0;
@@ -4506,15 +4551,14 @@ header {
 }
 
 
-
     footer img {
-        height: 16.89px;
-        width: 80.25px;
+        height: 18.89px;
+        width: 82.25px;
     }
 
     footer p {
         margin: 0;
-        font-size: 8px;
+        font-size: 10px;
     }
 
 
