@@ -1585,14 +1585,48 @@ input:not([readonly]) {
 
 .map-pointer {
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     background-color: red;
+    border: 2px solid white; /* border around the circle */
     border-radius: 50%;
     transform: translate(-50%, -50%);
     pointer-events: auto;
     cursor: pointer;
+    z-index: 2;
+    box-sizing: border-box;
 }
+
+/* Triangle below the circle */
+.map-pointer::after {
+    content: "";
+    position: absolute;
+    top: 75%; /* position directly below the circle */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid red; /* triangle color matches the circle */
+}
+
+/* Border for the triangle using an outer pseudo-element */
+.map-pointer::before {
+    content: "";
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translateX(-50%) translateY(1px); /* slightly offset to sit behind */
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 12px solid white; /* same as circle border */
+    z-index: -1;
+}
+
+
 
 .map-pointer-tooltip {
     position: absolute;
@@ -1607,6 +1641,7 @@ input:not([readonly]) {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s, visibility 0.2s;
+    margin-bottom: 15px;
 }
 
 .map-pointer:hover .map-pointer-tooltip {
@@ -3411,6 +3446,50 @@ h2 {
     gap: 0px;
     margin: 10px auto;
     max-width: 1200px;
+}
+
+.location-map-container {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    margin: 0px;
+    padding: 0px;
+    width: 800px;
+}
+
+.location-control-panel {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 500px;
+}
+
+.location-selection,
+.location-settings {
+    width: 100%;
+}
+
+.lct-middle {
+    grid-column: 1 / span 2;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.location-actions,
+.location-spaces-management {
+    flex: 1;
+    max-width: 450px;
+}
+
+.lct-bottom {
+    grid-column: 1 / span 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
 }
 
 .loading-spinner {

@@ -64,61 +64,61 @@ function initMapPointers() {
         {
             id: 'pointer-1',
             x: '78%',  // 
-            y: '35%',
+            y: '33%',
             tooltip: 'Blackdale'
         },
         {
             id: 'pointer-2',
             x: '30%',  // Slightly to the right of center
-            y: '58%',
+            y: '56%',
             tooltip: 'Chancellors Drive'
         },
         {
             id: 'pointer-3',
             x: '45%',  // Slightly to the right of center
-            y: '27%',
+            y: '25%',
             tooltip: 'Enterprise Center'
         },
         {
             id: 'pointer-4',
             x: '70%',  // 
-            y: '47%',
+            y: '45%',
             tooltip: 'Main Car Park'
         },
         {
             id: 'pointer-5',
             x: '83%',  // Slightly to the right of center
-            y: '45%',
+            y: '43%',
             tooltip: 'Medical Center'
         },
         {
             id: 'pointer-6',
             x: '35%',  // Slightly to the right of center
-            y: '72%',
+            y: '70%',
             tooltip: 'Sainsburys'
         },
         {
             id: 'pointer-7',
             x: '57%',  // Slightly to the right of center
-            y: '30%',
+            y: '28%',
             tooltip: 'SportsPark'
         },
         {
             id: 'pointer-8',
             x: '60%',  // Slightly to the right of center
-            y: '70%',
+            y: '68%',
             tooltip: 'Suffolk Road'
         },
         {
             id: 'pointer-9',
             x: '49%',  // Slightly to the right of center
-            y: '61%',
+            y: '59%',
             tooltip: 'Suffolk Terrance'
         },
         {
             id: 'pointer-10',
             x: '75%',  // Slightly to the right of center
-            y: '57%',
+            y: '55%',
             tooltip: 'Waveney Road'
         },
         
