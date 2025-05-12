@@ -821,6 +821,10 @@ main {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
+.modal-content h2 {
+    color: black;
+}
+
 /* Main Page (END) */
 
 
@@ -3400,10 +3404,9 @@ header button:hover,
 h2 {
     font-size: 32px;
     font-weight: bold;
-    color: #E6007D;
+    color: #ffffff;
     text-align: center;
     margin-top: 0px;
-    padding-bottom: 10px;
 }
 
 /* Location Management Page Styles */
