@@ -13,15 +13,15 @@ document.addEventListener('DOMContentLoaded', async function() {
         return;
     }
 
-    // Initialize date picker
+    // Initialize map pointers
+    initMapPointers();
+
+    // Rest of your existing initialization code...
     flatpickr("#start-time", {
         enableTime: true,
         dateFormat: "Y-m-d H:i",
         minDate: "today",
-        time_24hr: true,
-        minuteIncrement: 30,
-        minTime: "08:00",
-        maxTime: "20:00"
+        time_24hr: true
     });
 
     await Promise.all([
@@ -56,18 +56,55 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('book-now-btn').addEventListener('click', bookAdvancedParking);
 });
 
+function initMapPointers() {
+    const container = document.getElementById('map-pointers-container');
+    
+    // Define your pointers here
+    const pointers = [
+        {
+            id: 'pointer-1',
+            x: '70%',  // Center of the map
+            y: '47%',
+            tooltip: 'Main Car Park'
+        },
+        {
+            id: 'pointer-2',
+            x: '60%',  // Slightly to the right of center
+            y: '40%',
+            tooltip: 'Hello from pointer 2!'
+        }
+        // Add more pointers as needed
+    ];
+
+    // Create pointers
+    pointers.forEach(pointer => {
+        const pointerElement = document.createElement('div');
+        pointerElement.className = 'map-pointer';
+        pointerElement.id = pointer.id;
+        pointerElement.style.left = pointer.x;
+        pointerElement.style.top = pointer.y;
+        
+        // Create tooltip
+        const tooltip = document.createElement('div');
+        tooltip.className = 'map-pointer-tooltip';
+        tooltip.textContent = pointer.tooltip;
+        
+        pointerElement.appendChild(tooltip);
+        container.appendChild(pointerElement);
+    });
+}
 
 function openTab(tabName) {
     const tabs = document.getElementsByClassName('tab-content');
     for (let tab of tabs) {
         tab.classList.remove('active-tab');
     }
-    
+
     const tabButtons = document.getElementsByClassName('tab-button');
     for (let button of tabButtons) {
         button.classList.remove('active');
     }
-    
+
     document.getElementById(`${tabName}-tab`).classList.add('active-tab');
     event.currentTarget.classList.add('active');
 }
@@ -76,7 +113,7 @@ async function loadParkingLocations(tab = 'now') {
     try {
         const response = await fetch('/api/parking/locations');
         if (!response.ok) throw new Error('Failed to load parking locations');
-        
+
         const locations = await response.json();
         populateLocationDropdown(locations, tab);
     } catch (error) {
@@ -92,7 +129,7 @@ function populateLocationDropdown(locations, tab = 'now') {
     const selectId = tab === 'now' ? 'location-select' : 'location-select-later';
     const select = document.getElementById(selectId);
     select.innerHTML = '<option value="" disabled selected>Select location</option>';
-    
+
     locations.forEach(loc => {
         const option = document.createElement('option');
         option.value = loc.location_id;
@@ -109,7 +146,7 @@ async function loadUserVehicles(userId, tab = 'now') {
     try {
         const response = await fetch(`/api/vehicles?user_id=${userId}`);
         if (!response.ok) throw new Error('Failed to load vehicles');
-        
+
         const vehicles = await response.json();
         populateVehicleDropdown(vehicles, tab);
     } catch (error) {
@@ -124,7 +161,7 @@ async function loadUserVehicles(userId, tab = 'now') {
 function populateVehicleDropdown(vehicles, tab = 'now') {
     const selectId = tab === 'now' ? 'vehicle-select' : 'vehicle-select-later';
     const select = document.getElementById(selectId);
-    
+
     if (vehicles.length === 0) {
         select.innerHTML = `
             <option value="" disabled selected>No vehicles registered</option>
@@ -133,7 +170,7 @@ function populateVehicleDropdown(vehicles, tab = 'now') {
     }
 
     select.innerHTML = '<option value="" disabled selected>Select your vehicle</option>';
-    
+
     vehicles.forEach(vehicle => {
         const option = document.createElement('option');
         option.value = vehicle.vehicle_id;
@@ -145,23 +182,23 @@ function populateVehicleDropdown(vehicles, tab = 'now') {
 async function updatePriceEstimate() {
     const locationSelect = document.getElementById('location-select');
     const durationSelect = document.getElementById('duration-select');
-    
+
     if (!locationSelect.value || !durationSelect.value) return;
 
     const locationId = locationSelect.value;
     const response = await fetch(`/api/parking/locations/${locationId}`);
     const location = await response.json();
-    
+
     const duration = parseInt(durationSelect.value);
     const baseRate = location.hourly_rate;
-    
+
     let discount = 0;
     if (duration >= 24) discount = 0.2;
     else if (duration >= 12) discount = 0.15;
     else if (duration >= 8) discount = 0.1;
-    
+
     const totalCost = (baseRate * duration * (1 - discount)).toFixed(2);
-    
+
     document.getElementById('total-cost').value = totalCost;
 }
 
@@ -169,7 +206,7 @@ function calculateAndSubmit(tab = 'now') {
     const locationSelect = document.getElementById(tab === 'now' ? 'location-select' : 'location-select-later');
     const vehicleSelect = document.getElementById(tab === 'now' ? 'vehicle-select' : 'vehicle-select-later');
     const durationSelect = document.getElementById(tab === 'now' ? 'duration-select' : 'duration-select-later');
-    
+
     if (!locationSelect.value || !vehicleSelect.value || !durationSelect.value) {
         alert('Please select all required options');
         return;
@@ -182,7 +219,7 @@ function calculateAndSubmit(tab = 'now') {
     form.querySelector('#vehicle-id').value = vehicleSelect.value;
     form.querySelector('#vehicle-plate').value = vehicleSelect.options[vehicleSelect.selectedIndex].text;
     form.querySelector('#duration').value = durationSelect.value;
-    
+
     // Submit form
     form.submit();
 }
@@ -193,7 +230,7 @@ async function checkAvailability() {
     const startTime = document.getElementById('start-time').value;
     const duration = document.getElementById('duration-select-later').value;
     const needsDisabled = document.getElementById('disabled-bay-later').checked;
-    
+
     if (!locationId || !vehicleId || !startTime || !duration) {
         alert('Please fill in all fields');
         return;
@@ -201,7 +238,7 @@ async function checkAvailability() {
 
     try {
         const user = JSON.parse(localStorage.getItem('user'));
-        
+
         const response = await fetch('/api/parking/reservations', {
             method: 'POST',
             headers: {
@@ -216,37 +253,29 @@ async function checkAvailability() {
                 needs_disabled: needsDisabled
             })
         });
-        
+
         if (!response.ok) {
             const error = await response.json();
             throw new Error(error.error || 'Failed to check availability');
         }
-        
+
         const reservation = await response.json();
-        
+
         // Display reservation details
         document.getElementById('space-number').textContent = reservation.space_number || 'Not assigned';
-        
+
         const start = new Date(reservation.start_time).toLocaleString();
         const end = new Date(reservation.end_time).toLocaleString();
         document.getElementById('reservation-time').textContent = `${start} to ${end}`;
-        
+
         document.getElementById('reservation-total').textContent = `£${reservation.total_cost}`;
-        
+
         // Store reservation details for booking
-        const bookNowBtn = document.getElementById('book-now-btn');
-        bookNowBtn.dataset.reservationId = reservation.reservation_id;
-        bookNowBtn.dataset.totalCost = reservation.total_cost;
-        bookNowBtn.dataset.locationName = reservation.location_name;
-        bookNowBtn.dataset.vehiclePlate = reservation.license_plate;
-        bookNowBtn.dataset.duration = reservation.duration_hours;
-        bookNowBtn.dataset.startTime = reservation.start_time;
-        bookNowBtn.dataset.endTime = reservation.end_time;
-        bookNowBtn.dataset.needsDisabled = reservation.needs_disabled;
-        
+        document.getElementById('book-now-btn').dataset.reservationId = reservation.reservation_id;
+        document.getElementById('book-now-btn').dataset.totalCost = reservation.total_cost;
+
         document.getElementById('availability-result').classList.remove('hidden');
-        document.getElementById('availability-result').style.display = '';
-        
+
     } catch (error) {
         console.error('Availability check error:', error);
         alert(error.message || 'Failed to check availability');
@@ -256,38 +285,21 @@ async function checkAvailability() {
 async function bookAdvancedParking() {
     const reservationId = this.dataset.reservationId;
     const totalCost = this.dataset.totalCost;
-    
+
     if (!reservationId) {
         alert('No reservation selected');
         return;
     }
 
-    // Get the selected vehicle details
-    const vehicleSelect = document.getElementById('vehicle-select-later');
-    const selectedVehicle = vehicleSelect.options[vehicleSelect.selectedIndex];
-
-    // Redirect to payment page with all reservation details
-    const params = new URLSearchParams({
-        reservation_id: reservationId,
-        total_cost: totalCost,
-        type: 'reservation',
-        location_name: this.dataset.locationName,
-        vehicle_id: selectedVehicle.value,  // Add vehicle ID
-        vehicle_plate: selectedVehicle.text, // Add vehicle plate
-        duration: this.dataset.duration,
-        start_time: this.dataset.startTime,
-        end_time: this.dataset.endTime,
-        needs_disabled: this.dataset.needsDisabled
-    });
-
-    window.location.href = `payment.html?${params.toString()}`;
+    // Redirect to payment page with reservation details
+    window.location.href = `payment.html?reservation_id=${reservationId}&total_cost=${totalCost}&type=reservation`;
 }
 
 async function checkActiveSession(userId) {
     try {
         const response = await fetch(`/api/parking/sessions/active?user_id=${userId}`);
         if (!response.ok) throw new Error('Failed to check active session');
-        
+
         const data = await response.json();
         return !!data.activeSession;
     } catch (error) {
@@ -299,7 +311,7 @@ async function checkActiveSession(userId) {
 function showActiveSessionWarning() {
     const paymentForm = document.querySelector('.payment-form');
     const heading = document.querySelector('.payment-form h2');
-    
+
     const warningHTML = `
         <div class="active-session-warning">
             <div class="warning-content">
@@ -310,7 +322,7 @@ function showActiveSessionWarning() {
             </div>
         </div>
     `;
-    
+
     // Insert the warning after the heading instead of at the beginning
     heading.insertAdjacentHTML('afterend', warningHTML);
     document.querySelector('.tab-container').style.display = 'none';
@@ -322,13 +334,9 @@ function disableBookingForms() {
     formElements.forEach(element => {
         element.disabled = true;
     });
-    
+
     // Hide the booking tabs
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.style.display = 'none';
     });
-}
-
-function closePopup() {
-    document.getElementById('availability-result').style.display = 'none';
 }

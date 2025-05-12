@@ -12,167 +12,167 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
 </head>
-    <body>
-        <div id="wrapper">
-            <header>
-                <button class="header-button" onclick="toggleLanguageDropdown()">
-                    <img src="images/england.jpg" alt="English Flag">
+<body>
+    <div id="wrapper">
+        <header>
+            <button class="header-button" onclick="toggleLanguageDropdown()">
+                <img src="images/england.jpg" alt="English Flag">
+            </button>
+            <div id="language-dropdown" class="dropdown hidden">
+                <button onclick="changeLanguage('en')">
+                    <img src="images/england.jpg" alt="English Flag"> English
                 </button>
-                <div id="language-dropdown" class="dropdown hidden">
-                    <button onclick="changeLanguage('en')">
-                        <img src="images/england.jpg" alt="English Flag"> English
-                    </button>
-                    <button onclick="changeLanguage('fr')">
-                        <img src="images/france.png" alt="French Flag"> Français
-                    </button>
-                    <button onclick="changeLanguage('cn')">
-                        <img src="images/china.png" alt="Chinese Flag"> Chinese
-                    </button>
+                <button onclick="changeLanguage('fr')">
+                    <img src="images/france.png" alt="French Flag"> Français
+                </button>
+                <button onclick="changeLanguage('cn')">
+                    <img src="images/china.png" alt="Chinese Flag"> Chinese
+                </button>
+            </div>
+
+            <a href="a-main.html"><img id="parkuealogo" src="./Images/logo.png"></a>
+            <button class="header-button" onclick="document.location='contact.html'">Contact Us</button>
+        </header>
+
+        <nav id="topnav">
+            <div class="nav-container">
+                <div class="dropdown-icon" onclick="toggleDropdown()">
+                    <i class="fas fa-bars"></i>
                 </div>
-        
-                <a href="a-main.html"><img id="parkuealogo" src="./Images/logo.png"></a>
-                <button class="header-button" onclick="document.location='contact.html'">Contact Us</button>
-            </header>
-        
-            <nav id="topnav">
-                <div class="nav-container">
-                    <div class="dropdown-icon" onclick="toggleDropdown()">
-                        <i class="fas fa-bars"></i>
+                <div class="active-page">Dashboard</div>
+                <ul class="topnav">
+                    <ul><a href="main.html" class="nav-link">Home Page</a></ul>
+                    <ul><a href="parking.html" class="nav-link">Parking</a></ul>
+                    <ul><a href="account.html" class="nav-link">Account Management</a></ul>
+                    <ul><a href="vManage.html" class="nav-link">Vehicle Management</a></ul>
+                    <ul><a href="notif.html" class="nav-link">Notifications</a></ul>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="main">
+            <div id="payment-section">
+                <div class="payment-map">
+                    <object id="parking-map" type="image/svg+xml" data="parking-map.svg"></object>
+                    <div id="map-pointers-container"></div>
+                </div>
+                <div class="payment-form">
+                    <h2>Book your parking</h2>
+
+                    <div class="tab-container">
+                        <button class="tab-button active" onclick="openTab('now')">Park Now</button>
+                        <button class="tab-button" onclick="openTab('later')">Book in Advance</button>
                     </div>
-                    <div class="active-page">Dashboard</div>
-                    <ul class="topnav">
-                        <ul><a href="main.html" class="nav-link">Home Page</a></ul>
-                        <ul><a href="parking.html" class="nav-link">Parking</a></ul>
-                        <ul><a href="account.html" class="nav-link">Account Management</a></ul>
-                        <ul><a href="vManage.html" class="nav-link">Vehicle Management</a></ul>
-                        <ul><a href="notif.html" class="nav-link">Notifications</a></ul>
-                    </ul>
-                </div>
-            </nav>
-<main class="main">
-    <div id="payment-section">
-        <div class="payment-map">
-            <object type="image/svg+xml" data="parking-map.svg"></object>
-        </div>
-        <div class="payment-form">
-            <h2>Book your parking</h2>
-            
-            <div class="tab-container">
-                <button class="tab-button active" onclick="openTab('now')">Park Now</button>
-                <button class="tab-button" onclick="openTab('later')">Book in Advance</button>
-            </div>
-            
-            <!-- Park Now Tab -->
-            <div id="now-tab" class="tab-content active-tab">
-                <div class="payment-form-group">
-                    <label id="paymentlabel">Parking Location:</label>
-                    <select id="location-select" required>
-                        <option value="" disabled selected>Select location</option>
-                    </select>
-                </div>
-                <div class="payment-form-group">
-                    <label id="paymentlabel">Your vehicle:</label>
-                    <select id="vehicle-select" required>
-                        <option value="" disabled selected>Select your vehicle</option>
-                    </select>
-                </div>
-                <div class="payment-form-group">
-                    <label id="paymentlabel">Duration (Hours):</label>
-                    <select id="duration-select" required>
-                        <option value="" disabled selected>Select duration</option>
-                        <option value="1">1 hour</option>
-                        <option value="2">2 hours</option>
-                        <option value="3">3 hours</option>
-                        <option value="4">4 hours</option>
-                        <option value="5">5 hours</option>
-                        <option value="6">6 hours</option>
-                        <option value="8">8 hours (10% discount)</option>
-                        <option value="12">12 hours (15% discount)</option>
-                        <option value="24">24 hours (20% discount)</option>
-                    </select>
-                </div>
-                <div class="payment-form-group checkbox-group">
-                    <input type="checkbox" id="disabled-bay-now">
-                    <label for="disabled-bay-now">I need a disabled parking bay</label>
-                </div>
-                <form id="parking-form-now" action="payment.html" method="get">
-                    <input type="hidden" id="location-id" name="location_id">
-                    <input type="hidden" id="location-name" name="location_name">
-                    <input type="hidden" id="vehicle-id" name="vehicle_id">
-                    <input type="hidden" id="vehicle-plate" name="vehicle_plate">
-                    <input type="hidden" id="duration" name="duration">
-                    <input type="hidden" id="total-cost" name="total_cost">
-                    <input type="hidden" id="needs-disabled" name="needs_disabled" value="false">
-                    <button type="submit" class="payment-continue-button">Continue <i class="fa-solid fa-arrow-right"></i></button>
-                </form>
-            </div>
-            
-            <!-- Book Later Tab -->
-            <div id="later-tab" class="tab-content">
-                <div class="payment-form-group">
-                    <label id="paymentlabel">Parking Location:</label>
-                    <select id="location-select-later" required>
-                        <option value="" disabled selected>Select location</option>
-                    </select>
-                </div>
-                <div class="payment-form-group">
-                    <label id="paymentlabel">Your vehicle:</label>
-                    <select id="vehicle-select-later" required>
-                        <option value="" disabled selected>Select your vehicle</option>
-                    </select>
-                </div>
-                <div class="payment-form-group">
-                    <label id="paymentlabel">Start date:</label>
-                    <input type="text" id="start-time" class="datetime-input" placeholder="Select date and time" required>
-                </div>
-                <div class="payment-form-group">
-                    <label id="paymentlabel">Duration (Hours):</label>
-                    <select id="duration-select-later" required>
-                        <option value="" disabled selected>Select duration</option>
-                        <option value="1">1 hour</option>
-                        <option value="2">2 hours</option>
-                        <option value="3">3 hours</option>
-                        <option value="4">4 hours</option>
-                        <option value="5">5 hours</option>
-                        <option value="6">6 hours</option>
-                        <option value="8">8 hours (10% discount)</option>
-                        <option value="12">12 hours (15% discount)</option>
-                        <option value="24">24 hours (20% discount)</option>
-                    </select>
-                </div>
-                <div class="payment-form-group checkbox-group">
-                    <input type="checkbox" id="disabled-bay-later">
-                    <label for="disabled-bay-later">I need a disabled parking bay</label>
-                </div>
-                <button id="check-availability-btn" class="payment-continue-button">Check Availability <i class="fa-solid fa-arrow-right"></i></button>
-                <div id="availability-result" class="hidden">
-                    <span class="popup-close" onclick="closePopup()">&times;</span>
-                    <div class="availability-details">
-                        <p>Space: <span id="space-number"></span></p>
-                        <p>Time: <span id="reservation-time"></span></p>
-                        <p>Duration: <span id="reservation-duration"></span> hours</p>
-                        <p>Total: <span id="reservation-total"></span></p>
+
+                    <!-- Park Now Tab -->
+                    <div id="now-tab" class="tab-content active-tab">
+                        <div class="payment-form-group">
+                            <label id="paymentlabel">Parking Location:</label>
+                            <select id="location-select" required>
+                                <option value="" disabled selected>Select location</option>
+                            </select>
+                        </div>
+                        <div class="payment-form-group">
+                            <label id="paymentlabel">Your vehicle:</label>
+                            <select id="vehicle-select" required>
+                                <option value="" disabled selected>Select your vehicle</option>
+                            </select>
+                        </div>
+                        <div class="payment-form-group">
+                            <label id="paymentlabel">Duration (Hours):</label>
+                            <select id="duration-select" required>
+                                <option value="" disabled selected>Select duration</option>
+                                <option value="1">1 hour</option>
+                                <option value="2">2 hours</option>
+                                <option value="3">3 hours</option>
+                                <option value="4">4 hours</option>
+                                <option value="5">5 hours</option>
+                                <option value="6">6 hours</option>
+                                <option value="8">8 hours (10% discount)</option>
+                                <option value="12">12 hours (15% discount)</option>
+                                <option value="24">24 hours (20% discount)</option>
+                            </select>
+                        </div>
+                        <div class="payment-form-group checkbox-group">
+                            <input type="checkbox" id="disabled-bay-now">
+                            <label for="disabled-bay-now">I need a disabled parking bay</label>
+                        </div>
+                        <form id="parking-form-now" action="payment.html" method="get">
+                            <input type="hidden" id="location-id" name="location_id">
+                            <input type="hidden" id="location-name" name="location_name">
+                            <input type="hidden" id="vehicle-id" name="vehicle_id">
+                            <input type="hidden" id="vehicle-plate" name="vehicle_plate">
+                            <input type="hidden" id="duration" name="duration">
+                            <input type="hidden" id="total-cost" name="total_cost">
+                            <input type="hidden" id="needs-disabled" name="needs_disabled" value="false">
+                            <button type="submit" class="payment-continue-button">Continue <i class="fa-solid fa-arrow-right"></i></button>
+                        </form>
                     </div>
-                    <button id="book-now-btn" class="payment-continue-button">Book Now <i class="fa-solid fa-arrow-right"></i></button>
+
+                    <!-- Book Later Tab -->
+                    <div id="later-tab" class="tab-content">
+                        <div class="payment-form-group">
+                            <label id="paymentlabel">Parking Location:</label>
+                            <select id="location-select-later" required>
+                                <option value="" disabled selected>Select location</option>
+                            </select>
+                        </div>
+                        <div class="payment-form-group">
+                            <label id="paymentlabel">Your vehicle:</label>
+                            <select id="vehicle-select-later" required>
+                                <option value="" disabled selected>Select your vehicle</option>
+                            </select>
+                        </div>
+                        <div class="payment-form-group">
+                            <label id="paymentlabel">Start date:</label>
+                            <input type="text" id="start-time" class="datetime-input" placeholder="Select date and time" required>
+                        </div>
+                        <div class="payment-form-group">
+                            <label id="paymentlabel">Duration (Hours):</label>
+                            <select id="duration-select-later" required>
+                                <option value="" disabled selected>Select duration</option>
+                                <option value="1">1 hour</option>
+                                <option value="2">2 hours</option>
+                                <option value="3">3 hours</option>
+                                <option value="4">4 hours</option>
+                                <option value="5">5 hours</option>
+                                <option value="6">6 hours</option>
+                                <option value="8">8 hours (10% discount)</option>
+                                <option value="12">12 hours (15% discount)</option>
+                                <option value="24">24 hours (20% discount)</option>
+                            </select>
+                        </div>
+                        <div class="payment-form-group checkbox-group">
+                            <input type="checkbox" id="disabled-bay-later">
+                            <label for="disabled-bay-later">I need a disabled parking bay</label>
+                        </div>
+                        <button id="check-availability-btn" class="payment-continue-button">Check Availability <i class="fa-solid fa-arrow-right"></i></button>
+                        <div id="availability-result" class="hidden">
+                            <div class="availability-details">
+                                <p>Space: <span id="space-number"></span></p>
+                                <p>Time: <span id="reservation-time"></span></p>
+                                <p>Total: <span id="reservation-total"></span></p>
+                            </div>
+                            <button id="book-now-btn" class="payment-continue-button">Book Now <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </main>
+
+        <footer>
+            <div class="text-left">
+                <p>Contact US:<br>07345678910<br>Parking@vea.ac.uk</p>
+            </div>
+            <div class="text-center">
+                <div class="logo-footer">
+                    <img src="images/ueaWhite.png" alt="UEA Logo" width=240.75 height=50.68>
+                </div>
+            </div>
+            <div class="text-right">
+                <p>University of East Anglia<br>Norwich research park<br>NR4 7TJ</p>
+            </div>
+        </footer>
     </div>
-</main>
-
-    <footer>
-        <div class="text-left">
-            <p>Contact US:<br>07345678910<br>Parking@vea.ac.uk</p>
-        </div>
-        <div class="text-center">
-            <div class="logo-footer">
-                <img src="images/ueaWhite.png" alt="UEA Logo" width=240.75 height=50.68>
-            </div>
-        </div>
-        <div class="text-right">
-            <p>University of East Anglia<br>Norwich research park<br>NR4 7TJ</p>
-        </div>
-    </footer>
-
 </body>
 </html>
