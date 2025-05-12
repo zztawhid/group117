@@ -52,11 +52,13 @@
 
     <main class="main">
         <h2 id="location-manage-title">LOCATION MANAGEMENT</h2>
-        <div id="location-management-section">
-            <div class="location-map-container">
-                <object type="image/svg+xml" data="parking-map.svg" id="admin-map"></object>
-            </div>
 
+        <div id="location-management-section">
+            <!-- Left Column - Map -->
+            <object type="image/svg+xml" data="parking-map.svg" id="admin-map"></object>
+
+
+            <!-- Right Column - Selection and Settings -->
             <div class="location-control-panel">
                 <div class="location-selection">
                     <h3>Select Car Park</h3>
@@ -65,10 +67,8 @@
                             <label id="paymentlabel">Parking Location:</label>
                             <select id="location-select" required>
                                 <option value="" disabled selected>Select location</option>
-                                <!-- dynamically loaded -->
                             </select>
                         </div>
-                        <span id="selected-location-status" class="status-open">Status: Open</span>
                     </div>
                 </div>
 
@@ -95,7 +95,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <!-- Middle Row - Actions and Spaces Management -->
+            <div class="lct-middle">
                 <div class="location-actions">
                     <h3>Management Actions</h3>
                     <div class="action-buttons">
@@ -107,9 +110,6 @@
                         </button>
                         <button class="action-btn" id="open-location">
                             <i class="fas fa-lock-open"></i> Reopen Car Park
-                        </button>
-                        <button class="action-btn" id="maintenance-mode">
-                            <i class="fas fa-tools"></i> Maintenance Mode
                         </button>
                     </div>
                 </div>
@@ -125,12 +125,12 @@
                             <label for="spaces-to-remove">Spaces to Remove</label>
                             <input type="number" id="spaces-to-remove" min="0" placeholder="Number of spaces to remove">
                         </div>
-                        <button class="action-btn" id="update-spaces">
-                            <i class="fas fa-parking"></i> Update Spaces
-                        </button>
+                        <button class="action-btn" id="update-spaces">Update Spaces</button>
                     </div>
                 </div>
+            </div>
 
+            <div class="lct-bottom">
                 <div class="new-location-form">
                     <h3>Add New Parking Location</h3>
                     <div class="form-group">
@@ -183,7 +183,6 @@
                     </tr>
                     </thead>
                     <tbody id="status-table-body">
-                        <!-- Dynamically populated -->
                     </tbody>
                 </table>
             </div>
