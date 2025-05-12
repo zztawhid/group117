@@ -821,6 +821,10 @@ main {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
+.modal-content h2 {
+    color: black;
+}
+
 /* Main Page (END) */
 
 
@@ -3392,18 +3396,21 @@ header button:hover,
     margin-top: 50px;
 }
 
-.loading-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.8);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
+h2 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    margin-top: 0px;
+}
+
+/* Location Management Page Styles */
+#location-management-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0px;
+    margin: 10px auto;
+    max-width: 1200px;
 }
 
 .loading-spinner {

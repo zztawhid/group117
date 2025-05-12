@@ -63,20 +63,20 @@ function initMapPointers() {
     const pointers = [
         {
             id: 'pointer-1',
-            x: '80%',  // 
-            y: '40%',
+            x: '78%',  // 
+            y: '35%',
             tooltip: 'Blackdale'
         },
         {
             id: 'pointer-2',
             x: '30%',  // Slightly to the right of center
-            y: '54.3%',
+            y: '58%',
             tooltip: 'Chancellors Drive'
         },
         {
             id: 'pointer-3',
-            x: '40%',  // Slightly to the right of center
-            y: '35%',
+            x: '45%',  // Slightly to the right of center
+            y: '27%',
             tooltip: 'Enterprise Center'
         },
         {
@@ -88,37 +88,37 @@ function initMapPointers() {
         {
             id: 'pointer-5',
             x: '83%',  // Slightly to the right of center
-            y: '47%',
+            y: '45%',
             tooltip: 'Medical Center'
         },
         {
             id: 'pointer-6',
-            x: '30%',  // Slightly to the right of center
-            y: '60%',
+            x: '35%',  // Slightly to the right of center
+            y: '72%',
             tooltip: 'Sainsburys'
         },
         {
             id: 'pointer-7',
-            x: '55%',  // Slightly to the right of center
-            y: '37%',
+            x: '57%',  // Slightly to the right of center
+            y: '30%',
             tooltip: 'SportsPark'
         },
         {
             id: 'pointer-8',
             x: '60%',  // Slightly to the right of center
-            y: '64%',
+            y: '70%',
             tooltip: 'Suffolk Road'
         },
         {
             id: 'pointer-9',
             x: '49%',  // Slightly to the right of center
-            y: '57%',
+            y: '61%',
             tooltip: 'Suffolk Terrance'
         },
         {
             id: 'pointer-10',
             x: '75%',  // Slightly to the right of center
-            y: '55%',
+            y: '57%',
             tooltip: 'Waveney Road'
         },
         
