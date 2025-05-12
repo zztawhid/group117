@@ -63,17 +63,69 @@ function initMapPointers() {
     const pointers = [
         {
             id: 'pointer-1',
-            x: '70%',  // Center of the map
+            x: '80%',  // 
+            y: '40%',
+            tooltip: 'Blackdale'
+        },
+        {
+            id: 'pointer-2',
+            x: '30%',  // Slightly to the right of center
+            y: '54.3%',
+            tooltip: 'Chancellors Drive'
+        },
+        {
+            id: 'pointer-3',
+            x: '40%',  // Slightly to the right of center
+            y: '35%',
+            tooltip: 'Enterprise Center'
+        },
+        {
+            id: 'pointer-4',
+            x: '70%',  // 
             y: '47%',
             tooltip: 'Main Car Park'
         },
         {
-            id: 'pointer-2',
+            id: 'pointer-5',
+            x: '83%',  // Slightly to the right of center
+            y: '47%',
+            tooltip: 'Medical Center'
+        },
+        {
+            id: 'pointer-6',
+            x: '30%',  // Slightly to the right of center
+            y: '60%',
+            tooltip: 'Sainsburys'
+        },
+        {
+            id: 'pointer-7',
+            x: '55%',  // Slightly to the right of center
+            y: '37%',
+            tooltip: 'SportsPark'
+        },
+        {
+            id: 'pointer-8',
             x: '60%',  // Slightly to the right of center
-            y: '40%',
-            tooltip: 'Hello from pointer 2!'
-        }
-        // Add more pointers as needed
+            y: '64%',
+            tooltip: 'Suffolk Road'
+        },
+        {
+            id: 'pointer-9',
+            x: '49%',  // Slightly to the right of center
+            y: '57%',
+            tooltip: 'Suffolk Terrance'
+        },
+        {
+            id: 'pointer-10',
+            x: '75%',  // Slightly to the right of center
+            y: '55%',
+            tooltip: 'Waveney Road'
+        },
+        
+        
+
+
+        
     ];
 
     // Create pointers
