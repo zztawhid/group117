@@ -427,7 +427,7 @@ main {
     align-items: center; /* Vertically center the content */
     justify-content: space-between; /* Space between text and image */
     margin-top: 20px; /* Space between this section and the info-box */
-    padding: 20px; /* Padding inside the section */
+    padding: 0px; /* Padding inside the section */
     background-color: #F7F0E4; /* Match the page background */
 }
 
