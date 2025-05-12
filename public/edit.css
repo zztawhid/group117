@@ -1494,7 +1494,7 @@ input:not([readonly]) {
 }
 
 
-#location-select, #closure-reason, #event-name, #duration-select, #vehicle-select, #location-select-later, #vehicle-select-later, #duration-select-later, .datetime-input{
+#location-select, #duration-select, #vehicle-select, #location-select-later, #vehicle-select-later, #duration-select-later, .datetime-input{
     width: 100%;
     padding: 15px;
     margin-bottom: 20px;
@@ -1505,11 +1505,6 @@ input:not([readonly]) {
     transition: all 0.3s ease;
 
     outline: none;
-    border-color: #E6007D;
-    background-color: #fff;
-}
-
-#closure-notes {
     border-color: #E6007D;
     background-color: #fff;
 }
@@ -3392,149 +3387,55 @@ header button:hover,
 #location-manage-title {
     font-size: 32px;
     font-weight: bold;
-    color: #E6007D;
+    color: #000000;
     text-align: center;
     margin-top: 50px;
 }
 
-h2 {
-    font-size: 32px;
-    font-weight: bold;
-    color: #E6007D;
-    text-align: center;
-    margin-top: 0px;
-    padding-bottom: 10px;
-}
-
-/* Location Management Page Styles */
-#location-management-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0px;
-    margin: 10px auto;
-    max-width: 1200px;
-}
-
-.location-map-container {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-    margin: 0px;
-    padding: 0px;
-    width: 800px;
-}
-
-.location-control-panel {
-    grid-column: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 500px;
-}
-
-.location-selection,
-.location-settings {
-    width: 100%;
-}
-
-.lct-middle {
-    grid-column: 1 / span 2;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.location-actions,
-.location-spaces-management {
-    flex: 1;
-    max-width: 450px;
-}
-
-.lct-bottom {
-    grid-column: 1 / span 2;
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 30px;
-}
-
-.new-location-form {
-    width: 100%;
-    max-width: 800px;
-}
-
-#admin-controls {
-    margin-top: 20px;
-    width: 100%;
-    display: flex;
     justify-content: center;
-    margin-bottom: 50px;
+    z-index: 100;
+}
+
+.loading-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+
+/* Location Management Page Styles */
+#admin-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .admin-actions {
     display: flex;
     gap: 15px;
-}
-
-/* Other existing styles */
-#admin-map {
-    margin-left: 80px;
-    margin-right: 20px;
-    width: 530px;
-    padding-right: 0px;
-    background: #F7F0E4;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    border: 2px solid #ffffff;
-}
-
-.location-selection,
-.location-actions,
-.location-settings,
-.location-spaces-management,
-.new-location-form {
-    border: 2px solid #E6007D;
-    border-radius: 8px;
-    padding: 20px;
-    background-color: white;
-}
-
-.location-selection h3,
-.location-actions h3,
-.location-settings h3,
-.location-spaces-management h3,
-.new-location-form h3 {
-    margin-top: 0;
-    color: #E6007D;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-}
-
-.action-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 20px;
-}
-
-.action-btn {
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-    color: #333;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.3s;
-}
-
-.action-btn:hover {
-    background-color: #E6007D;
-    color: white;
 }
 
 .admin-button {
@@ -3562,6 +3463,69 @@ h2 {
 
 .admin-button.primary:hover {
     background-color: #C4006A;
+}
+
+#location-management-section {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    gap: 0px;
+    margin: 50px auto;
+}
+
+#location-status-overview h2 {
+    margin: auto;
+    text-align: center;
+    margin: 35px auto;
+}
+
+
+#admin-map {
+    width: 800px;
+    padding: 0px;
+    background: #F7F0E4;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border: 2px solid #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.location-selection, .location-actions, .location-settings, .location-spaces-management, .new-location-form{
+    border: 2px solid #E6007D;
+    border-radius: 8px;
+    padding: 20px;
+    background-color: white;
+    margin-bottom: 20px;
+    margin-left: 15px;
+}
+
+.location-selection h3, .location-actions h3, .location-settings h3 {
+    margin-top: 0;
+    color: #E6007D;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.selected-location-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+#selected-location-name {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+#selected-location-status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    align-self: flex-start;
 }
 
 .status-open {
@@ -4479,7 +4443,6 @@ header {
 
     #location-management-section {
         display: block;
-
     }
 
 
