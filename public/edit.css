@@ -497,6 +497,7 @@ main {
     flex: 1; /* Take up available space */
     max-width: 50%; /* Limit width to half the container */
     text-align: right; /* Align the image to the right */
+    margin-top: 10px;
 }
 
 .large-image {
