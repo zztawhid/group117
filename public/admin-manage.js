@@ -65,6 +65,7 @@ function renderTable() {
             <td>
                 <button class="action-btn save-btn" data-user-id="${user.user_id}">Save</button>
                 <button class="action-btn delete-btn" data-user-id="${user.user_id}">Delete</button>
+                <button class="action-btn block-btn" data-user-id="${user.user_id}">Block</button>
             </td>
         `;
         tableBody.appendChild(row);

@@ -1,4 +1,4 @@
-/*  <!-- Right before your closing </body> tag -->
+/*
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Select all FAQ questions

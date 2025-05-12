@@ -20,6 +20,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     setInterval(async () => {
         await loadActiveParkingSession(user.user_id);
     }, 5000);
+
+    // Add card formatting
+    document.getElementById('card-number')?.addEventListener('input', formatCardNumber);
+    document.getElementById('card-expiry')?.addEventListener('input', formatCardExpiry);
+    document.getElementById('card-cvv')?.addEventListener('input', formatCardCvv);
 });
 
 let currentSessionId = null;
@@ -32,6 +37,8 @@ function initExtendModal() {
     const closeBtn = document.querySelector('.modal-close');
     const extendBtn = document.getElementById('confirmExtend');
     const hoursInput = document.getElementById('extendHours');
+
+    if (!modal || !closeBtn || !extendBtn || !hoursInput) return;
 
     // Close modal when clicking X
     closeBtn.addEventListener('click', () => {
@@ -50,9 +57,8 @@ function initExtendModal() {
         const hours = parseInt(hoursInput.value);
         if (hours > 0 && hours <= 24) {
             await processExtension(hours);
-            modal.style.display = 'none';
         } else {
-            alert('Please enter a valid number of hours (1-24)');
+            showError('Please enter a valid number of hours (1-24)');
         }
     });
 }
@@ -82,6 +88,7 @@ async function loadActiveParkingSession(userId) {
         }
     } catch (error) {
         console.error('Error loading parking session:', error);
+        showError('Failed to load parking session. Please try again.');
     }
 }
 
@@ -96,17 +103,14 @@ function clearActiveSessionDisplay() {
     }
 }
 
+
 function displayActiveSession(session) {
     const activeSessionSection = document.querySelector('.active-session');
     const startTime = new Date(session.time_in);
-    const endTime = new Date(session.end_time);
     
-    // Clear any existing countdown
-    if (countdownInterval) {
-        clearInterval(countdownInterval);
-        countdownInterval = null;
-    }
-
+    // Calculate end time based on duration_hours
+    const endTime = new Date(startTime.getTime() + (session.duration_hours * 60 * 60 * 1000));
+    
     activeSessionSection.innerHTML = `
         <div class="status-bar" data-session-id="${session.reference_number}">
             <div class="status-header">
@@ -122,7 +126,7 @@ function displayActiveSession(session) {
                 
                 <div class="detail-item">
                     <div class="detail-label">Spot</div>
-                    <div class="detail-value">${session.space_number}</div>
+                    <div class="detail-value">${session.space_number || 'Not assigned'}</div>
                 </div>
                 
                 <div class="detail-item">
@@ -131,7 +135,7 @@ function displayActiveSession(session) {
                 </div>
                 
                 <div class="detail-item">
-                    <div class="detail-label">Duration</div>
+                    <div class="detail-label">Total Duration</div>
                     <div class="detail-value">${session.duration_hours} hours</div>
                 </div>
             </div>
@@ -149,13 +153,12 @@ function displayActiveSession(session) {
     `;
     
     // Add event listeners
-    document.querySelector('.btn-extend').addEventListener('click', () => showExtendModal(session));
-    document.querySelector('.btn-end').addEventListener('click', () => endParking(session.reference_number));
+    document.querySelector('.btn-extend')?.addEventListener('click', () => showExtendModal(session));
+    document.querySelector('.btn-end')?.addEventListener('click', () => endParking(session.reference_number));
     
-    // Calculate remaining time in seconds
+    // Start countdown timer
     const now = new Date();
     const remainingSeconds = Math.max(0, Math.floor((endTime - now) / 1000));
-    
     startCountdownTimer(remainingSeconds);
 }
 
@@ -163,12 +166,18 @@ function showExtendModal(session) {
     const modal = document.getElementById('extendModal');
     const hoursInput = document.getElementById('extendHours');
     
-    // Set default value to current duration
-    hoursInput.value = session.duration_hours;
+    if (!modal || !hoursInput) return;
+    
+    // Reset form
+    hoursInput.value = 1;
+    document.getElementById('card-name').value = '';
+    document.getElementById('card-number').value = '';
+    document.getElementById('card-expiry').value = '';
+    document.getElementById('card-cvv').value = '';
     
     // Show current location and spot in modal
     document.getElementById('extendLocation').textContent = 
-        `${session.location_name} (${session.location_code}) - Spot ${session.space_number}`;
+        `${session.location_name} (${session.location_code}) - Spot ${session.space_number || 'Not assigned'}`;
     
     // Show modal
     modal.style.display = 'block';
@@ -176,6 +185,44 @@ function showExtendModal(session) {
 
 async function processExtension(hours) {
     try {
+        const cardName = document.getElementById('card-name').value.trim();
+        const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
+        const cardExpiry = document.getElementById('card-expiry').value.trim();
+        const cardCvv = document.getElementById('card-cvv').value.trim();
+        
+        // Validate inputs
+        if (!cardName || !cardNumber || !cardExpiry || !cardCvv) {
+            showError('Please fill in all card details');
+            return;
+        }
+
+        if (!hours || hours < 1 || hours > 24) {
+            showError('Please enter a valid duration (1-24 hours)');
+            return;
+        }
+        
+        if (!cardName) {
+            showError('Please enter the name on card');
+            return;
+        }
+        
+        if (!cardNumber || cardNumber.replace(/\s/g, '').length < 16) {
+            showError('Please enter a valid 16-digit card number');
+            return;
+        }
+        
+        if (!cardExpiry || !/^\d{2}\/\d{2}$/.test(cardExpiry)) {
+            showError('Please enter a valid expiry date (MM/YY)');
+            return;
+        }
+        
+        if (!cardCvv || cardCvv.length < 3) {
+            showError('Please enter a valid CVV (3-4 digits)');
+            return;
+        }
+
+        showLoading(true, 'Processing extension...');
+        
         const response = await fetch('/api/parking/sessions/extend', {
             method: 'POST',
             headers: {
@@ -183,24 +230,37 @@ async function processExtension(hours) {
             },
             body: JSON.stringify({
                 reference_number: currentSessionData.reference_number,
-                duration_hours: hours
+                additional_hours: hours,  // Changed from duration_hours
+                card_number: cardNumber,
+                card_expiry: cardExpiry,
+                card_cvv: cardCvv,
+                card_name: cardName
             })
         });
 
-        if (response.ok) {
-            // Refresh the session data
-            const user = JSON.parse(localStorage.getItem('user'));
-            await loadActiveParkingSession(user.user_id);
-            alert('Parking session extended successfully!');
-        } else {
+        if (!response.ok) {
             const errorData = await response.json();
-            alert(errorData.error || 'Failed to extend parking session');
+            throw new Error(errorData.error || 'Failed to extend parking session');
         }
+
+        const result = await response.json();
+        
+        // Close modal
+        document.getElementById('extendModal').style.display = 'none';
+        
+        // Refresh the session data
+        const user = JSON.parse(localStorage.getItem('user'));
+        await loadActiveParkingSession(user.user_id);
+        
+        showSuccess(`Parking extended successfully! Added ${hours} hour(s)`);
     } catch (error) {
         console.error('Error extending parking session:', error);
-        alert('Error extending parking session. Please try again.');
+        showError(error.message || 'Failed to extend parking session');
+    } finally {
+        showLoading(false);
     }
 }
+
 
 function formatTime(date) {
     return date.toLocaleTimeString([], { 
@@ -270,6 +330,7 @@ function startCountdownTimer(initialSeconds) {
 async function endParking(referenceNumber) {
     if (confirm('Are you sure you want to end this parking session?')) {
         try {
+            showLoading(true, 'Ending parking session...');
             const response = await fetch(`/api/parking/sessions/${referenceNumber}/end`, {
                 method: 'POST'
             });
@@ -281,15 +342,71 @@ async function endParking(referenceNumber) {
                 clearActiveSessionDisplay();
                 
                 // Show success message
-                alert('Parking session ended successfully');
+                showSuccess('Parking session ended successfully');
             } else {
                 const errorData = await response.json();
-                alert(errorData.error || 'Failed to end parking session');
+                throw new Error(errorData.error || 'Failed to end parking session');
             }
         } catch (error) {
             console.error('Error ending parking session:', error);
-            alert('Error ending parking session. Please try again.');
+            showError(error.message || 'Failed to end parking session');
+        } finally {
+            showLoading(false);
         }
+    }
+}
+
+// Card formatting functions
+function formatCardNumber(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    let formatted = '';
+    
+    for (let i = 0; i < value.length && i < 16; i++) {
+        if (i > 0 && i % 4 === 0) formatted += ' ';
+        formatted += value[i];
+    }
+    
+    e.target.value = formatted;
+}
+
+function formatCardExpiry(e) {
+    let value = e.target.value.replace(/\D/g, '');
+    
+    if (value.length > 2) {
+        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+    }
+    
+    e.target.value = value;
+}
+
+function formatCardCvv(e) {
+    e.target.value = e.target.value.replace(/\D/g, '').substring(0, 4);
+}
+
+// Utility functions
+function showLoading(show, message = 'Loading...') {
+    const loading = document.getElementById('loading-indicator');
+    if (loading) {
+        loading.textContent = message;
+        loading.style.display = show ? 'block' : 'none';
+    }
+}
+
+function showError(message) {
+    const error = document.getElementById('error-message');
+    if (error) {
+        error.textContent = message;
+        error.style.display = 'block';
+        setTimeout(() => error.style.display = 'none', 5000);
+    }
+}
+
+function showSuccess(message) {
+    const success = document.getElementById('success-message');
+    if (success) {
+        success.textContent = message;
+        success.style.display = 'block';
+        setTimeout(() => success.style.display = 'none', 5000);
     }
 }
 

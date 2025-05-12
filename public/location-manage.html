@@ -75,7 +75,6 @@
                 <div class="location-settings">
                     <h3>Advanced Settings</h3>
                     <div class="settings-form">
-
                         <div class="form-group">
                             <label for="event-name">Event Name (if applicable)</label>
                             <input type="text" id="event-name" placeholder="Enter event name">
@@ -90,7 +89,6 @@
                                 <option value="other">Other</option>
                             </select>
                         </div>
-
                         <div class="form-group">
                             <label for="closure-notes">Additional Notes</label>
                             <textarea id="closure-notes" rows="3" placeholder="Enter any additional information"></textarea>
@@ -116,6 +114,45 @@
                     </div>
                 </div>
 
+                <div class="location-spaces-management">
+                    <h3>Spaces Management</h3>
+                    <div class="spaces-form">
+                        <div class="form-group">
+                            <label for="spaces-to-add">Spaces to Add</label>
+                            <input type="number" id="spaces-to-add" min="0" placeholder="Number of spaces to add">
+                        </div>
+                        <div class="form-group">
+                            <label for="spaces-to-remove">Spaces to Remove</label>
+                            <input type="number" id="spaces-to-remove" min="0" placeholder="Number of spaces to remove">
+                        </div>
+                        <button class="action-btn" id="update-spaces">
+                            <i class="fas fa-parking"></i> Update Spaces
+                        </button>
+                    </div>
+                </div>
+
+                <div class="new-location-form">
+                    <h3>Add New Parking Location</h3>
+                    <div class="form-group">
+                        <label for="new-location-name">Location Name</label>
+                        <input type="text" id="new-location-name" placeholder="Enter location name">
+                    </div>
+                    <div class="form-group">
+                        <label for="new-location-code">Location Code (4 digits)</label>
+                        <input type="text" id="new-location-code" maxlength="4" placeholder="1234">
+                    </div>
+                    <div class="form-group">
+                        <label for="new-location-spaces">Initial Spaces</label>
+                        <input type="number" id="new-location-spaces" min="1" value="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="new-location-rate">Hourly Rate (£)</label>
+                        <input type="number" id="new-location-rate" min="0.5" step="0.1" value="2.5">
+                    </div>
+                    <button class="action-btn" id="add-location">
+                        <i class="fas fa-plus-circle"></i> Add New Location
+                    </button>
+                </div>
 
                 <section id="admin-controls">
                     <div class="admin-actions">
@@ -142,38 +179,15 @@
                         <th>Current Occupancy</th>
                         <th>Restrictions</th>
                         <th>Last Updated</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <td>Car Park A</td>
-                        <td><span class="status-open">Open</span></td>
-                        <td>250 spaces</td>
-                        <td>187 (75%)</td>
-                        <td>None</td>
-                        <td>Today, 09:45</td>
-                    </tr>
-                    <tr>
-                        <td>Car Park B</td>
-                        <td><span class="status-event">Event Only</span></td>
-                        <td>180 spaces</td>
-                        <td>92 (51%)</td>
-                        <td>Valid event pass required</td>
-                        <td>Today, 10:30</td>
-                    </tr>
-                    <tr>
-                        <td>Car Park C</td>
-                        <td><span class="status-closed">Closed</span></td>
-                        <td>300 spaces</td>
-                        <td>0 (0%)</td>
-                        <td>Maintenance work</td>
-                        <td>Yesterday, 16:15</td>
-                    </tr>
+                    <tbody id="status-table-body">
+                        <!-- Dynamically populated -->
                     </tbody>
                 </table>
             </div>
         </section>
-
     </main>
 
     <footer>

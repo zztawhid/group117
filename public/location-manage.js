@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         setupEventListeners();
     } catch (error) {
         console.error('Initialization error:', error);
-        showError('Failed to initialize page. Please try again.');
+        alert('Failed to initialize page. Please try again.');
     }
 });
 
@@ -22,7 +22,6 @@ async function initPage() {
         loadParkingLocations(),
         loadLocationStatus()
     ]);
-
     
     // Initialize form elements
     document.getElementById('closure-reason').value = '';
@@ -41,7 +40,7 @@ async function loadParkingLocations() {
         populateLocationDropdown(locations);
     } catch (error) {
         console.error('Error loading locations:', error);
-        showError('Failed to load parking locations');
+        alert('Failed to load parking locations');
         document.getElementById('location-select').innerHTML = `
             <option value="" disabled selected>Error loading locations</option>
         `;
@@ -57,13 +56,19 @@ function populateLocationDropdown(locations) {
     locations.forEach(loc => {
         const option = document.createElement('option');
         option.value = loc.location_id;
-        option.textContent = `${loc.name} (${loc.code})`;
+        option.textContent = `${loc.name} (${loc.code}) - ${loc.total_spaces} spaces`;
         
-        // Mark disabled locations
+        // Set status attributes
         if (loc.disabled) {
-            option.dataset.status = 'closed';
-            option.textContent += ' - Closed';
+            if (loc.disabled_reason?.includes('Maintenance')) {
+                option.dataset.status = 'maintenance';
+            } else {
+                option.dataset.status = 'closed';
+            }
             option.dataset.reason = loc.disabled_reason || '';
+        } else if (loc.disabled_reason?.includes('Event')) {
+            option.dataset.status = 'event';
+            option.dataset.reason = loc.disabled_reason;
         } else {
             option.dataset.status = 'open';
         }
@@ -88,14 +93,14 @@ async function loadLocationStatus() {
         updateStatusTable(statusData);
     } catch (error) {
         console.error('Error loading location status:', error);
-        showError('Failed to load location status');
+        alert('Failed to load location status');
     } finally {
         hideLoading('status-table-container');
     }
 }
 
 function updateStatusTable(statusData) {
-    const tbody = document.querySelector('.status-table tbody');
+    const tbody = document.getElementById('status-table-body');
     tbody.innerHTML = '';
     
     statusData.forEach(location => {
@@ -107,22 +112,32 @@ function updateStatusTable(statusData) {
         let restrictions = 'None';
         
         if (location.disabled) {
-            statusClass = location.disabled_reason?.includes('Event') 
-                ? 'status-event' 
-                : 'status-closed';
-            statusText = location.disabled_reason?.includes('Event') 
-                ? 'Event Only' 
-                : 'Closed';
+            if (location.disabled_reason?.includes('Maintenance')) {
+                statusClass = 'status-maintenance';
+                statusText = 'Maintenance';
+            } else {
+                statusClass = 'status-closed';
+                statusText = 'Closed';
+            }
             restrictions = location.disabled_reason || 'Administrative closure';
+        } else if (location.disabled_reason?.includes('Event')) {
+            statusClass = 'status-event';
+            statusText = 'Event Only';
+            restrictions = location.disabled_reason;
         }
         
         row.innerHTML = `
-            <td>${location.name}</td>
+            <td>${location.name} (${location.code})</td>
             <td><span class="${statusClass}">${statusText}</span></td>
             <td>${location.total_spaces} spaces</td>
             <td>${location.available_spaces} (${location.occupancy_percentage}%)</td>
             <td>${restrictions}</td>
             <td>${location.last_updated}</td>
+            <td>
+                <button class="action-btn small" onclick="handleDeleteLocation(${location.location_id}, '${location.name}')">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
+            </td>
         `;
         
         tbody.appendChild(row);
@@ -133,25 +148,36 @@ function updateSelectedLocationStatus() {
     const select = document.getElementById('location-select');
     const selectedOption = select.options[select.selectedIndex];
     const statusElement = document.getElementById('selected-location-status');
-    const reasonElement = document.getElementById('closure-reason-display');
     
     if (!selectedOption.value) {
         statusElement.textContent = 'Status: Not selected';
         statusElement.className = 'status-unknown';
-        reasonElement.textContent = '';
         return;
     }
     
-    if (selectedOption.dataset.status === 'closed') {
-        statusElement.textContent = 'Status: Closed';
-        statusElement.className = 'status-closed';
-        reasonElement.textContent = selectedOption.dataset.reason 
-            ? `Reason: ${selectedOption.dataset.reason}` 
-            : '';
-    } else {
-        statusElement.textContent = 'Status: Open';
-        statusElement.className = 'status-open';
-        reasonElement.textContent = '';
+    const status = selectedOption.dataset.status;
+    const reason = selectedOption.dataset.reason || '';
+    
+    switch (status) {
+        case 'closed':
+            statusElement.textContent = 'Status: Closed';
+            statusElement.className = 'status-closed';
+            break;
+        case 'maintenance':
+            statusElement.textContent = 'Status: Maintenance';
+            statusElement.className = 'status-maintenance';
+            break;
+        case 'event':
+            statusElement.textContent = 'Status: Event Only';
+            statusElement.className = 'status-event';
+            break;
+        default:
+            statusElement.textContent = 'Status: Open';
+            statusElement.className = 'status-open';
+    }
+    
+    if (reason) {
+        statusElement.textContent += ` (${reason})`;
     }
 }
 
@@ -160,10 +186,10 @@ function setupEventListeners() {
     document.getElementById('refresh-btn').addEventListener('click', async () => {
         try {
             await loadLocationStatus();
-            showSuccess('Status refreshed successfully');
+            alert('Status refreshed successfully');
         } catch (error) {
             console.error('Refresh error:', error);
-            showError('Failed to refresh status');
+            alert('Failed to refresh status');
         }
     });
     
@@ -178,12 +204,18 @@ function setupEventListeners() {
     
     // Form submission
     document.getElementById('save-changes-btn').addEventListener('click', saveChanges);
+    
+    // Spaces management
+    document.getElementById('update-spaces').addEventListener('click', updateParkingSpaces);
+    
+    // Add new location
+    document.getElementById('add-location').addEventListener('click', addNewLocation);
 }
 
 async function handleLocationAction(action) {
     const locationId = document.getElementById('location-select').value;
     if (!locationId) {
-        showError('Please select a location first');
+        alert('Please select a location first');
         return;
     }
     
@@ -216,8 +248,21 @@ async function handleLocationAction(action) {
         const eventName = document.getElementById('event-name').value;
         
         if (reasonRequired && !reason && action !== 'open') {
-            showError('Please provide a reason for this action');
+            alert('Please provide a reason for this action');
             return;
+        }
+        
+        // Prepare request body based on action type
+        const requestBody = { action };
+        if (action === 'event') {
+            requestBody.reason = 'Event';
+            requestBody.notes = eventName ? `Event: ${eventName}. ${notes}` : notes;
+        } else if (action === 'maintenance') {
+            requestBody.reason = 'Maintenance';
+            requestBody.notes = notes || 'Scheduled maintenance';
+        } else if (action === 'close') {
+            requestBody.reason = reason || 'Administrative closure';
+            requestBody.notes = notes;
         }
         
         const response = await fetch(`/api/admin/locations/${locationId}/status`, {
@@ -225,16 +270,12 @@ async function handleLocationAction(action) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                action,
-                reason,
-                notes: eventName ? `Event: ${eventName}. ${notes}` : notes
-            })
+            body: JSON.stringify(requestBody)
         });
         
         if (!response.ok) throw new Error('Failed to update location status');
         
-        showSuccess(`Location status updated successfully`);
+        alert(`Location status updated successfully`);
         
         // Refresh data
         await Promise.all([
@@ -248,7 +289,139 @@ async function handleLocationAction(action) {
         document.getElementById('event-name').value = '';
     } catch (error) {
         console.error('Error updating location status:', error);
-        showError('Failed to update location status');
+        alert('Failed to update location status');
+    }
+}
+
+async function updateParkingSpaces() {
+    const locationId = document.getElementById('location-select').value;
+    if (!locationId) {
+        alert('Please select a location first');
+        return;
+    }
+    
+    const spacesToAdd = parseInt(document.getElementById('spaces-to-add').value) || 0;
+    const spacesToRemove = parseInt(document.getElementById('spaces-to-remove').value) || 0;
+    
+    if (spacesToAdd === 0 && spacesToRemove === 0) {
+        alert('Please specify the number of spaces to add or remove');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/admin/locations/${locationId}/spaces`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                add: spacesToAdd,
+                remove: spacesToRemove
+            })
+        });
+        
+        if (!response.ok) throw new Error('Failed to update parking spaces');
+        
+        alert('Parking spaces updated successfully');
+        
+        // Refresh data
+        await Promise.all([
+            loadParkingLocations(),
+            loadLocationStatus()
+        ]);
+        
+        // Clear form fields
+        document.getElementById('spaces-to-add').value = '';
+        document.getElementById('spaces-to-remove').value = '';
+    } catch (error) {
+        console.error('Error updating parking spaces:', error);
+        alert('Failed to update parking spaces');
+    }
+}
+
+async function addNewLocation() {
+    const name = document.getElementById('new-location-name').value.trim();
+    const code = document.getElementById('new-location-code').value.trim().toUpperCase();
+    const spaces = parseInt(document.getElementById('new-location-spaces').value);
+    const rate = parseFloat(document.getElementById('new-location-rate').value);
+    
+    if (!name || !code || isNaN(spaces) || isNaN(rate)) {
+        alert('Please fill all fields with valid values');
+        return;
+    }
+    
+    if (code.length !== 4) {
+        alert('Location code must be exactly 4 characters');
+        return;
+    }
+    
+    if (spaces < 1) {
+        alert('Location must have at least 1 space');
+        return;
+    }
+    
+    if (rate < 0.5) {
+        alert('Hourly rate must be at least £0.50');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/admin/locations', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name,
+                code,
+                total_spaces: spaces,
+                hourly_rate: rate
+            })
+        });
+        
+        if (!response.ok) throw new Error('Failed to add new location');
+        
+        alert('New parking location added successfully');
+        
+        // Refresh data
+        await Promise.all([
+            loadParkingLocations(),
+            loadLocationStatus()
+        ]);
+        
+        // Clear form fields
+        document.getElementById('new-location-name').value = '';
+        document.getElementById('new-location-code').value = '';
+        document.getElementById('new-location-spaces').value = '50';
+        document.getElementById('new-location-rate').value = '2.5';
+    } catch (error) {
+        console.error('Error adding new location:', error);
+        alert(error.message || 'Failed to add new location');
+    }
+}
+
+async function handleDeleteLocation(locationId, locationName) {
+    if (!confirm(`Are you sure you want to permanently delete "${locationName}" and all its parking spaces?`)) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/admin/locations/${locationId}`, {
+            method: 'DELETE'
+        });
+        
+        if (!response.ok) throw new Error('Failed to delete location');
+        
+        alert('Location deleted successfully');
+        
+        // Refresh data
+        await Promise.all([
+            loadParkingLocations(),
+            loadLocationStatus()
+        ]);
+    } catch (error) {
+        console.error('Error deleting location:', error);
+        alert('Failed to delete location. Make sure there are no active reservations.');
     }
 }
 
@@ -260,10 +433,10 @@ async function saveChanges() {
             loadParkingLocations(),
             loadLocationStatus()
         ]);
-        showSuccess('Changes saved successfully');
+        alert('Changes saved successfully');
     } catch (error) {
         console.error('Error saving changes:', error);
-        showError('Failed to save changes');
+        alert('Failed to save changes');
     }
 }
 
@@ -287,36 +460,4 @@ function hideLoading(elementId) {
         const loader = element.querySelector('.loading-overlay');
         if (loader) loader.remove();
     }
-}
-
-function showError(message) {
-    const errorElement = document.createElement('div');
-    errorElement.className = 'alert-message error';
-    errorElement.innerHTML = `
-        <i class="fas fa-exclamation-circle"></i>
-        <span>${message}</span>
-    `;
-    
-    // Add to message container and remove after 5 seconds
-    const container = document.getElementById('message-container') || document.body;
-    container.appendChild(errorElement);
-    setTimeout(() => {
-        errorElement.remove();
-    }, 5000);
-}
-
-function showSuccess(message) {
-    const successElement = document.createElement('div');
-    successElement.className = 'alert-message success';
-    successElement.innerHTML = `
-        <i class="fas fa-check-circle"></i>
-        <span>${message}</span>
-    `;
-    
-    // Add to message container and remove after 5 seconds
-    const container = document.getElementById('message-container') || document.body;
-    container.appendChild(successElement);
-    setTimeout(() => {
-        successElement.remove();
-    }, 5000);
 }

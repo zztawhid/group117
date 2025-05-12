@@ -10,10 +10,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Event listeners
     document.getElementById('addVehicleBtn').addEventListener('click', showAddVehicleForm);
     document.getElementById('removeVehicleBtn').addEventListener('click', handleRemoveSelected);
-    document.getElementById('viewHistoryBtn').addEventListener('click', viewParkingHistory);
-    document.getElementById('downloadHistoryBtn').addEventListener('click', downloadHistory);
+    document.getElementById('viewHistoryBtn').addEventListener('click', showHistoryPopup);
+    document.getElementById('downloadHistoryBtn').addEventListener('click', downloadParkingHistory);
 });
 
+// Vehicle Management Functions
 async function loadUserVehicles(userId) {
     try {
         const response = await fetch(`/api/vehicles?user_id=${userId}`);
@@ -183,96 +184,123 @@ async function handleRemoveSelected() {
     }
 }
 
-function downloadHistory() {
-    alert('Download history feature coming soon!');
-}
-
-
-
-
-
-
-
-
-// Show the popup
-function showHistoryPopup() {
+// Parking History Functions
+async function showHistoryPopup() {
     const popup = document.getElementById('parking-history-popup');
     popup.style.display = 'flex';
-    loadHistoryData(); // You'll implement this
+    await loadHistoryData();
 }
 
-// Close the popup
 function closePopup() {
     document.getElementById('parking-history-popup').style.display = 'none';
 }
 
-// Example data loading function
 async function loadHistoryData() {
     const tbody = document.getElementById('history-table-body');
     tbody.innerHTML = '<tr><td colspan="6" class="loading-msg">Loading history...</td></tr>';
 
     try {
-        // Replace with actual API call
-        const response = await fetch('/api/parking-history');
+        const user = JSON.parse(localStorage.getItem('user'));
+        const response = await fetch(`/api/parking/history?user_id=${user.user_id}`);
+        
+        if (!response.ok) throw new Error('Failed to load history');
+        
         const data = await response.json();
 
         if (data.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6">No parking history found</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6" class="no-data">No parking history found</td></tr>';
             return;
         }
 
         tbody.innerHTML = data.map(item => `
-            <tr>
-                <td>${new Date(item.entry_time).toLocaleDateString()}</td>
-                <td>${new Date(item.entry_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
-                <td>${item.exit_time ? new Date(item.exit_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'Active'}</td>
+            <tr data-plate="${item.license_plate}">
+                <td>${formatDate(item.time_in)}</td>
+                <td>${formatTime(item.time_in)}</td>
+                <td>${item.time_out ? formatTime(item.time_out) : 'Active'}</td>
                 <td>${item.location || 'Unknown'}</td>
-                <td>${calculateDuration(item.entry_time, item.exit_time)}</td>
-                <td>${item.cost ? '£' + item.cost.toFixed(2) : '-'}</td>
+                <td>${calculateDuration(item.time_in, item.time_out)}</td>
+                <td>${item.cost ? '£' + parseFloat(item.cost).toFixed(2) : '-'}</td>
             </tr>
         `).join('');
+
+        // Add vehicle plate filter if multiple vehicles
+        const uniquePlates = [...new Set(data.map(item => item.license_plate))];
+        if (uniquePlates.length > 1) {
+            addVehicleFilter(uniquePlates);
+        }
+
     } catch (error) {
-        tbody.innerHTML = '<tr><td colspan="6" class="error-msg">Failed to load history</td></tr>';
+        console.error('Error loading history:', error);
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="error-msg">
+                    Failed to load history. Please try again.
+                    <button onclick="loadHistoryData()">Retry</button>
+                </td>
+            </tr>
+        `;
     }
 }
 
-function calculateDuration(start, end) {
-    if (!end) return 'Active';
-    const diff = new Date(end) - new Date(start);
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    return `${hours}h ${minutes}m`;
+function addVehicleFilter(plates) {
+    const popupHeader = document.querySelector('.popup-header');
+    
+    // Check if filter already exists
+    if (document.getElementById('vehicle-filter')) return;
+    
+    const filterHtml = `
+        <div id="vehicle-filter" class="vehicle-filter">
+            <label for="plate-select">Filter by vehicle:</label>
+            <select id="plate-select" onchange="filterHistoryByVehicle()">
+                <option value="all">All Vehicles</option>
+                ${plates.map(plate => `
+                    <option value="${plate}">${plate}</option>
+                `).join('')}
+            </select>
+        </div>
+    `;
+    
+    popupHeader.insertAdjacentHTML('afterend', filterHtml);
 }
 
-function downloadHistory() {
-    // Implement your download functionality
-    alert('Download feature will be implemented here');
+function filterHistoryByVehicle() {
+    const selectedPlate = document.getElementById('plate-select').value;
+    const rows = document.querySelectorAll('#history-table-body tr');
+    
+    rows.forEach(row => {
+        const rowPlate = row.dataset.plate || '';
+        if (selectedPlate === 'all' || rowPlate === selectedPlate) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
 }
 
-// Update your existing event listener
-document.getElementById('viewHistoryBtn').addEventListener('click', showHistoryPopup);
-
-// Make the download function reusable
-function downloadParkingHistory() {
+async function downloadParkingHistory() {
     try {
-        // Try to get the table from the popup first
-        let table = document.querySelector('#parking-history-popup .history-table');
+        const user = JSON.parse(localStorage.getItem('user'));
+        const response = await fetch(`/api/parking/history/all?user_id=${user.user_id}`);
+        
+        if (!response.ok) throw new Error('Failed to fetch history');
+        
+        const data = await response.json();
 
-        // If popup isn't open, fall back to getting data from API directly
-        if (!table || table.querySelectorAll('tbody tr').length === 0) {
-            downloadAllHistoryFromAPI();
+        if (data.length === 0) {
+            alert('No parking history available to download');
             return;
         }
 
-        // Proceed with table download if popup is open with data
-        const headers = Array.from(table.querySelectorAll('thead th'))
-            .map(header => `"${header.textContent.trim().replace(/"/g, '""')}"`);
-
-        const rows = Array.from(table.querySelectorAll('tbody tr')).map(row => {
-            return Array.from(row.querySelectorAll('td'))
-                .map(cell => `"${cell.textContent.trim().replace(/"/g, '""')}"`)
-                .join(',');
-        });
+        const headers = ['Date', 'Entry Time', 'Exit Time', 'Location', 'Duration', 'Cost', 'Vehicle'];
+        const rows = data.map(item => [
+            formatDate(item.time_in),
+            formatTime(item.time_in),
+            item.time_out ? formatTime(item.time_out) : 'Active',
+            item.location || 'Unknown',
+            calculateDuration(item.time_in, item.time_out),
+            item.cost ? '£' + parseFloat(item.cost).toFixed(2) : '-',
+            item.license_plate
+        ]);
 
         createCSVDownload(headers, rows);
 
@@ -282,51 +310,11 @@ function downloadParkingHistory() {
     }
 }
 
-// New function to handle API-based download
-async function downloadAllHistoryFromAPI() {
-    try {
-        const user = JSON.parse(localStorage.getItem('user'));
-        const response = await fetch(`/api/parking-history/all?user_id=${user.user_id}`);
-
-        if (!response.ok) throw new Error('Failed to fetch history');
-
-        const data = await response.json();
-
-        if (data.length === 0) {
-            alert('No parking history available to download');
-            return;
-        }
-
-        const headers = ['Date', 'Entry Time', 'Exit Time', 'Location', 'Duration', 'Cost'];
-        const rows = data.map(item => {
-            const exitTime = item.exit_time ?
-                new Date(item.exit_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) :
-                'Active';
-
-            return [
-                `"${new Date(item.entry_time).toLocaleDateString()}"`,
-                `"${new Date(item.entry_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}"`,
-                `"${exitTime}"`,
-                `"${item.location || 'Unknown'}"`,
-                `"${calculateDuration(item.entry_time, item.exit_time)}"`,
-                `"${item.cost ? '£' + item.cost.toFixed(2) : '-'}"`
-            ].join(',');
-        });
-
-        createCSVDownload(headers, rows);
-
-    } catch (error) {
-        console.error('API download failed:', error);
-        alert('Failed to download complete history. Please try again or view your history first.');
-    }
-}
-
-// Shared CSV creation function
 function createCSVDownload(headers, rows) {
     const csvContent = [
         headers.join(','),
-        ...rows
-    ].join('\r\n');
+        ...rows.map(row => Array.isArray(row) ? row.join(',') : row)
+    ].join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -344,6 +332,37 @@ function createCSVDownload(headers, rows) {
     }, 100);
 }
 
-// Update your event listeners
-document.getElementById('downloadHistoryBtn').addEventListener('click', downloadParkingHistory);
-document.getElementById('download-history-button').addEventListener('click', downloadParkingHistory);
+// Helper Functions
+function formatDate(dateString) {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    });
+}
+
+function formatTime(dateString) {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleTimeString('en-GB', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    });
+}
+
+function calculateDuration(start, end) {
+    if (!start) return 'N/A';
+    if (!end) return 'Active';
+    
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const diffMs = endDate - startDate;
+    
+    const hours = Math.floor(diffMs / (1000 * 60 * 60));
+    const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+    
+    return `${hours}h ${minutes}m`;
+}

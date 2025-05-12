@@ -467,17 +467,16 @@ app.put('/api/admin/locations/:id/status', async (req, res) => {
         switch (action) {
             case 'close':
                 disabled = true;
-                disabledReason = reason || 'Administrative closure';
+                disabledReason = `Closed: ${reason || 'Administrative closure'}`;
                 if (notes) disabledReason += ` (${notes})`;
                 break;
             case 'event':
-                disabled = false;
-                disabledReason = 'Event access only';
-                if (notes) disabledReason += `: ${notes}`;
+                disabled = false;  // Location is open but with restrictions
+                disabledReason = `Event Only: ${notes || 'Special event access required'}`;
                 break;
             case 'maintenance':
                 disabled = true;
-                disabledReason = 'Maintenance: ' + (notes || 'Scheduled maintenance');
+                disabledReason = `Maintenance: ${notes || 'Scheduled maintenance'}`;
                 break;
             case 'open':
                 disabled = false;
@@ -547,6 +546,204 @@ app.get('/api/parking/locations/:id', async (req, res) => {
         res.json(locations[0]);
     } catch (error) {
         res.status(500).json({ error: error.message });
+    }
+});
+
+
+// Add new parking location
+app.post('/api/admin/locations', async (req, res) => {
+    try {
+        const { name, code, total_spaces, hourly_rate } = req.body;
+        
+        // Validate inputs
+        if (!name || !code || !total_spaces || !hourly_rate) {
+            return res.status(400).json({ error: 'All fields are required' });
+        }
+        
+        if (code.length !== 4) {
+            return res.status(400).json({ error: 'Location code must be 4 characters' });
+        }
+        
+        if (total_spaces < 1) {
+            return res.status(400).json({ error: 'Location must have at least 1 space' });
+        }
+        
+        if (hourly_rate < 0.5) {
+            return res.status(400).json({ error: 'Hourly rate must be at least £0.50' });
+        }
+        
+        // Check if code already exists
+        const [existing] = await pool.execute(
+            'SELECT code FROM parking_locations WHERE code = ?',
+            [code]
+        );
+        
+        if (existing.length > 0) {
+            return res.status(400).json({ error: 'Location code already exists' });
+        }
+        
+        // Create new location
+        const [result] = await pool.execute(
+            `INSERT INTO parking_locations 
+            (name, code, total_spaces, hourly_rate) 
+            VALUES (?, ?, ?, ?)`,
+            [name, code, total_spaces, hourly_rate]
+        );
+        
+        // Create parking spaces
+        const spaceNumbers = Array.from({length: total_spaces}, (_, i) => i + 1);
+        for (const spaceNum of spaceNumbers) {
+            await pool.execute(
+                'INSERT INTO parking_spaces (location_id, space_number) VALUES (?, ?)',
+                [result.insertId, spaceNum]
+            );
+        }
+        
+        res.status(201).json({ 
+            success: true,
+            location_id: result.insertId
+        });
+        
+    } catch (error) {
+        console.error('Error adding location:', error);
+        res.status(500).json({ error: 'Failed to add new location' });
+    }
+});
+
+// Update parking spaces
+app.put('/api/admin/locations/:id/spaces', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { add, remove } = req.body;
+        
+        // Get current location info
+        const [location] = await pool.execute(
+            'SELECT total_spaces FROM parking_locations WHERE location_id = ?',
+            [id]
+        );
+        
+        if (location.length === 0) {
+            return res.status(404).json({ error: 'Location not found' });
+        }
+        
+        const currentSpaces = location[0].total_spaces;
+        const newTotal = currentSpaces + (add || 0) - (remove || 0);
+        
+        if (newTotal < 1) {
+            return res.status(400).json({ error: 'Location must have at least 1 space' });
+        }
+        
+        // Update total spaces count
+        await pool.execute(
+            'UPDATE parking_locations SET total_spaces = ? WHERE location_id = ?',
+            [newTotal, id]
+        );
+        
+        // Add new spaces if needed
+        if (add > 0) {
+            // Get current max space number
+            const [spaces] = await pool.execute(
+                'SELECT MAX(space_number) AS max_num FROM parking_spaces WHERE location_id = ?',
+                [id]
+            );
+            
+            const startNum = (spaces[0].max_num || 0) + 1;
+            const newSpaceNumbers = Array.from({length: add}, (_, i) => startNum + i);
+            
+            for (const spaceNum of newSpaceNumbers) {
+                await pool.execute(
+                    'INSERT INTO parking_spaces (location_id, space_number) VALUES (?, ?)',
+                    [id, spaceNum]
+                );
+            }
+        }
+        
+        // Remove spaces if needed (remove the highest numbered spaces first)
+        if (remove > 0) {
+            await pool.execute(
+                `DELETE FROM parking_spaces 
+                WHERE location_id = ? 
+                AND space_id IN (
+                    SELECT space_id FROM (
+                        SELECT space_id FROM parking_spaces 
+                        WHERE location_id = ? 
+                        ORDER BY space_number DESC 
+                        LIMIT ?
+                    ) AS t
+                )`,
+                [id, id, remove]
+            );
+        }
+        
+        res.json({ 
+            success: true,
+            new_total_spaces: newTotal
+        });
+        
+    } catch (error) {
+        console.error('Error updating spaces:', error);
+        res.status(500).json({ error: 'Failed to update parking spaces' });
+    }
+});
+
+// Delete parking location
+app.delete('/api/admin/locations/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        // Check if location exists
+        const [location] = await pool.execute(
+            'SELECT name FROM parking_locations WHERE location_id = ?',
+            [id]
+        );
+        
+        if (location.length === 0) {
+            return res.status(404).json({ error: 'Location not found' });
+        }
+        
+        // Check for active reservations
+        const [activeReservations] = await pool.execute(
+            `SELECT COUNT(*) AS count 
+            FROM parking_reservations 
+            WHERE location_id = ? 
+            AND end_time > NOW()`,
+            [id]
+        );
+        
+        if (activeReservations[0].count > 0) {
+            return res.status(400).json({ 
+                error: 'Cannot delete location with active reservations' 
+            });
+        }
+        
+        // Delete in transaction
+        const conn = await pool.getConnection();
+        await conn.beginTransaction();
+        
+        try {
+            // Delete spaces
+            await conn.execute(
+                'DELETE FROM parking_spaces WHERE location_id = ?',
+                [id]
+            );
+            
+            // Delete location
+            await conn.execute(
+                'DELETE FROM parking_locations WHERE location_id = ?',
+                [id]
+            );
+            
+            await conn.commit();
+            res.json({ success: true });
+        } catch (err) {
+            await conn.rollback();
+            throw err;
+        } finally {
+            conn.release();
+        }
+    } catch (error) {
+        console.error('Error deleting location:', error);
+        res.status(500).json({ error: 'Failed to delete location' });
     }
 });
 
@@ -645,6 +842,36 @@ app.post('/api/parking/reservations', async (req, res) => {
         } else {
             res.status(500).json({ error: 'Failed to create reservation' });
         }
+    }
+});
+
+// Get all reservations for a user Endpoint
+app.get('/api/parking/reservations/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const [reservations] = await pool.execute(`
+            SELECT 
+                r.*, 
+                l.name AS location_name,
+                v.license_plate,
+                s.special_type,
+                r.needs_disabled
+            FROM parking_reservations r
+            JOIN parking_locations l ON r.location_id = l.location_id
+            JOIN driver_vehicles v ON r.vehicle_id = v.vehicle_id
+            LEFT JOIN parking_spaces s ON r.space_id = s.space_id
+            WHERE r.reservation_id = ?
+        `, [id]);
+        
+        if (reservations.length === 0) {
+            return res.status(404).json({ error: 'Reservation not found' });
+        }
+        
+        res.json(reservations[0]);
+    } catch (error) {
+        console.error('Error fetching reservation:', error);
+        res.status(500).json({ error: 'Failed to fetch reservation' });
     }
 });
 
@@ -849,6 +1076,406 @@ app.get('/api/parking/sessions/active', async (req, res) => {
     } catch (error) {
         console.error('Error fetching active session:', error);
         res.status(500).json({ error: 'Failed to fetch active session' });
+    }
+});
+
+// Get parking history for a user
+app.get('/api/parking/history', async (req, res) => {
+    try {
+        const userId = req.query.user_id;
+        
+        // Get both completed sessions and reservations
+        const [history] = await pool.execute(`
+            (
+                SELECT 
+                    'session' AS type,
+                    o.reference_number,
+                    o.time_in,
+                    o.time_out,
+                    l.name AS location,
+                    o.duration_hours,
+                    o.amount_paid AS cost,
+                    v.license_plate
+                FROM parking_occupancy o
+                JOIN parking_spaces s ON o.space_id = s.space_id
+                JOIN parking_locations l ON s.location_id = l.location_id
+                JOIN driver_vehicles v ON o.vehicle_id = v.vehicle_id
+                WHERE v.user_id = ?
+                AND o.time_out IS NOT NULL
+            )
+            UNION
+            (
+                SELECT 
+                    'reservation' AS type,
+                    r.reference_number,
+                    r.start_time AS time_in,
+                    r.end_time AS time_out,
+                    l.name AS location,
+                    TIMESTAMPDIFF(HOUR, r.start_time, r.end_time) AS duration_hours,
+                    r.amount_paid AS cost,
+                    v.license_plate
+                FROM parking_reservations r
+                JOIN parking_locations l ON r.location_id = l.location_id
+                JOIN driver_vehicles v ON r.vehicle_id = v.vehicle_id
+                WHERE r.user_id = ?
+                AND r.payment_status = 'paid'
+                AND r.end_time < NOW()
+            )
+            ORDER BY time_in DESC
+            LIMIT 100
+        `, [userId, userId]);
+        
+        res.json(history);
+    } catch (error) {
+        console.error('Error fetching parking history:', error);
+        res.status(500).json({ error: 'Failed to fetch parking history' });
+    }
+});
+
+// Get all parking history for download
+app.get('/api/parking/history/all', async (req, res) => {
+    try {
+        const userId = req.query.user_id;
+        
+        const [history] = await pool.execute(`
+            (
+                SELECT 
+                    'session' AS type,
+                    o.reference_number,
+                    o.time_in,
+                    o.time_out,
+                    l.name AS location,
+                    o.duration_hours,
+                    o.amount_paid AS cost,
+                    v.license_plate
+                FROM parking_occupancy o
+                JOIN parking_spaces s ON o.space_id = s.space_id
+                JOIN parking_locations l ON s.location_id = l.location_id
+                JOIN driver_vehicles v ON o.vehicle_id = v.vehicle_id
+                WHERE v.user_id = ?
+                AND o.time_out IS NOT NULL
+            )
+            UNION
+            (
+                SELECT 
+                    'reservation' AS type,
+                    r.reference_number,
+                    r.start_time AS time_in,
+                    r.end_time AS time_out,
+                    l.name AS location,
+                    TIMESTAMPDIFF(HOUR, r.start_time, r.end_time) AS duration_hours,
+                    r.amount_paid AS cost,
+                    v.license_plate
+                FROM parking_reservations r
+                JOIN parking_locations l ON r.location_id = l.location_id
+                JOIN driver_vehicles v ON r.vehicle_id = v.vehicle_id
+                WHERE r.user_id = ?
+                AND r.payment_status = 'paid'
+                AND r.end_time < NOW()
+            )
+            ORDER BY time_in DESC
+        `, [userId, userId]);
+        
+        res.json(history);
+    } catch (error) {
+        console.error('Error fetching complete parking history:', error);
+        res.status(500).json({ error: 'Failed to fetch complete history' });
+    }
+});
+
+// Endpoint for admin bookings
+app.get('/api/admin/bookings', async (req, res) => {
+    try {
+        const [bookings] = await pool.execute(`
+            SELECT 
+                r.reservation_id,
+                r.reference_number,
+                r.start_time,
+                r.end_time,
+                TIMESTAMPDIFF(HOUR, r.start_time, r.end_time) AS duration_hours,
+                r.status,
+                r.needs_disabled,
+                u.full_name AS user_name,
+                u.email AS user_email,
+                v.license_plate,
+                l.name AS location_name,
+                l.code AS location_code,
+                a.full_name AS processed_by_name
+            FROM parking_reservations r
+            JOIN users u ON r.user_id = u.user_id
+            JOIN driver_vehicles v ON r.vehicle_id = v.vehicle_id
+            JOIN parking_locations l ON r.location_id = l.location_id
+            LEFT JOIN users a ON r.processed_by = a.user_id
+            WHERE r.start_time > NOW()
+            ORDER BY r.start_time ASC
+        `);
+        
+        res.json(bookings);
+    } catch (error) {
+        console.error('Error fetching bookings:', error);
+        res.status(500).json({ error: 'Failed to fetch bookings' });
+    }
+});
+// Endpoint for rejecting bookings
+app.post('/api/admin/bookings/:id/reject', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { reason, admin_id } = req.body;
+        
+        // Update instead of delete to maintain records
+        await pool.execute(
+            `UPDATE parking_reservations 
+             SET status = 'rejected', 
+                 rejection_reason = ?,
+                 processed_by = ?,
+                 updated_at = NOW()
+             WHERE reservation_id = ?`,
+            [reason, admin_id, id]
+        );
+        
+        // Get booking details for notification
+        const [booking] = await pool.execute(`
+            SELECT 
+                r.reference_number,
+                u.email,
+                u.full_name,
+                l.name AS location_name,
+                r.start_time
+            FROM parking_reservations r
+            JOIN users u ON r.user_id = u.user_id
+            JOIN parking_locations l ON r.location_id = l.location_id
+            WHERE r.reservation_id = ?
+        `, [id]);
+        
+        if (booking.length === 0) {
+            return res.status(404).json({ error: 'Booking not found' });
+        }
+        
+        // Send notification email
+        const mailOptions = {
+            from: 'parking@uea.ac.uk',
+            to: booking[0].email,
+            subject: 'Your parking reservation has been rejected',
+            text: `Dear ${booking[0].full_name},\n\n` +
+                  `Your parking reservation (Ref: ${booking[0].reference_number}) for ${booking[0].location_name} ` +
+                  `on ${new Date(booking[0].start_time).toLocaleString()} has been rejected.\n\n` +
+                  (reason ? `Reason: ${reason}\n\n` : '') +
+                  `Please contact us if you have any questions.\n\n` +
+                  `Best regards,\nUEA Parking Team`
+        };
+        
+        transporter.sendMail(mailOptions);
+        
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error rejecting booking:', error);
+        res.status(500).json({ error: 'Failed to reject booking' });
+    }
+});
+
+// Accept booking endpoint
+async function confirmAccept(bookingId) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    if (!user) {
+        showError('You must be logged in to perform this action');
+        return;
+    }
+    
+    try {
+        showLoading(true, 'Processing acceptance...');
+        const response = await fetch(`/api/admin/bookings/${bookingId}/accept`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                admin_id: user.user_id 
+            })
+        });
+        
+        if (!response.ok) throw new Error('Failed to accept booking');
+        
+        // Refresh the bookings list
+        await loadAdvancedBookings();
+        showSuccess('Booking accepted successfully');
+    } catch (error) {
+        console.error('Error accepting booking:', error);
+        showError(error.message || 'Failed to accept booking');
+    } finally {
+        showLoading(false);
+    }
+}
+
+// Accept booking for Admin endpoint
+app.post('/api/admin/bookings/:id/accept', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { admin_id } = req.body;
+        
+        // Update booking status to confirmed
+        await pool.execute(
+            `UPDATE parking_reservations 
+             SET status = 'confirmed', 
+                 processed_by = ?,
+                 updated_at = NOW()
+             WHERE reservation_id = ?`,
+            [admin_id, id]
+        );
+        
+        // Get booking details for notification
+        const [booking] = await pool.execute(`
+            SELECT 
+                r.reference_number,
+                u.email,
+                u.full_name,
+                l.name AS location_name,
+                r.start_time,
+                r.space_number
+            FROM parking_reservations r
+            JOIN users u ON r.user_id = u.user_id
+            JOIN parking_locations l ON r.location_id = l.location_id
+            WHERE r.reservation_id = ?
+        `, [id]);
+        
+        if (booking.length === 0) {
+            return res.status(404).json({ error: 'Booking not found' });
+        }
+        
+        // Send confirmation email
+        const mailOptions = {
+            from: 'parking@uea.ac.uk',
+            to: booking[0].email,
+            subject: 'Your parking reservation has been confirmed',
+            text: `Dear ${booking[0].full_name},\n\n` +
+                  `Your parking reservation (Ref: ${booking[0].reference_number}) for ${booking[0].location_name} ` +
+                  `on ${new Date(booking[0].start_time).toLocaleString()} has been confirmed.\n\n` +
+                  `Parking space: ${booking[0].space_number || 'Will be assigned on arrival'}\n\n` +
+                  `Best regards,\nUEA Parking Team`
+        };
+        
+        transporter.sendMail(mailOptions);
+        
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error accepting booking:', error);
+        res.status(500).json({ error: 'Failed to accept booking' });
+    }
+});
+
+// Get user's bookings
+app.get('/api/user/bookings', async (req, res) => {
+    try {
+        const userId = req.query.user_id;
+        
+        const [bookings] = await pool.execute(`
+            SELECT 
+                r.reservation_id,
+                r.reference_number,
+                r.start_time,
+                r.end_time,
+                r.status,
+                r.rejection_reason,
+                l.name AS location_name,
+                l.code AS location_code
+            FROM parking_reservations r
+            JOIN parking_locations l ON r.location_id = l.location_id
+            WHERE r.user_id = ?
+            ORDER BY r.start_time DESC
+        `, [userId]);
+        
+        res.json(bookings);
+    } catch (error) {
+        console.error('Error fetching user bookings:', error);
+        res.status(500).json({ error: 'Failed to fetch bookings' });
+    }
+});
+
+// Cancel booking
+app.post('/api/user/bookings/:id/cancel', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { reason, user_id } = req.body;
+        
+        // Verify the booking belongs to the user
+        const [booking] = await pool.execute(
+            'SELECT user_id FROM parking_reservations WHERE reservation_id = ?',
+            [id]
+        );
+        
+        if (booking.length === 0 || booking[0].user_id !== parseInt(user_id)) {
+            return res.status(403).json({ error: 'Not authorized to cancel this booking' });
+        }
+        
+        // Update status to cancelled
+        await pool.execute(
+            `UPDATE parking_reservations 
+             SET status = 'cancelled', 
+                 rejection_reason = ?,
+                 updated_at = NOW()
+             WHERE reservation_id = ?`,
+            [reason || 'User cancelled', id]
+        );
+        
+        res.json({ success: true });
+    } catch (error) {
+        console.error('Error cancelling booking:', error);
+        res.status(500).json({ error: 'Failed to cancel booking' });
+    }
+});
+
+// Extend parking session endpoint
+app.post('/api/parking/sessions/extend', async (req, res) => {
+    try {
+        const { reference_number, additional_hours, card_number, card_expiry, card_cvv, card_name } = req.body;
+        
+        // Validate card details
+        if (!validateCardWithLuhn(card_number)) {
+            return res.status(400).json({ error: 'Invalid card number' });
+        }
+        
+        if (!card_number || !card_expiry || !card_cvv || !card_name) {
+            return res.status(400).json({ error: 'All card details are required' });
+        }
+
+        // Get current session
+        const [sessions] = await pool.execute(`
+            SELECT 
+                o.*,
+                l.hourly_rate
+            FROM parking_occupancy o
+            JOIN parking_spaces s ON o.space_id = s.space_id
+            JOIN parking_locations l ON s.location_id = l.location_id
+            WHERE o.reference_number = ?
+            AND o.time_out IS NULL
+        `, [reference_number]);
+
+        if (sessions.length === 0) {
+            return res.status(404).json({ error: 'Active parking session not found' });
+        }
+
+        const session = sessions[0];
+        const amount_paid = session.hourly_rate * additional_hours;
+
+        // Only update duration_hours and amount_paid - DON'T set time_out!
+        await pool.execute(`
+            UPDATE parking_occupancy 
+            SET 
+                amount_paid = amount_paid + ?,
+                duration_hours = duration_hours + ?
+            WHERE reference_number = ?
+        `, [amount_paid, additional_hours, reference_number]);
+
+        res.json({ 
+            success: true,
+            additional_hours: additional_hours,
+            new_total_duration: session.duration_hours + additional_hours,
+            amount_paid: amount_paid
+        });
+
+    } catch (error) {
+        console.error('Error extending parking session:', error);
+        res.status(500).json({ error: 'Failed to extend parking session' });
     }
 });
 

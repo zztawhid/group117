@@ -13,12 +13,15 @@ document.addEventListener('DOMContentLoaded', async function() {
         return;
     }
 
-    // Rest of your existing initialization code...
+    // Initialize date picker
     flatpickr("#start-time", {
         enableTime: true,
         dateFormat: "Y-m-d H:i",
         minDate: "today",
-        time_24hr: true
+        time_24hr: true,
+        minuteIncrement: 30,
+        minTime: "08:00",
+        maxTime: "20:00"
     });
 
     await Promise.all([
@@ -52,6 +55,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('check-availability-btn').addEventListener('click', checkAvailability);
     document.getElementById('book-now-btn').addEventListener('click', bookAdvancedParking);
 });
+
 
 function openTab(tabName) {
     const tabs = document.getElementsByClassName('tab-content');
@@ -230,10 +234,18 @@ async function checkAvailability() {
         document.getElementById('reservation-total').textContent = `£${reservation.total_cost}`;
         
         // Store reservation details for booking
-        document.getElementById('book-now-btn').dataset.reservationId = reservation.reservation_id;
-        document.getElementById('book-now-btn').dataset.totalCost = reservation.total_cost;
+        const bookNowBtn = document.getElementById('book-now-btn');
+        bookNowBtn.dataset.reservationId = reservation.reservation_id;
+        bookNowBtn.dataset.totalCost = reservation.total_cost;
+        bookNowBtn.dataset.locationName = reservation.location_name;
+        bookNowBtn.dataset.vehiclePlate = reservation.license_plate;
+        bookNowBtn.dataset.duration = reservation.duration_hours;
+        bookNowBtn.dataset.startTime = reservation.start_time;
+        bookNowBtn.dataset.endTime = reservation.end_time;
+        bookNowBtn.dataset.needsDisabled = reservation.needs_disabled;
         
         document.getElementById('availability-result').classList.remove('hidden');
+        document.getElementById('availability-result').style.display = '';
         
     } catch (error) {
         console.error('Availability check error:', error);
@@ -250,8 +262,25 @@ async function bookAdvancedParking() {
         return;
     }
 
-    // Redirect to payment page with reservation details
-    window.location.href = `payment.html?reservation_id=${reservationId}&total_cost=${totalCost}&type=reservation`;
+    // Get the selected vehicle details
+    const vehicleSelect = document.getElementById('vehicle-select-later');
+    const selectedVehicle = vehicleSelect.options[vehicleSelect.selectedIndex];
+
+    // Redirect to payment page with all reservation details
+    const params = new URLSearchParams({
+        reservation_id: reservationId,
+        total_cost: totalCost,
+        type: 'reservation',
+        location_name: this.dataset.locationName,
+        vehicle_id: selectedVehicle.value,  // Add vehicle ID
+        vehicle_plate: selectedVehicle.text, // Add vehicle plate
+        duration: this.dataset.duration,
+        start_time: this.dataset.startTime,
+        end_time: this.dataset.endTime,
+        needs_disabled: this.dataset.needsDisabled
+    });
+
+    window.location.href = `payment.html?${params.toString()}`;
 }
 
 async function checkActiveSession(userId) {
@@ -298,4 +327,8 @@ function disableBookingForms() {
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.style.display = 'none';
     });
+}
+
+function closePopup() {
+    document.getElementById('availability-result').style.display = 'none';
 }

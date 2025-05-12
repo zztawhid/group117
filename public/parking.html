@@ -146,9 +146,11 @@
                 </div>
                 <button id="check-availability-btn" class="payment-continue-button">Check Availability <i class="fa-solid fa-arrow-right"></i></button>
                 <div id="availability-result" class="hidden">
+                    <span class="popup-close" onclick="closePopup()">&times;</span>
                     <div class="availability-details">
                         <p>Space: <span id="space-number"></span></p>
                         <p>Time: <span id="reservation-time"></span></p>
+                        <p>Duration: <span id="reservation-duration"></span> hours</p>
                         <p>Total: <span id="reservation-total"></span></p>
                     </div>
                     <button id="book-now-btn" class="payment-continue-button">Book Now <i class="fa-solid fa-arrow-right"></i></button>

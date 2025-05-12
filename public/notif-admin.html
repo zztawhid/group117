@@ -8,7 +8,7 @@
     <script src="https://kit.fontawesome.com/cab31170e8.js" crossorigin="anonymous"></script>
     <script src="toggle.js"></script>
     <script src="auth.js"></script>
-    <script src="notifications.js"></script>
+    <script src="admin-notifications.js"></script>
 </head>
 <body>
 
@@ -48,11 +48,6 @@
 
 
 <main>
-    <!-- Loading and message indicators -->
-    <div id="loading-indicator" class="loading" style="display: none;"></div>
-    <div id="error-message" class="error-message" style="display: none;"></div>
-    <div id="success-message" class="success-message" style="display: none;"></div>
-
     <section class="active-session">
         <div class="status-bar">
             <div class="status-header">
@@ -159,58 +154,16 @@
                     <span class="notification-time">1 hour ago</span>
                 </li>
             </ul>
+
         </div>
     </div>
 
     <div class="message-admin-box">
-        <a href="message-admin.html"><button>Message an Admin <i class="fa-solid fa-comment-dots"></i></button></a>
-        <button id="advanced-booking-btn">Advanced bookings <i class="fa-solid fa-calendar-days"></i></button>
+        <a href="message-user.html"><button>Message a User <i class="fa-solid fa-comment-dots"></i></button></a>
+        <button id="advanced-booking-btn">Manage bookings <i class="fa-solid fa-calendar-days"></i></button>
     </div>
-</main>
 
-<!-- User Bookings Modal -->
-<div id="user-bookings-modal" class="modal hidden">
-    <div class="modal-content-bookings">
-        <span class="close-modal" onclick="closeUserBookingsModal()">&times;</span>
-        <h2>Your Advanced Bookings</h2>
-        
-        <div class="bookings-list-container">
-            <table id="bookings-table">
-                <thead>
-                    <tr>
-                        <th>Reference</th>
-                        <th>Location</th>
-                        <th>Date/Time</th>
-                        <th>Duration</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="user-bookings-list">
-                    <!-- Bookings will be loaded here -->
-                </tbody>
-            </table>
-        </div>
-        
-        <!-- Cancel Confirmation Modal -->
-        <div id="cancel-booking-modal" class="modal hidden">
-            <div class="modal-content">
-                <span class="close-modal" onclick="closeCancelModal()">&times;</span>
-                <h3>Cancel Booking</h3>
-                <p>Reference: <span id="cancel-ref"></span></p>
-                <p>Are you sure you want to cancel this booking?</p>
-                
-                <div class="form-group">
-                    <label for="cancel-reason">Reason (optional):</label>
-                    <textarea id="cancel-reason" rows="3" placeholder="Enter cancellation reason..."></textarea>
-                </div>
-                
-                <button class="btn btn-confirm" onclick="confirmCancel()">Confirm Cancellation</button>
-                <button class="btn btn-cancel" onclick="closeCancelModal()">Go Back</button>
-            </div>
-        </div>
-    </div>
-</div>
+</main>
 
 <footer>
     <div class="text-left">
@@ -225,5 +178,50 @@
         <p>University of East Anglia<br>Norwich research park<br>NR4 7TJ</p>
     </div>
 </footer>
+
+<!-- Advanced Bookings Modal -->
+<div id="bookings-modal" class="modal hidden">
+    <div class="modal-content-bookings">
+        <span class="close-modal" onclick="closeBookingsModal()">&times;</span>
+        <h2>Manage Advanced Bookings</h2>
+        
+        <div class="bookings-list-container">
+            <table id="bookings-table">
+                <thead>
+                    <tr>
+                        <th>Reference</th>
+                        <th>User</th>
+                        <th>Vehicle</th>
+                        <th>Location</th>
+                        <th>Date/Time</th>
+                        <th>Duration</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="bookings-list">
+                    <!-- Bookings will be loaded here -->
+                </tbody>
+            </table>
+        
+        <!-- Rejection Modal (nested inside) -->
+        <div id="reject-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeRejectModal()">&times;</span>
+                <h3>Reject Booking</h3>
+                <p>Reference: <span id="reject-ref"></span></p>
+                
+                <div class="form-group">
+                    <label for="reject-reason">Reason (optional):</label>
+                    <textarea id="reject-reason" rows="3" placeholder="Enter reason for rejection..."></textarea>
+                </div>
+                
+                <button class="btn btn-confirm" onclick="confirmReject()">Confirm Rejection</button>
+                <button class="btn btn-cancel" onclick="closeRejectModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

@@ -65,7 +65,7 @@ html{
 header {
     height: 175px;
     font-size: 24px;
-    background: linear-gradient(135deg, #b40655 0%, rgb(226, 19, 85) 100%);
+    background: linear-gradient(135deg, #b0095cee 0%, rgba(212, 4, 77, 0.888) 63%);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -78,42 +78,43 @@ header {
 
 /* Header Buttons */
 .header-button {
-    margin: 30px;
-    height: 75px;
-    width: 150px;
-    color: white;
-    padding: 0 15px;
-    background-color: #3c3c3cfc;
+    margin: 60px;
+    height: 80px;
+    width: 160px;
+    color: #ffffff;
+    background: rgb(255, 0, 0);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    border-radius: 15px;
     border: none;
     font-size: 16px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(255, 255, 255);
+}
+
+.fa-phone-flip{
+    margin-left: 3px;
 }
 
 button.header-button {
-    font-size: 20px;
-    justify-content: center;
+    font-size: 0.7em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 
-button.header-button:hover {
-  color: white;
-  background-color: #555;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
 
 .header-button img {
-  width: 350px;
-  height: 55px;
-  border-radius: 5px;
+    width: 100%;
+    height: 100%;
 }
 
-/* trying to make dropdown box work with flags */
 
 
 #language-dropdown {
@@ -1666,6 +1667,20 @@ input:not([readonly]) {
     margin-right: 10px;
 }
 
+#availability-result {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border: 2px solid #E6007D;
+    z-index: 1000;
+    width: 400px;
+}
+
 /* Availability result */
 .availability-details {
     background: #f8f9fa;
@@ -2041,8 +2056,7 @@ input:not([readonly]) {
     transform: scale(1.05);
 }
 
-/* Parking History and Download */
-/* Popup Styles */
+/* Parking History Popup Styles */
 .popup-overlay {
     display: none;
     position: fixed;
@@ -2050,7 +2064,7 @@ input:not([readonly]) {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.7);
     z-index: 1000;
     justify-content: center;
     align-items: center;
@@ -2059,20 +2073,17 @@ input:not([readonly]) {
 .popup-content {
     background-color: white;
     border-radius: 8px;
-    width: 80%;
+    width: 90%;
     max-width: 900px;
     max-height: 80vh;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .popup-header {
     padding: 15px 20px;
-    background-color: #E6007D;
-    color: white;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-bottom: 1px solid #eee;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -2080,17 +2091,19 @@ input:not([readonly]) {
 
 .popup-header h2 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    color: #ffffff;
 }
 
 .popup-close {
-    font-size: 28px;
+    font-size: 1.8rem;
     cursor: pointer;
-    transition: transform 0.2s;
+    color: #000000;
+    padding: 0 10px;
 }
 
 .popup-close:hover {
-    transform: scale(1.2);
+    color: #ff1900;
 }
 
 .popup-body {
@@ -2100,40 +2113,72 @@ input:not([readonly]) {
 
 .popup-footer {
     padding: 15px 20px;
+    border-top: 1px solid #eee;
     display: flex;
     justify-content: flex-end;
-    gap: 15px;
-    border-top: 1px solid #eee;
+    gap: 10px;
 }
 
-/* History Table Styles */
 .history-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
+    font-size: 0.9rem;
 }
 
 .history-table th {
-    background-color: #f5f5f5;
-    padding: 12px 15px;
+    background-color: #f8f9fa;
+    padding: 10px 15px;
     text-align: left;
-    font-weight: bold;
-    border-bottom: 2px solid #E6007D;
+    font-weight: 600;
+    color: #2c3e50;
+    border-bottom: 2px solid #dee2e6;
 }
 
 .history-table td {
     padding: 10px 15px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #dee2e6;
+    vertical-align: top;
 }
 
 .history-table tr:hover {
-    background-color: #f9f9f9;
+    background-color: #f8f9fa;
 }
 
-.loading-msg {
+.loading-msg, .no-data, .error-msg {
     text-align: center;
     padding: 20px;
-    color: #666;
+    color: #7f8c8d;
+}
+
+.error-msg {
+    color: #e74c3c;
+}
+
+.error-msg button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.vehicle-filter {
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.vehicle-filter label {
+    margin-right: 10px;
+    font-weight: 500;
+}
+
+.vehicle-filter select {
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
 }
 /* Parking History and Download */
 
@@ -2318,23 +2363,16 @@ input:not([readonly]) {
 }
 
 button.add-vehicle-button {
-    width: 40%;
-    padding: 14px;
-    background-color: #E6007D;
-    color: black;
-
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin: 10px 0;
+    background-color: #ffbf1c;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-family: monospace;
+    border: #000000;
     border-style: solid;
-    border-width: 2px;
-    border-color: #333;
-    border-radius: 5px;
-
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.add-vehicle-button:hover {
-    background-color: white;
+    border-width: 3px;
 }
 
 
@@ -2476,14 +2514,15 @@ button.add-vehicle-button {
 }
 
 .add-vehicle-button{
-    width: 25%;
+    height: 75px;
+    width: 50%;
     padding: 12px;
     background: #e85050ba;
     border-radius: 6px;
     border: none;
     cursor: pointer;
     font-size: 16px;
-    color: #fff;
+    color: #000000;
     font-weight: 500;
     margin-top: 5px;
     margin-bottom: 20px;
@@ -2637,6 +2676,73 @@ button.add-vehicle-button {
 
 /* Notifications CSS (END)*/
 
+
+/* Notifications - ADMIN (START) */
+
+.modal-content-bookings {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 65%;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Bookings Table */
+.bookings-list-container {
+    margin-top: 20px;
+}
+
+#bookings-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#bookings-table th, 
+#bookings-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#bookings-table th {
+    background-color: #f2f2f2;
+}
+
+#bookings-table tr:hover {
+    background-color: #f5f5f5;
+}
+
+.status-pending {
+    color: #FFA500;
+    font-weight: bold;
+}
+
+.status-confirmed {
+    color: #008000;
+    font-weight: bold;
+}
+
+.btn-reject{
+    background-color: rgb(255, 64, 64); /* Green */
+    color: white;
+}
+
+/* Reject Modal */
+#reject-modal .modal-content {
+    max-width: 500px;
+}
+
+#reject-reason {
+    width: 100%;
+    padding: 8px;
+    margin-top: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Notifications - ADMIN (END) */
 
 /* Vmanage CSS (START)*/
 
@@ -3340,7 +3446,7 @@ header button:hover,
     overflow: hidden;
 }
 
-.location-selection, .location-actions, .location-settings {
+.location-selection, .location-actions, .location-settings, .location-spaces-management, .new-location-form{
     border: 2px solid #E6007D;
     border-radius: 8px;
     padding: 20px;
@@ -3586,6 +3692,11 @@ header button:hover,
 
 .delete-btn {
     background-color: #D32F2F;
+    color: white;
+}
+
+.block-btn {
+    background-color: #4f4c4b;
     color: white;
 }
 
@@ -4066,7 +4177,6 @@ header {
 }
 
 .header-button img {
-    
     width: 65px;
     height: 40px;
 }

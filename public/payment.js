@@ -10,9 +10,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const bookingType = urlParams.get('type');
     
     if (bookingType === 'reservation') {
-        // Advanced booking
-        const reservationId = urlParams.get('reservation_id');
-        loadReservationDetails(reservationId);
+        // Advanced booking - display all details from URL params
+        const bookingDetails = {
+            locationName: urlParams.get('location_name'),
+            vehiclePlate: urlParams.get('vehicle_plate'),
+            duration: urlParams.get('duration'),
+            startTime: urlParams.get('start_time'),
+            endTime: urlParams.get('end_time'),
+            totalCost: urlParams.get('total_cost'),
+            needsDisabled: urlParams.get('needs_disabled') === 'true',
+            reservationId: urlParams.get('reservation_id')
+        };
+        displayReservationDetails(bookingDetails);
     } else {
         // Immediate booking
         const bookingDetails = {
@@ -35,6 +44,45 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('card-expiry').addEventListener('input', formatCardExpiry);
     document.getElementById('card-cvv').addEventListener('input', formatCardCvv);
 });
+
+function displayReservationDetails(details) {
+    document.getElementById('summary-location').textContent = details.locationName || 'Not specified';
+    document.getElementById('summary-vehicle').textContent = details.vehiclePlate || 'Not specified';
+    document.getElementById('summary-space').textContent = 'Will be assigned';
+    document.getElementById('summary-bay-type').textContent = details.needsDisabled ? 'Disabled Bay' : 'Standard Bay';
+    
+    const duration = details.duration;
+    document.getElementById('summary-duration').textContent = 
+        duration ? `${duration} hour${duration > 1 ? 's' : ''}` : 'Not specified';
+    
+    document.getElementById('summary-start').textContent = new Date(details.startTime).toLocaleString();
+    document.getElementById('summary-end').textContent = new Date(details.endTime).toLocaleString();
+    
+    if (details.totalCost && details.duration) {
+        const totalCost = parseFloat(details.totalCost);
+        const hourlyRate = (totalCost / parseInt(details.duration)).toFixed(2);
+        
+        document.getElementById('summary-rate').textContent = `£${hourlyRate}/hr`;
+        document.getElementById('summary-total').textContent = `£${totalCost.toFixed(2)}`;
+        
+        let discountRate = 0;
+        if (duration >= 24) discountRate = 0.2;
+        else if (duration >= 12) discountRate = 0.15;
+        else if (duration >= 8) discountRate = 0.1;
+        
+        if (discountRate > 0) {
+            const discountAmount = (totalCost * discountRate / (1 - discountRate)).toFixed(2);
+            document.getElementById('summary-discount').textContent = `-£${discountAmount}`;
+        }
+    }
+    
+    // Store booking details for payment processing
+    const confirmBtn = document.getElementById('confirm-payment-btn');
+    confirmBtn.dataset.bookingType = 'reservation';
+    confirmBtn.dataset.reservationId = details.reservationId;
+    confirmBtn.dataset.vehicleId = details.vehicle_id;  // Store vehicle ID
+    confirmBtn.dataset.vehiclePlate = details.vehicle_plate;  // Store vehicle plate
+}
 
 async function loadReservationDetails(reservationId) {
     try {
@@ -172,32 +220,70 @@ async function processPayment() {
     
     try {
         const user = JSON.parse(localStorage.getItem('user'));
-        const urlParams = new URLSearchParams(window.location.search);
-        const bookingDetails = JSON.parse(document.getElementById('confirm-payment-btn').dataset.bookingDetails);
+        const confirmBtn = document.getElementById('confirm-payment-btn');
+        const bookingType = confirmBtn.dataset.bookingType;
         
-        // Create a parking session
-        const response = await fetch('/api/parking/sessions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                user_id: user.user_id,
-                vehicle_id: bookingDetails.vehicleId,
-                location_id: bookingDetails.locationId,
-                duration: bookingDetails.duration,
-                amount_paid: bookingDetails.totalCost,
-                needs_disabled: bookingDetails.needsDisabled
-            })
-        });
-        
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Booking failed');
+        if (bookingType === 'reservation') {
+            // Process reservation payment
+            const reservationId = confirmBtn.dataset.reservationId;
+            
+            const response = await fetch('/api/payment/process', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    reservation_id: reservationId,
+                    card_number: cardNumber,
+                    card_expiry: cardExpiry,
+                    card_cvv: cardCvv,
+                    card_name: cardName
+                })
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Payment failed');
+            }
+            
+            const result = await response.json();
+            
+            // Get reservation details for confirmation
+            const urlParams = new URLSearchParams(window.location.search);
+            showConfirmation(
+                `RES-${reservationId}`,
+                'Assigned on arrival',
+                urlParams.get('duration'),
+                urlParams.get('total_cost')
+            );
+            
+        } else {
+            // Immediate booking (existing code)
+            const bookingDetails = JSON.parse(confirmBtn.dataset.bookingDetails);
+            
+            const response = await fetch('/api/parking/sessions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    user_id: user.user_id,
+                    vehicle_id: bookingDetails.vehicleId,
+                    location_id: bookingDetails.locationId,
+                    duration: bookingDetails.duration,
+                    amount_paid: bookingDetails.totalCost,
+                    needs_disabled: bookingDetails.needsDisabled
+                })
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Booking failed');
+            }
+            
+            const result = await response.json();
+            showConfirmation(result.reference, result.space_number, bookingDetails.duration, bookingDetails.totalCost);
         }
-        
-        const result = await response.json();
-        showConfirmation(result.reference, result.space_number, bookingDetails.duration, bookingDetails.totalCost);
         
     } catch (error) {
         console.error('Payment error:', error);
