@@ -1,32 +1,3 @@
-/*
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Select all FAQ questions
-    const faqQuestions = document.querySelectorAll('.faq-question');
-    
-    // Add click event to each question
-    faqQuestions.forEach(question => {
-        question.addEventListener('click', function() {
-            // Get the parent FAQ item
-            const faqItem = this.parentElement;
-            
-            // Toggle active class
-            faqItem.classList.toggle('active');
-            
-            // Optional: Close other FAQs (accordion behavior)
-            document.querySelectorAll('.faq-item').forEach(item => {
-                if (item !== faqItem && item.classList.contains('active')) {
-                    item.classList.remove('active');
-                }
-            });
-        });
-    });
-    
-    // Debugging check
-    console.log('FAQ script loaded. Found', faqQuestions.length, 'FAQ questions.');
-});
-</script> */
-
 function toggleDropdown() {
     const topnav = document.querySelector('.topnav');
     topnav.classList.toggle('slide-in');
@@ -60,5 +31,4 @@ function changeLanguage(lang) {
     toggleLanguageDropdown();
 }
 
-/* PLEASE FINISH THIS JS FILE TO LISTEN FOR CLICK EVENT AND CREATE A WORKING DROP DOWN MENU
-IF CSS IS NEEDED TO MAKE IT LOOK BETTER PLEASE LET TAYLOR KNOW THE CHANGES*/
+

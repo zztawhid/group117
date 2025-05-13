@@ -668,8 +668,8 @@ main {
 
 .status-title {
     font-size: 1.4rem;
-    font-weight: 600;
     margin: 0;
+    color: white;
 }
 
 .status-active {
@@ -3434,7 +3434,7 @@ header button:hover,
 h2 {
     font-size: 32px;
     font-weight: bold;
-    color: #ffffff;
+    color: #000000;
     text-align: center;
     margin-top: 0px;
 }

@@ -13,10 +13,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         return;
     }
 
-    // Initialize map pointers
-    initMapPointers();
+    // Initialize map pointers with availability data
+    await initMapPointers();
 
-    // Rest of your existing initialization code...
     flatpickr("#start-time", {
         enableTime: true,
         dateFormat: "Y-m-d H:i",
@@ -56,76 +55,91 @@ document.addEventListener('DOMContentLoaded', async function() {
     document.getElementById('book-now-btn').addEventListener('click', bookAdvancedParking);
 });
 
-function initMapPointers() {
+async function initMapPointers() {
     const container = document.getElementById('map-pointers-container');
     
-    // Define your pointers here
+    // First, fetch all parking locations
+    let locations = [];
+    try {
+        const response = await fetch('/api/parking/locations');
+        if (response.ok) {
+            locations = await response.json();
+        }
+    } catch (error) {
+        console.error('Error loading parking locations:', error);
+    }
+
     const pointers = [
         {
             id: 'pointer-1',
-            x: '78%',  // 
+            x: '78%',
             y: '33%',
-            tooltip: 'Blackdale'
+            tooltip: 'Blackdale',
+            locationId: 3
         },
         {
             id: 'pointer-2',
-            x: '30%',  // Slightly to the right of center
+            x: '30%',
             y: '56%',
-            tooltip: 'Chancellors Drive'
+            tooltip: 'Chancellors Drive',
+            locationId: 6
         },
         {
             id: 'pointer-3',
-            x: '45%',  // Slightly to the right of center
+            x: '45%',
             y: '25%',
-            tooltip: 'Enterprise Center'
+            tooltip: 'Enterprise Center',
+            locationId: 8
         },
         {
             id: 'pointer-4',
-            x: '70%',  // 
+            x: '70%',
             y: '45%',
-            tooltip: 'Main Car Park'
+            tooltip: 'Main Car Park',
+            locationId: 1
         },
         {
             id: 'pointer-5',
-            x: '83%',  // Slightly to the right of center
+            x: '83%',
             y: '43%',
-            tooltip: 'Medical Center'
+            tooltip: 'Medical Center',
+            locationId: 4
         },
         {
             id: 'pointer-6',
-            x: '35%',  // Slightly to the right of center
+            x: '35%',
             y: '70%',
-            tooltip: 'Sainsburys'
+            tooltip: 'Sainsburys',
+            locationId: 10
         },
         {
             id: 'pointer-7',
-            x: '57%',  // Slightly to the right of center
+            x: '57%',
             y: '28%',
-            tooltip: 'SportsPark'
+            tooltip: 'SportsPark',
+            locationId: 2
         },
         {
             id: 'pointer-8',
-            x: '60%',  // Slightly to the right of center
+            x: '60%',
             y: '68%',
-            tooltip: 'Suffolk Road'
+            tooltip: 'Suffolk Road',
+            locationId: 5
         },
         {
             id: 'pointer-9',
-            x: '49%',  // Slightly to the right of center
+            x: '49%',
             y: '59%',
-            tooltip: 'Suffolk Terrance'
+            tooltip: 'Suffolk Terrace',
+            locationId: 9
         },
         {
             id: 'pointer-10',
-            x: '75%',  // Slightly to the right of center
+            x: '75%',
             y: '55%',
-            tooltip: 'Waveney Road'
-        },
-        
-        
-
-
-        
+            tooltip: 'Waveney Road',
+            locationId: 7
+        }
     ];
 
     // Create pointers
@@ -136,13 +150,59 @@ function initMapPointers() {
         pointerElement.style.left = pointer.x;
         pointerElement.style.top = pointer.y;
         
-        // Create tooltip
+        // Find matching location data
+        const locationData = locations.find(loc => 
+            loc.location_id === pointer.locationId
+        );
+        
+        // Create tooltip with availability info
         const tooltip = document.createElement('div');
         tooltip.className = 'map-pointer-tooltip';
-        tooltip.textContent = pointer.tooltip;
         
+        // Default tooltip content
+        let tooltipContent = `<strong>${pointer.tooltip}</strong>`;
+        
+        if (locationData) {
+            if (locationData.disabled) {
+                tooltipContent += '<br>Temporarily Unavailable';
+            } else {
+                // Try to fetch availability
+                fetch(`/api/parking/availability?location_id=${pointer.locationId}`)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        }
+                        throw new Error('Failed to load availability');
+                    })
+                    .then(availability => {
+                        tooltip.innerHTML = `
+                            ${tooltipContent}<br>
+                            ${availability.available_spaces} of ${availability.total_spaces} spaces available
+                        `;
+                    })
+                    .catch(error => {
+                        console.error(`Error loading availability for location ${pointer.locationId}:`, error);
+                        tooltip.innerHTML = `
+                            ${tooltipContent}<br>
+                            Availability data not loaded
+                        `;
+                    });
+            }
+        }
+        
+        tooltip.innerHTML = tooltipContent;
         pointerElement.appendChild(tooltip);
         container.appendChild(pointerElement);
+        
+        pointerElement.addEventListener('mouseenter', () => {
+            tooltip.style.visibility = 'visible';
+            tooltip.style.opacity = '1';
+        });
+        
+        pointerElement.addEventListener('mouseleave', () => {
+            tooltip.style.visibility = 'hidden';
+            tooltip.style.opacity = '0';
+        });
     });
 }
 
@@ -322,9 +382,15 @@ async function checkAvailability() {
 
         document.getElementById('reservation-total').textContent = `£${reservation.total_cost}`;
 
-        // Store reservation details for booking
-        document.getElementById('book-now-btn').dataset.reservationId = reservation.reservation_id;
-        document.getElementById('book-now-btn').dataset.totalCost = reservation.total_cost;
+        const bookNowBtn = document.getElementById('book-now-btn');
+        bookNowBtn.dataset.reservationId = reservation.reservation_id;
+        bookNowBtn.dataset.totalCost = reservation.total_cost;
+        bookNowBtn.dataset.locationName = reservation.location_name; 
+        bookNowBtn.dataset.vehiclePlate = reservation.license_plate;
+        bookNowBtn.dataset.duration = reservation.duration_hours; 
+        bookNowBtn.dataset.startTime = reservation.start_time; 
+        bookNowBtn.dataset.endTime = reservation.end_time; 
+        bookNowBtn.dataset.needsDisabled = reservation.needs_disabled;
 
         document.getElementById('availability-result').classList.remove('hidden');
 
@@ -342,9 +408,18 @@ async function bookAdvancedParking() {
         alert('No reservation selected');
         return;
     }
-
-    // Redirect to payment page with reservation details
-    window.location.href = `payment.html?reservation_id=${reservationId}&total_cost=${totalCost}&type=reservation`;
+    try {
+        const response = await fetch(`/api/parking/reservations/${reservationId}`);
+        if (!response.ok) throw new Error('Failed to load reservation details');
+        
+        const reservation = await response.json();
+        
+        // Redirect with all required parameters
+        window.location.href = `payment.html?type=reservation&reservation_id=${reservationId}&total_cost=${totalCost}&location_name=${encodeURIComponent(reservation.location_name)}&vehicle_plate=${encodeURIComponent(reservation.license_plate)}&start_time=${encodeURIComponent(reservation.start_time)}&end_time=${encodeURIComponent(reservation.end_time)}&duration=${reservation.duration_hours}`;
+    } catch (error) {
+        console.error('Error fetching reservation:', error);
+        alert('Failed to load booking details. Please try again.');
+    }
 }
 
 async function checkActiveSession(userId) {
@@ -375,7 +450,6 @@ function showActiveSessionWarning() {
         </div>
     `;
 
-    // Insert the warning after the heading instead of at the beginning
     heading.insertAdjacentHTML('afterend', warningHTML);
     document.querySelector('.tab-container').style.display = 'none';
 }

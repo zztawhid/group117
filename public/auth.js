@@ -72,10 +72,6 @@ function logout() {
     window.location.href = 'login.html';
 }
 
-/**
- * Gets authorization headers for API calls
- * @returns {Object} Headers with auth token if available
- */
 function getAuthHeaders() {
     const user = JSON.parse(localStorage.getItem('user'));
     return user ? { 
