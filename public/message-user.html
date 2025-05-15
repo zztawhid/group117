@@ -8,6 +8,7 @@
     <script src="https://kit.fontawesome.com/cab31170e8.js" crossorigin="anonymous"></script>
     <script src="toggle.js"></script>
     <script src="auth.js"></script>
+    <script src="message-user.js"></script>
 </head>
 <body>
 <div id="wrapper">
@@ -50,20 +51,19 @@
     <main class="main">
         <section class="message-container">
             <div class="messages-left">
-                <h2>Received Messages</h2>
-                <ul id="receivedMessages">
-                   
-                </ul>
+                <h2>Select User</h2>
+                <select id="userSelect">
+                    <option value="">-- Select a user --</option>
+                </select>
+                <div id="messageHistory">
+                    <!-- Messages will appear here -->
+                </div>
             </div>
-            <div class="messages-right" >
-                <h2>Send a Message</h2>
+            <div class="messages-right">
+                <h2>Send Message</h2>
                 <form id="messageForm">
-                    <label for="user">Driver User:</label>
-                    <input type="text" id="user" name="user" placeholder="Enter Driver User" required>   
-
                     <label for="messageContent">Message:</label>
-                    <textarea id="messageContent" name="messageContent" rows="5" placeholder="send message to driver.."></textarea>
-
+                    <textarea id="messageContent" name="messageContent" rows="5" placeholder="Type your message..."></textarea>
                     <button type="submit">Send Message</button>
                 </form>
             </div>

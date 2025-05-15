@@ -1,8 +1,14 @@
 document.addEventListener('DOMContentLoaded', async function() {
-    // Check user authentication and admin status
+    // Get admin user data from localStorage or session
     const user = JSON.parse(localStorage.getItem('user'));
-    if (!user || user.user_type !== 'admin') {
+    if (!user) {
         window.location.href = 'login.html';
+        return;
+    }
+    
+    // Verify user is admin
+    if (user.user_type !== 'admin') {
+        window.location.href = 'main.html';
         return;
     }
 

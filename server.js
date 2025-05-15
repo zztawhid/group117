@@ -4,6 +4,12 @@ const pool = require('./config/db');
 const bcrypt = require('bcryptjs');
 const app = express();
 const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
+
+const RESET_TOKEN_SECRET = process.env.RESET_TOKEN_SECRET || 'parkueasecret';
+const RESET_TOKEN_EXPIRY = '1h';
 
 const transporter = nodemailer.createTransport({
     host: "smtp.ethereal.email",
@@ -105,45 +111,79 @@ app.post('/api/auth/register', async (req, res) => {
     }
 });
 
+
+// Track failed login attempts
+async function trackFailedLoginAttempt(ip, email) {
+    const now = new Date();
+    const expiry = new Date(now.getTime() + 15 * 60 * 1000); // 15 minutes from now
+    
+    await pool.execute(
+        'INSERT INTO login_attempts (ip_address, email, attempt_time, expiry_time) VALUES (?, ?, ?, ?)',
+        [ip, email, now, expiry]
+    );
+    
+    // Clean up old attempts
+    await pool.execute(
+        'DELETE FROM login_attempts WHERE expiry_time < ?',
+        [now]
+    );
+}
+
+async function checkLoginRateLimit(ip, email) {
+    const [attempts] = await pool.execute(
+        'SELECT COUNT(*) AS count FROM login_attempts ' +
+        'WHERE (ip_address = ? OR email = ?) AND attempt_time > DATE_SUB(NOW(), INTERVAL 15 MINUTE)',
+        [ip, email]
+    );
+    
+    return attempts[0].count >= 5; // Limit to 5 attempts
+}
+
 // Login endpoint
 app.post('/api/auth/login', async (req, res) => {
     try {
         const { email, password } = req.body;
+        const ip = req.ip;
         
-        // Find user by email
+        // Check rate limit
+        if (await checkLoginRateLimit(ip, email)) {
+            return res.status(429).json({ 
+                message: 'Too many login attempts. Please try again in 15 minutes.' 
+            });
+        }
+        
+        // Rest of your login logic...
         const [users] = await pool.execute(
             'SELECT * FROM users WHERE email = ?',
             [email]
         );
         
         if (users.length === 0) {
+            await trackFailedLoginAttempt(ip, email);
             return res.status(401).json({ 
                 message: 'Invalid email or password' 
             });
         }
         
         const user = users[0];
-        
-        // Compare passwords
         const passwordMatch = await bcrypt.compare(password, user.password_hash);
         
         if (!passwordMatch) {
+            await trackFailedLoginAttempt(ip, email);
             return res.status(401).json({ 
                 message: 'Invalid email or password' 
             });
         }
         
-        // Return user data (excluding password)
-        const userData = {
-            user_id: user.user_id,
-            full_name: user.full_name,
-            email: user.email,
-            user_type: user.user_type
-        };
-        
+        // Successful login
         res.json({ 
             message: 'Login successful',
-            user: userData
+            user: {
+                user_id: user.user_id,
+                full_name: user.full_name,
+                email: user.email,
+                user_type: user.user_type
+            }
         });
         
     } catch (error) {
@@ -151,6 +191,113 @@ app.post('/api/auth/login', async (req, res) => {
         res.status(500).json({ 
             message: 'Login failed. Please try again.' 
         });
+    }
+});
+
+
+// Forgot password endpoint
+app.post('/api/auth/forgot-password', async (req, res) => {
+    try {
+        const { email } = req.body;
+        
+        if (!email) {
+            return res.status(400).json({ message: 'Email is required' });
+        }
+
+        // Check if user exists
+        const [users] = await pool.execute(
+            'SELECT user_id, email FROM users WHERE email = ?',
+            [email]
+        );
+        
+        if (users.length === 0) {
+            return res.status(404).json({ message: 'No account with that email exists' });
+        }
+
+        const user = users[0];
+        
+        // Generate reset token
+        const resetToken = jwt.sign(
+            { userId: user.user_id },
+            RESET_TOKEN_SECRET,
+            { expiresIn: RESET_TOKEN_EXPIRY }
+        );
+        
+        // Store token in database (with expiry)
+        const expiresAt = new Date(Date.now() + 3600000); // 1 hour from now
+        await pool.execute(
+            'UPDATE users SET reset_token = ?, reset_token_expires = ? WHERE user_id = ?',
+            [resetToken, expiresAt, user.user_id]
+        );
+        
+        // Send email with reset link
+        const resetLink = `http://localhost:3000/reset-password.html?token=${resetToken}`;
+        
+        const mailOptions = {
+            from: 'parking@uea.ac.uk',
+            to: user.email,
+            subject: 'Password Reset Request',
+            text: `You requested a password reset. Please click the following link to reset your password:\n\n${resetLink}\n\nThis link will expire in 1 hour.\n\nIf you didn't request this, please ignore this email.`
+        };
+        
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending reset email:', error);
+                return res.status(500).json({ message: 'Failed to send reset email' });
+            }
+            res.json({ message: 'Password reset link sent to your email' });
+        });
+        
+    } catch (error) {
+        console.error('Forgot password error:', error);
+        res.status(500).json({ message: 'Failed to process password reset' });
+    }
+});
+
+// Reset password endpoint
+app.post('/api/auth/reset-password', async (req, res) => {
+    try {
+        const { token, newPassword } = req.body;
+        
+        if (!token || !newPassword) {
+            return res.status(400).json({ message: 'Token and new password are required' });
+        }
+        
+        // Verify token
+        let decoded;
+        try {
+            decoded = jwt.verify(token, RESET_TOKEN_SECRET);
+        } catch (err) {
+            return res.status(400).json({ message: 'Invalid or expired token' });
+        }
+        
+        // Check if token exists in database and isn't expired
+        const [users] = await pool.execute(
+            'SELECT user_id FROM users WHERE reset_token = ? AND reset_token_expires > NOW()',
+            [token]
+        );
+        
+        if (users.length === 0) {
+            return res.status(400).json({ message: 'Invalid or expired token' });
+        }
+        
+        const user = users[0];
+        
+        // Hash new password
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+        
+        // Update password and clear reset token
+        await pool.execute(
+            'UPDATE users SET password_hash = ?, reset_token = NULL, reset_token_expires = NULL WHERE user_id = ?',
+            [hashedPassword, user.user_id]
+        );
+        
+        res.json({ message: 'Password reset successfully' });
+        
+    } catch (error) {
+        console.error('Reset password error:', error);
+        res.status(500).json({ message: 'Failed to reset password' });
     }
 });
 
@@ -1477,6 +1624,108 @@ app.post('/api/parking/sessions/extend', async (req, res) => {
         console.error('Error extending parking session:', error);
         res.status(500).json({ error: 'Failed to extend parking session' });
     }
+});
+
+// Message endpoints
+app.get('/api/messages/users', async (req, res) => {
+    try {
+        // Only return non-admin users
+        const [users] = await pool.execute(
+            'SELECT user_id, full_name, email FROM users WHERE user_type = "driver"'
+        );
+        res.json(users);
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).json({ message: 'Failed to fetch users' });
+    }
+});
+
+app.get('/api/messages', async (req, res) => {
+    try {
+        const { sender_id, receiver_id } = req.query;
+        
+        if (!sender_id || !receiver_id) {
+            return res.status(400).json({ message: 'Both sender and receiver IDs are required' });
+        }
+
+        // Get messages between these two users in either direction
+        const [messages] = await pool.execute(`
+            SELECT m.*, u.full_name as sender_name 
+            FROM messages m
+            JOIN users u ON m.sender_id = u.user_id
+            WHERE (sender_id = ? AND receiver_id = ?)
+            OR (sender_id = ? AND receiver_id = ?)
+            ORDER BY created_at ASC
+        `, [sender_id, receiver_id, receiver_id, sender_id]);
+
+        // Mark messages as read when fetched
+        await pool.execute(
+            'UPDATE messages SET is_read = 1 WHERE receiver_id = ? AND sender_id = ? AND is_read = 0',
+            [sender_id, receiver_id]
+        );
+
+        res.json(messages);
+    } catch (error) {
+        console.error('Error fetching messages:', error);
+        res.status(500).json({ message: 'Failed to fetch messages' });
+    }
+});
+
+app.post('/api/messages', async (req, res) => {
+    try {
+        const { sender_id, receiver_id, content } = req.body;
+        
+        if (!sender_id || !receiver_id || !content) {
+            return res.status(400).json({ message: 'Missing required fields' });
+        }
+
+        const [result] = await pool.execute(
+            'INSERT INTO messages (sender_id, receiver_id, content) VALUES (?, ?, ?)',
+            [sender_id, receiver_id, content]
+        );
+
+        res.status(201).json({
+            message_id: result.insertId,
+            success: true
+        });
+    } catch (error) {
+        console.error('Error sending message:', error);
+        res.status(500).json({ message: 'Failed to send message' });
+    }
+});
+
+// Check for new messages (for auto-refresh)
+app.get('/api/messages/unread', async (req, res) => {
+    try {
+        const { user_id } = req.query;
+        
+        if (!user_id) {
+            return res.status(400).json({ message: 'User ID is required' });
+        }
+
+        const [result] = await pool.execute(
+            'SELECT COUNT(*) as unread_count FROM messages WHERE receiver_id = ? AND is_read = 0',
+            [user_id]
+        );
+
+        res.json({
+            unread: result[0].unread_count > 0
+        });
+    } catch (error) {
+        console.error('Error checking unread messages:', error);
+        res.status(500).json({ message: 'Failed to check messages' });
+    }
+});
+
+//Admin default a-main.html route
+app.get('*', (req, res, next) => {
+    if (req.path.includes('a-main')) {
+        const user = req.user || JSON.parse(req.headers['x-user'] || 'null');
+        if (user?.user_type !== 'admin') {
+            return res.redirect('/main.html');
+        }
+    }
+    next();
 });
 
 // Default route

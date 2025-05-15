@@ -9,6 +9,19 @@
     <script src="toggle.js"></script>
     <script src="auth.js"></script>
     <script src="dashboard.js"></script>
+
+
+    <script>
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        if (!user) window.location.href = 'login.html';
+        else if (user.user_type === 'admin' && !location.href.includes('a-main.html')) {
+            window.location.href = 'a-main.html';
+        }
+        else if (user.user_type !== 'admin' && location.href.includes('a-main.html')) {
+            window.location.href = 'main.html';
+        }
+    </script>
+
 </head>
 <body>
 <div id="wrapper">

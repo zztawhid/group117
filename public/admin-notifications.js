@@ -1,6 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Check admin status
-    checkAdminStatus();
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+        window.location.href = 'login.html';
+        return;
+    }
+    
+    // Verify user is admin
+    if (user.user_type !== 'admin') {
+        window.location.href = 'main.html';
+        return;
+    }
     
     // Get the button element
     const manageBookingsBtn = document.getElementById('advanced-booking-btn');
@@ -179,13 +188,6 @@ function showSuccess(message) {
     }
 }
 
-function checkAdminStatus() {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if (!user || user.user_type !== 'admin') {
-        const btn = document.getElementById('advanced-booking-btn');
-        if (btn) btn.style.display = 'none';
-    }
-}
 
 //Accept button
 async function confirmAccept(bookingId) {
