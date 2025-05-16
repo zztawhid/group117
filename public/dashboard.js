@@ -413,7 +413,7 @@ function showSuccess(message) {
 // Handle page visibility changes to prevent timer drift
 document.addEventListener('visibilitychange', function() {
     if (!document.hidden && currentSessionId) {
-        // When page becomes visible again, force a refresh
+        // When page becomes visible again, forces a refresh
         const user = JSON.parse(localStorage.getItem('user'));
         if (user) {
             loadActiveParkingSession(user.user_id);

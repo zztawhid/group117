@@ -35,6 +35,17 @@ pool.getConnection()
     process.exit(1);
 });
 
+async function addNotification(title, message) {
+    try {
+        await pool.execute(
+            'INSERT INTO notifications (title, message) VALUES (?, ?)',
+            [title, message]
+        );
+    } catch (error) {
+        console.error('Error adding notification:', error);
+    }
+}
+
 // Registration endpoint
 app.post('/api/auth/register', async (req, res) => {
     try {
@@ -322,6 +333,19 @@ app.get('/api/auth/user', async (req, res) => {
     }
 });
 
+// Fetch notifications
+app.get('/api/notifications', async (req, res) => {
+    try {
+        const [notifications] = await pool.execute(
+            'SELECT id, title, message, created_at FROM notifications ORDER BY created_at DESC LIMIT 50'
+        );
+        res.json(notifications);
+    } catch (error) {
+        console.error('Error fetching notifications:', error);
+        res.status(500).json({ error: 'Failed to fetch notifications' });
+    }
+});
+
 // Feedback
 app.post('/api/feedback', async (req, res) => {
     try {
@@ -416,6 +440,71 @@ app.get('/api/admin/users', async (req, res) => {
     }
 });
 
+// Add new parking location
+app.post('/api/admin/locations', async (req, res) => {
+    try {
+        const { name, code, total_spaces, hourly_rate } = req.body;
+
+        // Validate inputs
+        if (!name || !code || !total_spaces || !hourly_rate) {
+            return res.status(400).json({ error: 'All fields are required' });
+        }
+
+        if (code.length !== 4) {
+            return res.status(400).json({ error: 'Location code must be 4 characters' });
+        }
+
+        if (total_spaces < 1) {
+            return res.status(400).json({ error: 'Location must have at least 1 space' });
+        }
+
+        if (hourly_rate < 0.5) {
+            return res.status(400).json({ error: 'Hourly rate must be at least £0.50' });
+        }
+
+        // Check if code already exists
+        const [existing] = await pool.execute(
+            'SELECT code FROM parking_locations WHERE code = ?',
+            [code]
+        );
+
+        if (existing.length > 0) {
+            return res.status(400).json({ error: 'Location code already exists' });
+        }
+
+        // Create new location
+        const [result] = await pool.execute(
+            `INSERT INTO parking_locations 
+            (name, code, total_spaces, hourly_rate) 
+            VALUES (?, ?, ?, ?)`,
+            [name, code, total_spaces, hourly_rate]
+        );
+
+        // Create parking spaces
+        const spaceNumbers = Array.from({ length: total_spaces }, (_, i) => i + 1);
+        for (const spaceNum of spaceNumbers) {
+            await pool.execute(
+                'INSERT INTO parking_spaces (location_id, space_number) VALUES (?, ?)',
+                [result.insertId, spaceNum]
+            );
+        }
+
+        // Add notification
+        await addNotification(
+            'New Parking Location Added',
+            `A new parking location "${name}" with code "${code}" has been added.`
+        );
+
+        res.status(201).json({
+            success: true,
+            location_id: result.insertId
+        });
+    } catch (error) {
+        console.error('Error adding location:', error);
+        res.status(500).json({ error: 'Failed to add new location' });
+    }
+});
+
 // Update user profile endpoint
 app.put('/api/auth/user/:userId', async (req, res) => {
     try {
@@ -498,9 +587,32 @@ app.get('/api/parking/locations', async (req, res) => {
             FROM parking_locations
             ORDER BY name
         `);
-        res.json(locations);
+
+        const locationsWithAvailability = await Promise.all(
+            locations.map(async (location) => {
+                const [occupied] = await pool.execute(`
+                    SELECT COUNT(*) AS occupied 
+                    FROM parking_spaces 
+                    WHERE location_id = ? AND is_disabled = FALSE
+                    AND (is_reserved = TRUE OR space_id IN (
+                        SELECT space_id FROM parking_occupancy 
+                        WHERE time_out IS NULL
+                    ))
+                `, [location.location_id]);
+
+                const availableSpaces = location.total_spaces - occupied[0].occupied;
+
+                return {
+                    ...location,
+                    available_spaces: availableSpaces,
+                };
+            })
+        );
+
+        res.json(locationsWithAvailability);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.error('Error fetching parking locations:', error);
+        res.status(500).json({ error: 'Failed to fetch parking locations' });
     }
 });
 
@@ -607,10 +719,10 @@ app.put('/api/admin/locations/:id/status', async (req, res) => {
     try {
         const { id } = req.params;
         const { action, reason, notes } = req.body;
-        
+
         let disabled = false;
         let disabledReason = null;
-        
+
         switch (action) {
             case 'close':
                 disabled = true;
@@ -618,7 +730,7 @@ app.put('/api/admin/locations/:id/status', async (req, res) => {
                 if (notes) disabledReason += ` (${notes})`;
                 break;
             case 'event':
-                disabled = false;  // Location is open but with restrictions
+                disabled = false; // Location is open but with restrictions
                 disabledReason = `Event Only: ${notes || 'Special event access required'}`;
                 break;
             case 'maintenance':
@@ -632,12 +744,41 @@ app.put('/api/admin/locations/:id/status', async (req, res) => {
             default:
                 return res.status(400).json({ error: 'Invalid action' });
         }
-        
+
         await pool.execute(
             'UPDATE parking_locations SET disabled = ?, disabled_reason = ? WHERE location_id = ?',
             [disabled, disabledReason, id]
         );
-        
+
+        // Fetch the location name
+        const [rows] = await pool.execute(
+            'SELECT name FROM parking_locations WHERE location_id = ?',
+            [id]
+        );
+
+        if (rows.length === 0) {
+            return res.status(404).json({ error: 'Location not found' });
+        }
+
+        const locationName = rows[0].name;
+
+        // Add notification
+        const actionText = {
+            close: 'closed',
+            event: 'set to event-only mode',
+            maintenance: 'put into maintenance mode',
+            open: 'reopened'
+        }[action];
+
+        const notificationMessage = action === 'open'
+            ? `The location "${locationName}" has been ${actionText}.`
+            : `The location "${locationName}" has been ${actionText}. Reason: ${reason || 'N/A'}.`;
+
+        await addNotification(
+            'Location Status Updated',
+            notificationMessage
+        );
+
         res.json({ success: true });
     } catch (error) {
         console.error('Error updating location status:', error);
@@ -762,30 +903,31 @@ app.put('/api/admin/locations/:id/spaces', async (req, res) => {
     try {
         const { id } = req.params;
         const { add, remove } = req.body;
-        
+
         // Get current location info
         const [location] = await pool.execute(
-            'SELECT total_spaces FROM parking_locations WHERE location_id = ?',
+            'SELECT total_spaces, name FROM parking_locations WHERE location_id = ?',
             [id]
         );
-        
+
         if (location.length === 0) {
             return res.status(404).json({ error: 'Location not found' });
         }
-        
+
         const currentSpaces = location[0].total_spaces;
+        const locationName = location[0].name;
         const newTotal = currentSpaces + (add || 0) - (remove || 0);
-        
+
         if (newTotal < 1) {
             return res.status(400).json({ error: 'Location must have at least 1 space' });
         }
-        
+
         // Update total spaces count
         await pool.execute(
             'UPDATE parking_locations SET total_spaces = ? WHERE location_id = ?',
             [newTotal, id]
         );
-        
+
         // Add new spaces if needed
         if (add > 0) {
             // Get current max space number
@@ -793,10 +935,10 @@ app.put('/api/admin/locations/:id/spaces', async (req, res) => {
                 'SELECT MAX(space_number) AS max_num FROM parking_spaces WHERE location_id = ?',
                 [id]
             );
-            
+
             const startNum = (spaces[0].max_num || 0) + 1;
-            const newSpaceNumbers = Array.from({length: add}, (_, i) => startNum + i);
-            
+            const newSpaceNumbers = Array.from({ length: add }, (_, i) => startNum + i);
+
             for (const spaceNum of newSpaceNumbers) {
                 await pool.execute(
                     'INSERT INTO parking_spaces (location_id, space_number) VALUES (?, ?)',
@@ -804,8 +946,8 @@ app.put('/api/admin/locations/:id/spaces', async (req, res) => {
                 );
             }
         }
-        
-        // Remove spaces if needed (remove the highest numbered spaces first)
+
+        // Remove spaces if needed
         if (remove > 0) {
             await pool.execute(
                 `DELETE FROM parking_spaces 
@@ -821,12 +963,17 @@ app.put('/api/admin/locations/:id/spaces', async (req, res) => {
                 [id, id, remove]
             );
         }
-        
-        res.json({ 
+
+        // Add notification
+        await addNotification(
+            'Parking Spaces Updated',
+            `The parking spaces for location "${locationName}" (ID: ${id}) have been updated. Added: ${add || 0}, Removed: ${remove || 0}.`
+        );
+
+        res.json({
             success: true,
             new_total_spaces: newTotal
         });
-        
     } catch (error) {
         console.error('Error updating spaces:', error);
         res.status(500).json({ error: 'Failed to update parking spaces' });
@@ -1453,6 +1600,7 @@ async function confirmAccept(bookingId) {
         showLoading(false);
     }
 }
+
 
 // Accept booking for Admin endpoint
 app.post('/api/admin/bookings/:id/accept', async (req, res) => {

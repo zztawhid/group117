@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // Close modal when clicking X or outside
+        // close modal
         document.querySelectorAll('.modal-close, .modal-overlay').forEach(el => {
             el.addEventListener('click', closeForgotPasswordModal);
         });
@@ -183,7 +183,6 @@ document.addEventListener('DOMContentLoaded', function() {
         errorElement.className = 'error-message';
         errorElement.textContent = message;
         
-        // Remove any existing error messages
         const existingError = form.querySelector('.error-message');
         if (existingError) {
             existingError.remove();

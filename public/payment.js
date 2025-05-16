@@ -258,7 +258,7 @@ async function processPayment() {
             );
             
         } else {
-            // Immediate booking (existing code)
+            // Immediate booking 
             const bookingDetails = JSON.parse(confirmBtn.dataset.bookingDetails);
             
             const response = await fetch('/api/parking/sessions', {

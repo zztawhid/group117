@@ -61,11 +61,10 @@
                                 <th>Car Park</th>
                                 <th>Status</th>
                                 <th>Capacity</th>
-                                <th>Available</th>
                             </tr>
                         </thead>
                         <tbody id="locations-tbody">
-                            <!-- Locations will be loaded here by JavaScript -->
+                            <!-- locations dynamically loaded -->
                         </tbody>
                     </table>
                 </div>
@@ -74,7 +73,7 @@
             <div class="noti-box">
                 <h3>Notifications</h3>
                 <ul class="notification-list" id="notifications-list">
-                    <!-- Notifications will be loaded here by JavaScript -->
+                    <!-- notifications dynamically loaded  -->
                 </ul>
             </div>
         </div>
@@ -85,12 +84,7 @@
         </div>
     </main>
 
-    <!-- Loading and message indicators -->
-    <div id="loading-indicator"></div>
-    <div id="error-message"></div>
-    <div id="success-message"></div>
-
-    <!-- User Bookings Modal -->
+    <!-- user bookings modal -->
     <div id="user-bookings-modal" class="modal hidden">
         <div class="modal-content-bookings">
             <span class="close-modal" onclick="closeUserBookingsModal()">&times;</span>
@@ -108,7 +102,7 @@
                         </tr>
                     </thead>
                     <tbody id="user-bookings-list">
-                        <!-- Bookings will be loaded here -->
+                        <!-- bookings dynamically loaded -->
                     </tbody>
                 </table>
             </div>

@@ -3447,76 +3447,337 @@ h2 {
     margin-top: 0px;
 }
 
-/* Location Management Page Styles */
-#location-management-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0px;
-    margin: 10px auto;
-    max-width: 1200px;
+/* Font and Global Styles */
+@font-face {
+    font-family: ueafont;
+    src: url(Fonts/Brandon_Grotesque_regular.otf);
 }
 
-.location-map-container {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-    margin: 0px;
-    padding: 0px;
-    width: 800px;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: ueafont;
 }
 
-.location-control-panel {
-    grid-column: 2;
+html {
+    font-family: ueafont;
+    background-color: #F7F0E4;
+}
+
+body {
+    margin: 0;
+    color: black;
+    font-size: 16px;
+    line-height: 1.5;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    width: 500px;
 }
 
-.location-selection,
-.location-settings {
-    width: 100%;
-}
-
-.lct-middle {
-    grid-column: 1 / span 2;
+/* Header Styles */
+header {
+    height: 175px;
+    font-size: 24px;
+    background: linear-gradient(135deg, #b0095cee 0%, rgba(212, 4, 77, 0.888) 63%);
     display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.location-actions,
-.location-spaces-management {
-    flex: 1;
-    max-width: 450px;
+#parkuealogo {
+    width: 350px;
+    transform-origin: center;
+    transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1.5);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.368));
 }
 
-.lct-bottom {
-    grid-column: 1 / span 2;
+#parkuealogo:hover {
+    transform: scale(1.05);
+}
+
+.header-button {
+    margin: 60px;
+    height: 80px;
+    width: 160px;
+    color: #ffffff;
+    background: rgb(255, 0, 0);
+    cursor: pointer;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 100;
+    border-radius: 15px;
+    border: 2px solid #ffffff;
+    font-size: 16px;
+    transition: all 0.3s;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
-.loading-spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #3498db;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    animation: spin 1s linear infinite;
+.header-button:hover {
+    background-color: #FF0080;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.header-button img {
+    width: 100%;
+    height: 100%;
 }
 
-@keyframes slideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+/* Language Dropdown */
+#language-dropdown {
+    position: absolute;
+    top: 130px;
+    left: 85px;
+    background-color: rgb(69, 69, 69);
+    z-index: 1000;
+    overflow: hidden;
+    width: 150px;
+}
+
+#language-dropdown button {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #F7F0E4;
+}
+
+#language-dropdown button img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+#language-dropdown button:hover {
+    background-color: #FF0080;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Navigation Bar */
+#topnav {
+    overflow: hidden;
+    background-color: #333;
+}
+
+#topnav ul {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.topnav a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.topnav a:hover {
+    background-color: #FF0080;
+    color: black;
+}
+
+.nav-link {
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background-color: white;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 85%;
+}
+
+.nav-link.active {
+    background-color: #767676;
+    color: white;
+}
+
+/* Main Content */
+.main {
+    margin-bottom: auto;
+}
+
+main {
+    margin-top: 1px;
+    border-top: medium solid black;
+}
+
+/* Buttons */
+#container .btn,
+#container .btn1,
+#container .btn2 {
+    position: absolute;
+    background-color: #333;
+    color: white;
+    font-size: 32px;
+    padding: 12px 24px;
+    border: 2px solid #E6007D;
+    cursor: pointer;
+    border-radius: 10px;
+    text-align: center;
+    height: 200px;
+    width: 300px;
+    font-weight: bolder;
+    transition: transform 0.7s ease, color 0.3s ease;
+}
+
+#container .btn:hover,
+#container .btn1:hover,
+#container .btn2:hover {
+    background-color: #767676;
+    transform: scale(1.1);
+}
+
+/* Info Box */
+#info-box {
+    background-color: #333;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    margin-top: -50px;
+    position: relative;
+    z-index: 1;
+}
+
+.info-header {
+    color: #ffcc00;
+    padding: 10px 20px;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.info-content {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 10px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.info-item i {
+    margin-right: 15px;
+    color: #ffcc00;
+}
+
+.info-item p {
+    font-size: 25px;
+    line-height: 1.2;
+    margin: 0 10px;
+}
+
+/* Footer */
+footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #333;
+    color: white;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+footer .text-left,
+footer .text-center,
+footer .text-right {
+    font-size: 14px;
+}
+
+footer .text-center {
+    display: flex;
+    justify-content: center;
+}
+
+footer .text-right {
+    text-align: right;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    header {
+        height: 100px;
+        padding: 0;
+    }
+
+    .header-button {
+        width: 18%;
+        height: 60%;
+        padding: 10px;
+        margin: 5px;
+    }
+
+    .header-button img {
+        width: 65px;
+        height: 40px;
+    }
+
+    #container .btn,
+    #container .btn1,
+    #container .btn2 {
+        height: 80px;
+        width: 120px;
+        font-size: 14px;
+    }
+
+    #info-box {
+        padding: 10px;
+    }
+
+    .info-header {
+        font-size: 20px;
+    }
+
+    .info-content {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .info-item i {
+        font-size: 2em;
+    }
+
+    .info-item p {
+        font-size: 14px;
+    }
+
+    footer p {
+        font-size: 10px;
+    }
 }
 
 
@@ -3712,7 +3973,61 @@ h2 {
 .status-table tr:hover {
     background-color: #f9f9f9;
 }
-/* Location Manage */
+/* Style for the notifications list container */
+#notifications-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Style for each notification item */
+#notifications-list li {
+    display: flex;
+    align-items: center;
+    padding: 20px 24px; /* Increased padding for larger height */
+    border-bottom: 1px solid #eee;
+    font-family: 'Arial', sans-serif;
+    font-size: 18px; /* Increased font size */
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+/* Last item should not have a border */
+#notifications-list li:last-child {
+    border-bottom: none;
+}
+
+/* Icon styling */
+#notifications-list li i {
+    margin-right: 16px; /* Increased spacing between icon and text */
+    font-size: 24px; /* Increased icon size */
+    color: #007bff;
+}
+
+/* Hover effect for notification items */
+#notifications-list li:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+/* Style for no notifications message */
+#notifications-list li.no-notifications {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    font-size: 16px; /* Slightly larger font for no notifications message */
+}
+
+/* Add some spacing around the notification box */
+#noti-box {
+    margin: 20px auto;
+    max-width: 600px;
+}
 
 
 

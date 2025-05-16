@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     chatMessages.appendChild(messageDiv);
                 });
                 
-                // Scroll to bottom
+                // auto scroll to bottom
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             })
             .catch(error => {
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
     sendButton.addEventListener('click', sendMessage);
     refreshButton.addEventListener('click', loadMessages);
     
-    // shift-enter for new line
+    // shift enter for new line
     messageInput.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();

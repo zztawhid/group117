@@ -112,7 +112,6 @@ function updateStatusTable(statusData) {
     statusData.forEach(location => {
         const row = document.createElement('tr');
         
-        // Determine status class and text
         let statusClass = 'status-open';
         let statusText = 'Open';
         let restrictions = 'None';
@@ -188,7 +187,7 @@ function updateSelectedLocationStatus() {
 }
 
 function setupEventListeners() {
-    // Refresh button
+    // fefresh button
     document.getElementById('refresh-btn').addEventListener('click', async () => {
         try {
             await loadLocationStatus();

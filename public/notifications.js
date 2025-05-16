@@ -13,6 +13,7 @@ async function loadParkingLocations() {
         
         const locations = await response.json();
         renderParkingLocations(locations);
+        loadNotifications(); // Load notifications for bookings and sessions
     } catch (error) {
         console.error('Error loading locations:', error);
         showError('Failed to load parking availability');
@@ -21,16 +22,103 @@ async function loadParkingLocations() {
     }
 }
 
+
+async function loadNotifications() {
+    try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) {
+            window.location.href = 'login.html';
+            return;
+        }
+
+        const notificationsList = document.getElementById('notifications-list');
+        if (!notificationsList) return;
+
+        notificationsList.innerHTML = '<li>Loading notifications...</li>';
+
+        // Fetch user bookings
+        const bookingsResponse = await fetch(`/api/user/bookings?user_id=${user.user_id}`);
+        if (!bookingsResponse.ok) throw new Error('Failed to load bookings');
+        const bookings = await bookingsResponse.json();
+
+        // Fetch active parking session
+        const sessionResponse = await fetch(`/api/parking/sessions/active?user_id=${user.user_id}`);
+        if (!sessionResponse.ok) throw new Error('Failed to load active session');
+        const activeSession = await sessionResponse.json();
+
+        // Fetch general notifications from the database
+        const generalNotificationsResponse = await fetch('/api/notifications');
+        if (!generalNotificationsResponse.ok) throw new Error('Failed to load general notifications');
+        const generalNotifications = await generalNotificationsResponse.json();
+
+        // Clear notifications list
+        notificationsList.innerHTML = '';
+
+        // Add general notifications from the database
+        if (generalNotifications.length > 0) {
+            generalNotifications.forEach(notification => {
+                const createdAt = new Date(notification.created_at).toLocaleString();
+                notificationsList.innerHTML += `
+                    <li>
+                        <i class="fa-solid fa-bell"></i>
+                        ${notification.title}: ${notification.message} <br>
+                        <small>${createdAt}</small>
+                    </li>
+                `;
+            });
+        }
+
+        // Check for upcoming bookings
+        const now = new Date();
+        const upcomingBookings = bookings.filter(booking => new Date(booking.start_time) > now);
+        if (upcomingBookings.length > 0) {
+            upcomingBookings.forEach(booking => {
+                const startTime = new Date(booking.start_time).toLocaleString();
+                notificationsList.innerHTML += `
+                    <li>
+                        <i class="fa-solid fa-calendar-check"></i>
+                        Upcoming Booking: ${booking.location_name} (${booking.location_code}) on ${startTime}.
+                    </li>
+                `;
+            });
+        }
+
+        // Check for nearly ending active session
+        if (activeSession && activeSession.end_time) {
+            const endTime = new Date(activeSession.end_time);
+            const timeRemaining = Math.floor((endTime - now) / (1000 * 60)); // Time remaining in minutes
+            if (timeRemaining > 0 && timeRemaining <= 30) {
+                notificationsList.innerHTML += `
+                    <li>
+                        <i class="fa-solid fa-hourglass-end"></i>
+                        Your parking session at ${activeSession.location_name} (${activeSession.location_code}) is ending in ${timeRemaining} minutes.
+                    </li>
+                `;
+            }
+        }
+
+        // If no notifications, show a default message
+        if (notificationsList.innerHTML.trim() === '') {
+            notificationsList.innerHTML = '<li>No notifications at the moment.</li>';
+        }
+    } catch (error) {
+        console.error('Error loading notifications:', error);
+        const notificationsList = document.getElementById('notifications-list');
+        if (notificationsList) {
+            notificationsList.innerHTML = '<li>Failed to load notifications. Please try again later.</li>';
+        }
+    }
+}
+
 function renderParkingLocations(locations) {
     const tbody = document.getElementById('locations-tbody');
     if (!tbody) return;
-    
+
     tbody.innerHTML = '';
-    
+
     locations.forEach(location => {
         const row = document.createElement('tr');
-        
-        
+
         row.innerHTML = `
             <td>${location.name}</td>
             <td>
@@ -38,9 +126,9 @@ function renderParkingLocations(locations) {
                     ${location.disabled ? 'Closed' : location.disabled_reason?.includes('Event') ? 'Event Only' : 'Open'}
                 </span>
             </td>
-            <td>${location.total_spaces} spaces</td>
+            <td>${location.available_spaces} / ${location.total_spaces} spaces</td>
         `;
-        
+
         tbody.appendChild(row);
     });
 }
