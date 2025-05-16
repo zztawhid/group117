@@ -14,7 +14,6 @@
 <body>
 
 <div id="wrapper">
-
     <header>
         <button class="header-button" onclick="toggleLanguageDropdown()">
             <img src="images/england.jpg" alt="English Flag">
@@ -29,7 +28,6 @@
         <button class="header-button" onclick="document.location='contact.html'">Contact Us</button>
     </header>
 
-    <!-- Site navigation menu -->
     <nav id="topnav">
         <div class="nav-container">
             <div class="dropdown-icon" onclick="toggleDropdown()">
@@ -45,138 +43,74 @@
             </ul>
         </div>
     </nav>
-</div>
-      
-    <section class="welcome-section">
-        <h2>NOTIFICATIONS</h2>
-        <p id="userFullName" style="display: none;"></p> <!-- PLACEHOLDER SO IT WORKS WITH DASHBOARD.JS-->
-        <p id="userAccountNumber" style="display: none;"></p> <!-- PLACEHOLDER SO IT WORKS WITH DASHBOARD.JS-->
-    </section>
-    <section class="active-session">
-        <!-- Content will be loaded dynamically by dashboard.js -->
-    </section>
 
-    <div class="spaces-notifications-container">
-        <div id="spaces-box">
-            <h3>Parking Availability</h3>
-            <section id="location-status-overview">
+    <main>
+        <section class="welcome-section">
+            <h2>NOTIFICATIONS</h2>
+            <p id="userFullName" style="display: none;"></p>
+            <p id="userAccountNumber" style="display: none;"></p>
+        </section>
+
+        <div class="spaces-notifications-container">
+            <div id="spaces-box">
+                <h3>Parking Availability</h3>
                 <div class="status-table-container">
-                    <table class="status-table">
+                    <table class="status-table" id="locations-table">
                         <thead>
-                        <tr>
-                            <th>Car Park</th>
-                            <th>Status</th>
-                            <th>Capacity</th>
-                            <th>Current Occupancy</th>
-                            <th>Last Updated</th>
-                        </tr>
+                            <tr>
+                                <th>Car Park</th>
+                                <th>Status</th>
+                                <th>Capacity</th>
+                                <th>Available</th>
+                            </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td>Car Park A</td>
-                            <td><span class="status-open">Open</span></td>
-                            <td>250 spaces</td>
-                            <td>187 (75%)</td>
-                            <td>Today, 09:45</td>
-                        </tr>
-                        <tr>
-                            <td>Car Park B</td>
-                            <td><span class="status-event">Event Only</span></td>
-                            <td>180 spaces</td>
-                            <td>92 (51%)</td>
-                            <td>Today, 10:30</td>
-                        </tr>
-                        <tr>
-                            <td>Car Park C</td>
-                            <td><span class="status-closed">Closed</span></td>
-                            <td>300 spaces</td>
-                            <td>0 (0%)</td>
-                            <td>Yesterday, 16:15</td>
-                        </tr>
-                        <tr>
-                            <td>Car Park D</td>
-                            <td><span class="status-open">Open</span></td>
-                            <td>250 spaces</td>
-                            <td>187 (75%)</td>
-                            <td>Today, 09:45</td>
-                        </tr>
-                        <tr>
-                            <td>Car Park E</td>
-                            <td><span class="status-open">Open</span></td>
-                            <td>250 spaces</td>
-                            <td>187 (75%)</td>
-                            <td>Today, 09:45</td>
-                        </tr>
+                        <tbody id="locations-tbody">
+                            <!-- Locations will be loaded here by JavaScript -->
                         </tbody>
                     </table>
                 </div>
-            </section>
+            </div>
+
+            <div class="noti-box">
+                <h3>Notifications</h3>
+                <ul class="notification-list" id="notifications-list">
+                    <!-- Notifications will be loaded here by JavaScript -->
+                </ul>
+            </div>
         </div>
 
-        <div class="noti-box">
-            <h3>Notifications</span></h3>
-            <ul class="notification-list">
-                <li class="notification-item">
-                    <span class="notification-title">Parking session extended</span>
-                    <span class="notification-time">10 mins ago</span>
-                </li>
-                <li class="notification-item">
-                    <span class="notification-title">Car Park B is now Event Only</span>
-                    <span class="notification-time">30 mins ago</span>
-                </li>
-                <li class="notification-item">
-                    <span class="notification-title">Reminder: Parking session ends in 1 hour</span>
-                    <span class="notification-time">1 hour ago</span>
-                </li>
-            </ul>
+        <div class="message-admin-box">
+            <a href="message-admin.html"><button>Message an Admin <i class="fa-solid fa-comment-dots"></i></button></a>
+            <button id="advanced-booking-btn">Advanced bookings <i class="fa-solid fa-calendar-days"></i></button>
         </div>
-    </div>
+    </main>
 
-    <div class="message-admin-box">
-        <a href="message-admin.html"><button>Message an Admin <i class="fa-solid fa-comment-dots"></i></button></a>
-        <button id="advanced-booking-btn">Advanced bookings <i class="fa-solid fa-calendar-days"></i></button>
-    </div>
-</main>
+    <!-- Loading and message indicators -->
+    <div id="loading-indicator"></div>
+    <div id="error-message"></div>
+    <div id="success-message"></div>
 
-<!-- User Bookings Modal -->
-<div id="user-bookings-modal" class="modal hidden">
-    <div class="modal-content-bookings">
-        <span class="close-modal" onclick="closeUserBookingsModal()">&times;</span>
-        <h2>Your Advanced Bookings</h2>
-        
-        <div class="bookings-list-container">
-            <table id="bookings-table">
-                <thead>
-                    <tr>
-                        <th>Reference</th>
-                        <th>Location</th>
-                        <th>Date/Time</th>
-                        <th>Duration</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="user-bookings-list">
-                    <!-- Bookings will be loaded here -->
-                </tbody>
-            </table>
-        </div>
-        
-        <!-- Cancel Confirmation Modal -->
-        <div id="cancel-booking-modal" class="modal hidden">
-            <div class="modal-content">
-                <span class="close-modal" onclick="closeCancelModal()">&times;</span>
-                <h3>Cancel Booking</h3>
-                <p>Reference: <span id="cancel-ref"></span></p>
-                <p>Are you sure you want to cancel this booking?</p>
-                
-                <div class="form-group">
-                    <label for="cancel-reason">Reason (optional):</label>
-                    <textarea id="cancel-reason" rows="3" placeholder="Enter cancellation reason..."></textarea>
-                </div>
-                
-                <button class="btn btn-confirm" onclick="confirmCancel()">Confirm Cancellation</button>
-                <button class="btn btn-cancel" onclick="closeCancelModal()">Go Back</button>
+    <!-- User Bookings Modal -->
+    <div id="user-bookings-modal" class="modal hidden">
+        <div class="modal-content-bookings">
+            <span class="close-modal" onclick="closeUserBookingsModal()">&times;</span>
+            <h2>Your Advanced Bookings</h2>
+            <div class="bookings-list-container">
+                <table id="bookings-table">
+                    <thead>
+                        <tr>
+                            <th>Reference</th>
+                            <th>Location</th>
+                            <th>Date/Time</th>
+                            <th>Duration</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-bookings-list">
+                        <!-- Bookings will be loaded here -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -196,41 +130,4 @@
     </div>
 </footer>
 </body>
-<!-- Extend Parking Modal -->
-<div id="extendModal" style="display:none;">
-    <div class="modal-content">
-        <span class="modal-close">&times;</span>
-        <h2>Extend Parking Session</h2>
-        <div class="modal-body">
-            <p>Current Location: <span id="extendLocation"></span></p>
-            <div class="form-group">
-                <label for="extendHours">Additional Hours (1-24):</label>
-                <input type="number" id="extendHours" min="1" max="24" value="1">
-            </div>
-            <section class="payment-method">
-                        <div class="form-group">
-                            <label for="card-name">Name on Card</label>
-                            <input type="text" id="card-name" placeholder="Full Name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="card-number">Card Number</label>
-                            <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="card-expiry">Expiry Date</label>
-                                <input type="text" id="card-expiry" placeholder="MM/YY" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="card-cvv">CVV</label>
-                                <input type="text" id="card-cvv" placeholder="123" required>
-                            </div>
-                        </div>
-            </section>
-            <div class="confirm-btn-group">
-                <button id="confirmExtend">Extend Parking</button>
-            </div>
-        </div>
-    </div>
-</div>
 </html>

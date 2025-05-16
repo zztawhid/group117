@@ -1,16 +1,65 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Fix the button ID selector (remove # from HTML id attribute)
-    const bookingsBtn = document.getElementById('advanced-booking-btn');
+    // Initialize all components
+    setupBookingButton();
+    loadParkingLocations();
+});
+
+// Parking Locations Functions
+async function loadParkingLocations() {
+    try {
+        showLoading(true, 'Loading parking availability...');
+        const response = await fetch('/api/parking/locations');
+        if (!response.ok) throw new Error('Failed to load locations');
+        
+        const locations = await response.json();
+        renderParkingLocations(locations);
+    } catch (error) {
+        console.error('Error loading locations:', error);
+        showError('Failed to load parking availability');
+    } finally {
+        showLoading(false);
+    }
+}
+
+function renderParkingLocations(locations) {
+    const tbody = document.getElementById('locations-tbody');
+    if (!tbody) return;
     
+    tbody.innerHTML = '';
+    
+    locations.forEach(location => {
+        const row = document.createElement('tr');
+        
+        
+        row.innerHTML = `
+            <td>${location.name}</td>
+            <td>
+                <span class="status-${location.disabled ? 'closed' : location.disabled_reason?.includes('Event') ? 'event' : 'open'}">
+                    ${location.disabled ? 'Closed' : location.disabled_reason?.includes('Event') ? 'Event Only' : 'Open'}
+                </span>
+            </td>
+            <td>${location.total_spaces} spaces</td>
+        `;
+        
+        tbody.appendChild(row);
+    });
+}
+
+
+
+
+// Booking Modal Functions (existing)
+let currentBookingToCancel = null;
+
+function setupBookingButton() {
+    const bookingsBtn = document.getElementById('advanced-booking-btn');
     if (bookingsBtn) {
         bookingsBtn.addEventListener('click', function() {
             openUserBookingsModal();
             loadUserBookings();
         });
     }
-});
-
-let currentBookingToCancel = null;
+}
 
 function openUserBookingsModal() {
     const modal = document.getElementById('user-bookings-modal');
@@ -20,26 +69,6 @@ function openUserBookingsModal() {
 function closeUserBookingsModal() {
     const modal = document.getElementById('user-bookings-modal');
     if (modal) modal.classList.add('hidden');
-}
-
-function openCancelModal(bookingId, reference) {
-    const cancelRef = document.getElementById('cancel-ref');
-    const cancelModal = document.getElementById('cancel-booking-modal');
-    
-    if (cancelRef && cancelModal) {
-        currentBookingToCancel = bookingId;
-        cancelRef.textContent = reference;
-        cancelModal.classList.remove('hidden');
-    }
-}
-
-function closeCancelModal() {
-    const cancelModal = document.getElementById('cancel-booking-modal');
-    if (cancelModal) {
-        cancelModal.classList.add('hidden');
-        document.getElementById('cancel-reason').value = '';
-        currentBookingToCancel = null;
-    }
 }
 
 async function loadUserBookings() {
@@ -108,40 +137,16 @@ function renderUserBookings(bookings) {
     });
 }
 
-async function confirmCancel() {
-    if (!currentBookingToCancel) return;
+// Utility Functions
+function formatTimeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
     
-    const reason = document.getElementById('cancel-reason').value;
-    const user = JSON.parse(localStorage.getItem('user'));
-    
-    try {
-        showLoading(true, 'Cancelling booking...');
-        const response = await fetch(`/api/user/bookings/${currentBookingToCancel}/cancel`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ 
-                reason,
-                user_id: user.user_id 
-            })
-        });
-        
-        if (!response.ok) throw new Error('Failed to cancel booking');
-        
-        // Refresh the bookings list
-        await loadUserBookings();
-        closeCancelModal();
-        showSuccess('Booking cancelled successfully');
-    } catch (error) {
-        console.error('Error cancelling booking:', error);
-        showError(error.message || 'Failed to cancel booking');
-    } finally {
-        showLoading(false);
-    }
+    if (seconds < 60) return 'Just now';
+    if (seconds < 3600) return `${Math.floor(seconds/60)} mins ago`;
+    if (seconds < 86400) return `${Math.floor(seconds/3600)} hours ago`;
+    return `${Math.floor(seconds/86400)} days ago`;
 }
 
-// Utility functions
 function showLoading(show, message = 'Loading...') {
     const loading = document.getElementById('loading-indicator');
     if (loading) {

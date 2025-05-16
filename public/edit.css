@@ -4006,14 +4006,14 @@ textarea {
 }
 
 .messages-left {
-    border: 2px solid black;
+    border: 2px solid #ddd;
     border-radius: 15px;
     padding: 10px;
     flex: 1;
 }
 
 .messages-right {
-    border: 2px solid black;
+    border: 2px solid #b3b3b3;
     border-radius: 15px;
     padding: 10px;
     flex: 1;

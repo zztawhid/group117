@@ -65,7 +65,7 @@ function initExtendModal() {
 
 async function loadActiveParkingSession(userId) {
     try {
-        // Add cache-busting parameter to prevent stale data
+        // cache-busting parameter to prevent stale data
         const response = await fetch(`/api/parking/sessions/active?user_id=${userId}&_=${Date.now()}`);
         
         if (!response.ok) {
@@ -75,7 +75,7 @@ async function loadActiveParkingSession(userId) {
         const data = await response.json();
         
         if (data.activeSession) {
-            // Only update if it's a new session or data has changed
+            // update if it's a new session or data has changed
             if (currentSessionId !== data.activeSession.reference_number) {
                 currentSessionId = data.activeSession.reference_number;
                 currentSessionData = data.activeSession;

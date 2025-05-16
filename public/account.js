@@ -136,7 +136,6 @@ async function saveProfileChanges() {
 // Profile Picture Functionality
 let selectedImageFile = null;
 
-// Set up event listeners when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Image upload change handler
     document.getElementById('image-upload').addEventListener('change', handleImageSelect);
@@ -214,7 +213,6 @@ function uploadProfileImage() {
     uploadButton.classList.add('uploading');
     uploadButton.disabled = true;
 
-    // Simulate upload delay for better UX (remove in production)
     setTimeout(() => {
         const reader = new FileReader();
         reader.onload = function(event) {
