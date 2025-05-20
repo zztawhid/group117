@@ -65,7 +65,9 @@ function populateLocationDropdown(locations) {
         option.textContent = `${loc.name} (${loc.code}) - ${loc.total_spaces} spaces`;
         
         // Set status attributes
-        if (loc.disabled) {
+        if (loc.available_spaces <= 0) {
+            option.dataset.status = 'full';
+        } else if (loc.disabled) {
             if (loc.disabled_reason?.includes('Maintenance')) {
                 option.dataset.status = 'maintenance';
             } else {
@@ -116,7 +118,11 @@ function updateStatusTable(statusData) {
         let statusText = 'Open';
         let restrictions = 'None';
         
-        if (location.disabled) {
+        if (location.available_spaces <= 0) {
+            statusClass = 'status-full';
+            statusText = 'Full';
+            restrictions = 'No available spaces';
+        } else if (location.disabled) {
             if (location.disabled_reason?.includes('Maintenance')) {
                 statusClass = 'status-maintenance';
                 statusText = 'Maintenance';
@@ -176,12 +182,16 @@ function updateSelectedLocationStatus() {
             statusElement.textContent = 'Status: Event Only';
             statusElement.className = 'status-event';
             break;
+        case 'full':
+            statusElement.textContent = 'Status: Full';
+            statusElement.className = 'status-full';
+            break;
         default:
             statusElement.textContent = 'Status: Open';
             statusElement.className = 'status-open';
     }
     
-    if (reason) {
+    if (reason && status !== 'full') {
         statusElement.textContent += ` (${reason})`;
     }
 }
@@ -306,7 +316,11 @@ async function updateParkingSpaces() {
     }
     
     const spacesToAdd = parseInt(document.getElementById('spaces-to-add').value) || 0;
-    const spacesToRemove = parseInt(document.getElementById('spaces-to-remove').value) || 0;
+    const spacesToRemove = parseInt(document.getElementById('spaces-to-remove').value, 10) || 0;
+    if (spacesToRemove < 0) {
+        alert('Spaces to remove must be a positive number');
+        return;
+}
     
     if (spacesToAdd === 0 && spacesToRemove === 0) {
         alert('Please specify the number of spaces to add or remove');
@@ -432,8 +446,6 @@ async function handleDeleteLocation(locationId, locationName) {
 
 async function saveChanges() {
     try {
-        // In a real implementation, this would save any form changes
-        // For now, we'll just refresh the data
         await Promise.all([
             loadParkingLocations(),
             loadLocationStatus()

@@ -3,18 +3,17 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>UEA Parking Management System :: Notifications</title>
+    <title>UEA Parking Management System :: Admin Dashboard</title>
     <link rel="stylesheet" href="edit.css">
     <script src="https://kit.fontawesome.com/cab31170e8.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="toggle.js"></script>
     <script src="auth.js"></script>
-    <script src="admin-notifications.js"></script>
-    <script src="dashboard.js"></script>
+    <script src="admin-notifications.js" defer></script>
 </head>
 <body>
 
 <div id="wrapper">
-
     <header>
         <button class="header-button" onclick="toggleLanguageDropdown()">
             <img src="images/england.jpg" alt="English Flag">
@@ -25,7 +24,7 @@
             <button onclick="changeLanguage('cn')"><img src="images/china.png" alt="Chinese Flag"> Chinese (Mandarin)</button>
         </div>
 
-        <a href="main.html"><img id="parkuealogo" src="./Images/logo.png" alt="UEA Parking Logo"></a>
+        <a href="main.html"><img id="parkuealogo" src="../Images/logo.png" alt="UEA Parking Logo"></a>
         <button class="header-button" onclick="document.location='contact.html'">Contact Us</button>
     </header>
 
@@ -35,117 +34,142 @@
             <div class="dropdown-icon" onclick="toggleDropdown()">
                 <i class="fas fa-bars"></i>
             </div>
-            <div class="active-page">Notifications</div>
+            <div class="active-page">Admin Dashboard</div>
             <ul class="topnav">
                 <ul><a href="main.html" class="nav-link">Home Page</a></ul>
                 <ul><a href="parking.html" class="nav-link">Parking</a></ul>
                 <ul><a href="account.html" class="nav-link">Account Management</a></ul>
                 <ul><a href="vManage.html" class="nav-link">Vehicle Management</a></ul>
-                <ul><a href="notif.html" class="nav-link active">Notifications</a></ul>
+                <ul><a href="notif.html" class="nav-link active">Admin Dashboard</a></ul>
             </ul>
         </div>
     </nav>
 </div>
 
-
 <section class="welcome-section">
-    <h2>NOTIFICATIONS PAGE</span></h2>
-    <div class="user-info">
-        <div class="info-left">
-            <p>Account Number: <span id="userAccountNumber"></span></p>
+    <h2>ADMINISTRATOR DASHBOARD</h2>
+</section>
+
+<div class="dashboard-container">
+    <!-- First Row: Overview Stats -->
+    <div class="dashboard-row">
+        <div class="dashboard-card">
+            <h3>Parking System Overview</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="value" id="total-locations">0</div>
+                    <div class="label">Parking Locations</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value" id="total-spaces">0</div>
+                    <div class="label">Total Spaces</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value" id="active-sessions">0</div>
+                    <div class="label">Active Sessions</div>
+                </div>
+            </div>
+            <div class="quick-actions">
+                <div class="quick-action" onclick="openBookingsModal(); loadAdvancedBookings();">
+                    <i class="fas fa-calendar-check"></i>
+                    <div>Advanced Bookings</div>
+                </div>
+                <div class="quick-action" onclick="document.location='message-user.html'">
+                    <i class="fas fa-comment-dots"></i>
+                    <div>Message Users</div>
+                </div>
+                <div class="quick-action" onclick="document.location='admin-manage.html'">
+                    <i class="fas fa-users"></i>
+                    <div>User Accounts</div>
+                </div>
+                <div class="quick-action" onclick="showBroadcastModal()">
+                    <i class="fas fa-bullhorn"></i>
+                    <div>Announcement</div>
+                </div>
+            </div>
         </div>
-        <div class="info-right">
-            <p>Account Status: <span id="userAccountStatus">Active</span></p>
+        
+        <div class="dashboard-card">
+            <h3>Parking Availability
+            </h3>
+            <div class="chart-container">
+                <canvas id="parkingChart"></canvas>
+            </div>
         </div>
     </div>
-</section>
-<section class="active-session">
-    <!-- active session dynamically loaded -->
-</section>
-
-    <div class="spaces-notifications-container">
-        <div id="spaces-box">
-            <h3>Parking Availability</h3>
-            <section id="location-status-overview">
-                <div class="status-table-container">
-                    <table class="status-table">
-                        <thead>
+    
+    <!-- Second Row: Locations and Notifications -->
+    <div class="dashboard-row">
+        <div class="dashboard-card wide">
+            <h3>Parking Locations Status
+                <span class="card-actions">
+                    <button onclick="document.location='location-manage.html'"><i class="fas fa-external-link-alt"></i> View All</button>
+                </span>
+            </h3>
+            <div class="status-table-container" style="max-height: 300px; overflow-y: auto;">
+                <table class="status-table" id="locations-table">
+                    <thead>
                         <tr>
                             <th>Car Park</th>
                             <th>Status</th>
                             <th>Capacity</th>
-                            <th>Current Occupancy</th>
-                            <th>Last Updated</th>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Car Park A</td>
-                            <td><span class="status-open">Open</span></td>
-                            <td>250 spaces</td>
-                            <td>187 (75%)</td>
-                            <td>Today, 09:45</td>
-                        </tr>
-                        <tr>
-                            <td>Car Park B</td>
-                            <td><span class="status-event">Event Only</span></td>
-                            <td>180 spaces</td>
-                            <td>92 (51%)</td>
-                            <td>Today, 10:30</td>
-                        </tr>
-                        <tr>
-                            <td>Car Park C</td>
-                            <td><span class="status-closed">Closed</span></td>
-                            <td>300 spaces</td>
-                            <td>0 (0%)</td>
-                            <td>Yesterday, 16:15</td>
-                        </tr>
-                        <tr>
-                            <td>Car Park D</td>
-                            <td><span class="status-open">Open</span></td>
-                            <td>250 spaces</td>
-                            <td>187 (75%)</td>
-                            <td>Today, 09:45</td>
-                        </tr>
-                        <tr>
-                            <td>Car Park E</td>
-                            <td><span class="status-open">Open</span></td>
-                            <td>250 spaces</td>
-                            <td>187 (75%)</td>
-                            <td>Today, 09:45</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    </thead>
+                    <tbody id="locations-tbody">
+                        <!-- locations dynamically loaded -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="dashboard-card">
+            <h3>Recent System Notifications
+
+            </h3>
+            <div id="notifications-list" style="max-height: 300px; overflow-y: auto;">
+                <div class="empty-state">
+                    <i class="fas fa-bell-slash"></i>
+                    <p>No new notifications</p>
                 </div>
-            </section>
-        </div>
-
-        <div class="noti-box">
-            <h3>Notifications</h3>
-            <ul class="notification-list">
-                <li class="notification-item">
-                    <span class="notification-title">Parking session extended</span>
-                    <span class="notification-time">10 mins ago</span>
-                </li>
-                <li class="notification-item">
-                    <span class="notification-title">Car Park B is now Event Only</span>
-                    <span class="notification-time">30 mins ago</span>
-                </li>
-                <li class="notification-item">
-                    <span class="notification-title">Reminder: Parking session ends in 1 hour</span>
-                    <span class="notification-time">1 hour ago</span>
-                </li>
-            </ul>
-
+            </div>
         </div>
     </div>
+    
+    <!-- Third Row: Recent Bookings -->
+    <div class="dashboard-row">
+        <div class="dashboard-card wide">
+            <h3>Recent Bookings
+                <span class="card-actions">
+                    <button onclick="openBookingsModal(); loadAdvancedBookings();"><i class="fas fa-external-link-alt"></i> View All</button>
+                </span>
+            </h3>
+            <div class="status-table-container" style="max-height: 300px; overflow-y: auto;">
+                <table class="status-table" id="recent-bookings-table">
+                    <thead>
+                        <tr>
+                            <th>Reference</th>
+                            <th>User</th>
+                            <th>Location</th>
+                            <th>Date/Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recent-bookings-body">
+                        <!-- recent bookings dynamically loaded -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-    <div class="message-admin-box">
-        <a href="message-user.html"><button>Message a User <i class="fa-solid fa-comment-dots"></i></button></a>
-        <button id="advanced-booking-btn">Manage bookings <i class="fa-solid fa-calendar-days"></i></button>
     </div>
+</div>
 
-</main>
+<!-- Message indicators -->
+<div id="loading-indicator">Loading...</div>
+<div id="error-message"></div>
+<div id="success-message"></div>
+
+
 
 <footer>
     <div class="text-left">
@@ -160,87 +184,78 @@
         <p>University of East Anglia<br>Norwich research park<br>NR4 7TJ</p>
     </div>
 </footer>
-
 <!-- advanced booking modal -->
 <div id="bookings-modal" class="modal hidden">
-    <div class="modal-content-bookings">
+    <div class="modal-content">
         <span class="close-modal" onclick="closeBookingsModal()">&times;</span>
-        <h2>Manage Advanced Bookings</h2>
+        <h2>Advanced Bookings</h2>
+        <div class="modal-body">
+            <div class="bookings-list-container">
+                <table id="bookings-table">
+                    <thead>
+                        <tr>
+                            <th>Reference</th>
+                            <th>User</th>
+                            <th>Vehicle</th>
+                            <th>Location</th>
+                            <th>Date/Time</th>
+                            <th>Duration</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookings-list">
+                        <!-- bookings dynamically loaded -->
+                    </tbody>
+                </table>
+        </div>
+    </div>
+</div>
         
-        <div class="bookings-list-container">
-            <table id="bookings-table">
-                <thead>
-                    <tr>
-                        <th>Reference</th>
-                        <th>User</th>
-                        <th>Vehicle</th>
-                        <th>Location</th>
-                        <th>Date/Time</th>
-                        <th>Duration</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="bookings-list">
-                    <!-- bookings dynamically loaded -->
-                </tbody>
-            </table>
         
-        <!-- rejection modal -->
-        <div id="reject-modal" class="modal hidden">
-            <div class="modal-content">
-                <span class="close-modal" onclick="closeRejectModal()">&times;</span>
-                <h3>Reject Booking</h3>
-                <p>Reference: <span id="reject-ref"></span></p>
-                
-                <div class="form-group">
-                    <label for="reject-reason">Reason (optional):</label>
-                    <textarea id="reject-reason" rows="3" placeholder="Enter reason for rejection..."></textarea>
-                </div>
-                
-                <button class="btn btn-confirm" onclick="confirmReject()">Confirm Rejection</button>
-                <button class="btn btn-cancel" onclick="closeRejectModal()">Cancel</button>
-            </div>
+<!-- rejection modal -->
+<div id="reject-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeRejectModal()">&times;</span>
+        <h3>Reject Booking</h3>
+        <p>Reference: <span id="reject-ref"></span></p>
+        
+        <div class="form-group">
+            <label for="reject-reason">Reason (optional):</label>
+            <textarea id="reject-reason" rows="3" placeholder="Enter reason for rejection..."></textarea>
+        </div>
+        
+        <button class="btn btn-confirm" onclick="confirmReject()">Confirm Rejection</button>
+        <button class="btn btn-cancel" onclick="closeRejectModal()">Cancel</button>
         </div>
     </div>
 </div>
 
-</body>
-<!-- Extend Parking Modal -->
-<div id="extendModal" style="display:none;">
+
+<!-- System Broadcast Modal -->
+<div id="broadcast-modal" class="modal hidden">
     <div class="modal-content">
-        <span class="modal-close">&times;</span>
-        <h2>Extend Parking Session</h2>
+        <span class="close-modal" onclick="closeBroadcastModal()">&times;</span>
+        <h2>Make an announcement</h2>
         <div class="modal-body">
-            <p>Current Location: <span id="extendLocation"></span></p>
             <div class="form-group">
-                <label for="extendHours">Additional Hours (1-24):</label>
-                <input type="number" id="extendHours" min="1" max="24" value="1">
+                <label for="broadcast-title">Title</label>
+                <input type="text" id="broadcast-title" placeholder="Enter message title" required>
             </div>
-            <section class="payment-method">
-                        <div class="form-group">
-                            <label for="card-name">Name on Card</label>
-                            <input type="text" id="card-name" placeholder="Full Name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="card-number">Card Number</label>
-                            <input type="text" id="card-number" placeholder="1234 5678 9012 3456" required>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="card-expiry">Expiry Date</label>
-                                <input type="text" id="card-expiry" placeholder="MM/YY" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="card-cvv">CVV</label>
-                                <input type="text" id="card-cvv" placeholder="123" required>
-                            </div>
-                        </div>
-            </section>
+            <div class="form-group">
+                <label for="broadcast-message">Message</label>
+                <textarea id="broadcast-message" rows="5" placeholder="Enter your message" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="urgent-broadcast"> Mark as urgent
+                </label>
+            </div>
             <div class="confirm-btn-group">
-                <button id="confirmExtend">Extend Parking</button>
+                <button id="confirm-send-broadcast" class="btn btn-confirm">Send Broadcast</button>
             </div>
         </div>
     </div>
 </div>
+</body>
 </html>

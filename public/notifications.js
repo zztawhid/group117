@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize all components
     setupBookingButton();
     loadParkingLocations();
+    loadNotifications();
 });
 
 // Parking Locations Functions
@@ -13,7 +14,6 @@ async function loadParkingLocations() {
         
         const locations = await response.json();
         renderParkingLocations(locations);
-        loadNotifications(); // Load notifications for bookings and sessions
     } catch (error) {
         console.error('Error loading locations:', error);
         showError('Failed to load parking availability');
@@ -22,6 +22,57 @@ async function loadParkingLocations() {
     }
 }
 
+function renderParkingLocations(locations) {
+    const tbody = document.getElementById('locations-tbody');
+    if (!tbody) return;
+
+    tbody.innerHTML = '';
+
+    locations.forEach(location => {
+        const row = document.createElement('tr');
+        const occupied = location.total_spaces - location.available_spaces;
+        const occupancyPercentage = Math.round((occupied / location.total_spaces) * 100);
+        
+        // Determine status badge class
+        let statusClass = 'open';
+        let statusText = 'Open';
+        
+        if (location.available_spaces === 0) {
+            statusClass = 'full';
+            statusText = 'Full';
+        } else if (location.disabled) {
+            if (location.disabled_reason?.includes('Maintenance')) {
+                statusClass = 'maintenance';
+                statusText = 'Maintenance';
+            } else if (location.disabled_reason?.includes('Event')) {
+                statusClass = 'event';
+                statusText = 'Event Only';
+            } else {
+                statusClass = 'closed';
+                statusText = 'Closed';
+            }
+        }
+        
+        row.innerHTML = `
+            <td><strong>${location.name}</strong><br><small>${location.code}</small></td>
+            <td>
+                <span class="status-badge ${statusClass}">
+                    ${statusText}
+                </span>
+                ${location.disabled_reason ? `<br><small>${location.disabled_reason}</small>` : ''}
+            </td>
+            <td>
+                ${location.available_spaces}/${location.total_spaces} spaces
+                <div class="progress">
+                    <div class="progress-bar" style="width: ${occupancyPercentage}%; background: ${occupancyPercentage > 80 ? '#e74c3c' : occupancyPercentage > 50 ? '#f39c12' : '#2ecc71'};"></div>
+                </div>
+                <small>${occupancyPercentage}% occupied</small>
+            </td>
+        `;
+        
+        tbody.appendChild(row);
+    });
+}
 
 async function loadNotifications() {
     try {
@@ -33,8 +84,6 @@ async function loadNotifications() {
 
         const notificationsList = document.getElementById('notifications-list');
         if (!notificationsList) return;
-
-        notificationsList.innerHTML = '<li>Loading notifications...</li>';
 
         // Fetch user bookings
         const bookingsResponse = await fetch(`/api/user/bookings?user_id=${user.user_id}`);
@@ -57,14 +106,23 @@ async function loadNotifications() {
         // Add general notifications from the database
         if (generalNotifications.length > 0) {
             generalNotifications.forEach(notification => {
-                const createdAt = new Date(notification.created_at).toLocaleString();
-                notificationsList.innerHTML += `
-                    <li>
-                        <i class="fa-solid fa-bell"></i>
-                        ${notification.title}: ${notification.message} <br>
-                        <small>${createdAt}</small>
-                    </li>
+                const item = document.createElement('div');
+                item.className = 'notification-item';
+                
+                item.innerHTML = `
+                    <div class="notification-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="notification-content">
+                        <strong>${notification.title}</strong>
+                        <p>${notification.message}</p>
+                        <div class="notification-time">
+                            ${new Date(notification.created_at).toLocaleString()}
+                        </div>
+                    </div>
                 `;
+                
+                notificationsList.appendChild(item);
             });
         }
 
@@ -73,13 +131,21 @@ async function loadNotifications() {
         const upcomingBookings = bookings.filter(booking => new Date(booking.start_time) > now);
         if (upcomingBookings.length > 0) {
             upcomingBookings.forEach(booking => {
+                const item = document.createElement('div');
+                item.className = 'notification-item';
+                
                 const startTime = new Date(booking.start_time).toLocaleString();
-                notificationsList.innerHTML += `
-                    <li>
-                        <i class="fa-solid fa-calendar-check"></i>
-                        Upcoming Booking: ${booking.location_name} (${booking.location_code}) on ${startTime}.
-                    </li>
+                item.innerHTML = `
+                    <div class="notification-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="notification-content">
+                        <strong>Upcoming Booking</strong>
+                        <p>${booking.location_name} (${booking.location_code}) on ${startTime}</p>
+                    </div>
                 `;
+                
+                notificationsList.appendChild(item);
             });
         }
 
@@ -88,53 +154,41 @@ async function loadNotifications() {
             const endTime = new Date(activeSession.end_time);
             const timeRemaining = Math.floor((endTime - now) / (1000 * 60)); // Time remaining in minutes
             if (timeRemaining > 0 && timeRemaining <= 30) {
-                notificationsList.innerHTML += `
-                    <li>
-                        <i class="fa-solid fa-hourglass-end"></i>
-                        Your parking session at ${activeSession.location_name} (${activeSession.location_code}) is ending in ${timeRemaining} minutes.
-                    </li>
+                const item = document.createElement('div');
+                item.className = 'notification-item';
+                
+                item.innerHTML = `
+                    <div class="notification-icon">
+                        <i class="fas fa-hourglass-end"></i>
+                    </div>
+                    <div class="notification-content">
+                        <strong>Session Ending Soon</strong>
+                        <p>Your parking session at ${activeSession.location_name} (${activeSession.location_code}) is ending in ${timeRemaining} minutes.</p>
+                    </div>
                 `;
+                
+                notificationsList.appendChild(item);
             }
         }
 
         // If no notifications, show a default message
-        if (notificationsList.innerHTML.trim() === '') {
-            notificationsList.innerHTML = '<li>No notifications at the moment.</li>';
+        if (notificationsList.children.length === 0) {
+            const emptyState = document.createElement('div');
+            emptyState.className = 'empty-state';
+            emptyState.innerHTML = `
+                <i class="fas fa-bell-slash"></i>
+                <p>No new notifications</p>
+            `;
+            notificationsList.appendChild(emptyState);
         }
     } catch (error) {
         console.error('Error loading notifications:', error);
         const notificationsList = document.getElementById('notifications-list');
         if (notificationsList) {
-            notificationsList.innerHTML = '<li>Failed to load notifications. Please try again later.</li>';
+            notificationsList.innerHTML = '<div class="notification-item">Failed to load notifications. Please try again later.</div>';
         }
     }
 }
-
-function renderParkingLocations(locations) {
-    const tbody = document.getElementById('locations-tbody');
-    if (!tbody) return;
-
-    tbody.innerHTML = '';
-
-    locations.forEach(location => {
-        const row = document.createElement('tr');
-
-        row.innerHTML = `
-            <td>${location.name}</td>
-            <td>
-                <span class="status-${location.disabled ? 'closed' : location.disabled_reason?.includes('Event') ? 'event' : 'open'}">
-                    ${location.disabled ? 'Closed' : location.disabled_reason?.includes('Event') ? 'Event Only' : 'Open'}
-                </span>
-            </td>
-            <td>${location.available_spaces} / ${location.total_spaces} spaces</td>
-        `;
-
-        tbody.appendChild(row);
-    });
-}
-
-
-
 
 // Booking Modal Functions (existing)
 let currentBookingToCancel = null;
@@ -223,6 +277,61 @@ function renderUserBookings(bookings) {
         
         tbody.appendChild(row);
     });
+}
+
+// Cancel Booking Modal Functions
+function openCancelModal(reservationId, referenceNumber) {
+    currentBookingToCancel = reservationId;
+    const modal = document.getElementById('cancel-booking-modal');
+    if (modal) {
+        document.getElementById('cancel-ref-number').textContent = referenceNumber;
+        modal.classList.remove('hidden');
+    }
+}
+
+function closeCancelModal() {
+    const modal = document.getElementById('cancel-booking-modal');
+    if (modal) modal.classList.add('hidden');
+    currentBookingToCancel = null;
+}
+
+async function confirmCancelBooking() {
+    if (!currentBookingToCancel) return;
+
+    const reason = document.getElementById('cancel-reason').value;
+    if (!reason) {
+        alert('Please provide a reason for cancellation');
+        return;
+    }
+
+    try {
+        showLoading(true, 'Cancelling booking...');
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user) throw new Error('User not logged in');
+
+        const response = await fetch(`/api/user/bookings/${currentBookingToCancel}/cancel`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                reason: reason,
+                user_id: user.user_id
+            })
+        });
+
+        if (!response.ok) throw new Error('Failed to cancel booking');
+
+        // Refresh the bookings list
+        await loadUserBookings();
+        closeCancelModal();
+        showSuccess('Booking cancelled successfully');
+    } catch (error) {
+        console.error('Error cancelling booking:', error);
+        showError(error.message || 'Failed to cancel booking');
+    } finally {
+        showLoading(false);
+    }
 }
 
 // Utility Functions

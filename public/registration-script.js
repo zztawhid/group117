@@ -12,18 +12,20 @@ document.addEventListener('DOMContentLoaded', function() {
     function openForm() {
         vehicleForm.style.display = 'block';
         overlay.style.display = 'block';
+        regPlateInput.value = ''; // Clear the input when opening
     }
 
     function closeForm() {
         vehicleForm.style.display = 'none';
         overlay.style.display = 'none';
+        regPlateInput.value = ''; // Clear the input when closing
     }
 
     overlay.addEventListener('click', closeForm);
     addVehicleBtn.addEventListener('click', openForm);
 
     // Handle vehicle form submission
-    document.querySelector('#myForm .btn').addEventListener('click', function(e) {
+    document.querySelector('#myForm .btn[type="submit"]').addEventListener('click', function(e) {
         e.preventDefault();
         licensePlate = regPlateInput.value.trim();
         if (licensePlate) {

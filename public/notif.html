@@ -24,7 +24,7 @@
             <button onclick="changeLanguage('cn')"><img src="images/china.png" alt="Chinese Flag"> Chinese (Mandarin)</button>
         </div>
 
-        <a href="main.html"><img id="parkuealogo" src="./Images/logo.png" alt="UEA Parking Logo"></a>
+        <a href="main.html"><img id="parkuealogo" src="../Images/logo.png" alt="UEA Parking Logo"></a>
         <button class="header-button" onclick="document.location='contact.html'">Contact Us</button>
     </header>
 
@@ -54,7 +54,7 @@
         <div class="spaces-notifications-container">
             <div id="spaces-box">
                 <h3>Parking Availability</h3>
-                <div class="status-table-container">
+                <div class="status-table-container" style="max-height: 500px; overflow-y: auto;">
                     <table class="status-table" id="locations-table">
                         <thead>
                             <tr>
@@ -72,9 +72,12 @@
 
             <div class="noti-box">
                 <h3>Notifications</h3>
-                <ul class="notification-list" id="notifications-list">
-                    <!-- notifications dynamically loaded  -->
-                </ul>
+                <div id="notifications-list" style="max-height: 500px; overflow-y: auto;">
+                    <div class="empty-state">
+                        <i class="fas fa-bell-slash"></i>
+                        <p>No new notifications</p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -106,6 +109,23 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Booking Modal -->
+<div id="cancel-booking-modal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeCancelModal()">&times;</span>
+        <h2>Cancel Booking</h2>
+        <p>Are you sure you want to cancel booking <span id="cancel-ref-number"></span>?</p>
+        <div class="form-group">
+            <label for="cancel-reason">Reason for cancellation:</label>
+            <textarea id="cancel-reason" rows="3" required></textarea>
+        </div>
+        <div class="modal-actions">
+            <button onclick="closeCancelModal()" class="btn btn-secondary">Go Back</button>
+            <button onclick="confirmCancelBooking()" class="btn btn-danger">Confirm Cancellation</button>
         </div>
     </div>
 </div>

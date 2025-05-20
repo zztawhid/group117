@@ -40,6 +40,16 @@ function initExtendModal() {
 
     if (!modal || !closeBtn || !extendBtn || !hoursInput) return;
 
+    // Add input validation for hours
+    hoursInput.addEventListener('input', function() {
+        let value = parseInt(this.value);
+        if (value > 24) {
+            this.value = 24;
+        } else if (value < 1) {
+            this.value = 1;
+        }
+    });
+
     // Close modal when clicking X
     closeBtn.addEventListener('click', () => {
         modal.style.display = 'none';

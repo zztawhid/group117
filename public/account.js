@@ -78,6 +78,13 @@ function closeEditProfilePopup() {
     document.getElementById('edit-profile-popup').style.display = 'none';
 }
 
+// Helper function to validate phone number
+function validatePhoneNumber(phoneNumber) {
+    // Remove spaces and check if length is exactly 11 digits
+    const digitsOnly = phoneNumber.replace(/\s/g, '');
+    return digitsOnly.length === 11 && /^\d+$/.test(digitsOnly);
+}
+
 async function saveProfileChanges() {
     try {
         const user = JSON.parse(localStorage.getItem('user'));
@@ -95,6 +102,11 @@ async function saveProfileChanges() {
         // Validate inputs
         if (!updatedData.full_name || !updatedData.email || !updatedData.phone_number) {
             throw new Error('All fields are required');
+        }
+
+        // Validate phone number length
+        if (!validatePhoneNumber(updatedData.phone_number)) {
+            throw new Error('Phone number must be exactly 11 digits');
         }
         
         // Send update to server

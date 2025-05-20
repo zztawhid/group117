@@ -83,10 +83,10 @@ function renderTable() {
         });
     });
 
-    document.querySelectorAll('.delete-btn').forEach(btn => {
+    document.querySelectorAll('.block-btn').forEach(btn => {
         btn.addEventListener('click', async function() {
             const userId = this.getAttribute('data-user-id');
-            if (confirm('Are you sure you want to delete this user?')) {
+            if (confirm('Are you sure you want to block this user? This will permanently remove them from the database.')) {
                 await deleteUser(userId);
             }
         });

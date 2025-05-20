@@ -122,6 +122,14 @@ app.post('/api/auth/register', async (req, res) => {
     }
 });
 
+//PASSWORD HASHING
+// password hashing done through bcrypt (imported at top using require 'bcrypt')
+// define salt round = 10 (computational cost of hashing, higher number makes hashing more secure. Here 10 is commonly used)
+// hashing password using await bcrypt.hash(password, saltRounds)
+// bcrypt.hash() function takes plain-text password and saltRounds as inputs
+// generates hashed version of password asynchronously
+// resulting hashed password is a secure, irreversible string that is stored in database
+
 
 // Track failed login attempts
 async function trackFailedLoginAttempt(ip, email) {
@@ -265,6 +273,16 @@ app.post('/api/auth/forgot-password', async (req, res) => {
     }
 });
 
+//JWT imported at top of file
+// JWT (JSON Web token) used to generate secure token for resetting users password
+// const resetToken = jwt.sign(
+//     { userId: user.user_id }, // Payload: Contains the user's ID
+//     RESET_TOKEN_SECRET,       // Secret key: Used to sign the token
+//     { expiresIn: RESET_TOKEN_EXPIRY } // Expiry: Token is valid for a limited time (the time defined)
+// );
+// Token then stored in databased
+// Using token in password reset link 
+
 // Reset password endpoint
 app.post('/api/auth/reset-password', async (req, res) => {
     try {
@@ -343,6 +361,52 @@ app.get('/api/notifications', async (req, res) => {
     } catch (error) {
         console.error('Error fetching notifications:', error);
         res.status(500).json({ error: 'Failed to fetch notifications' });
+    }
+});
+
+app.post('/api/notifications', async (req, res) => {
+    try {
+        const { title, message } = req.body;
+
+        if (!title || !message) {
+            return res.status(400).json({ error: 'Title and message are required' });
+        }
+
+        // Add the notification to the database
+        await addNotification(title, message);
+
+        // Fetch mailing list users
+        const [users] = await pool.execute(
+            "SELECT email, full_name FROM users WHERE mailing_list = 'Yes'"
+        );
+
+        if (users.length > 0) {
+            // Loop through each user and send an email
+            for (const user of users) {
+                const mailOptions = {
+                    from: 'parking@uea.ac.uk', // Use the same sender email as in your existing logic
+                    to: user.email,
+                    subject: title,
+                    text: `Dear ${user.full_name},\n\n` +
+                          `${message}\n\n` +
+                          `Best regards,\nUEA Parking Team`
+                };
+
+                // Send the email using the existing transporter
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        console.error(`Failed to send email to ${user.email}:`, error);
+                    } else {
+                        console.log(`Email sent to ${user.email}:`, info.response);
+                    }
+                });
+            }
+        }
+
+        res.status(201).json({ success: true, message: 'Notification created and emails sent successfully' });
+    } catch (error) {
+        console.error('Error creating notification or sending emails:', error);
+        res.status(500).json({ error: 'Failed to create notification or send emails' });
     }
 });
 
@@ -958,9 +1022,9 @@ app.put('/api/admin/locations/:id/spaces', async (req, res) => {
                         WHERE location_id = ? 
                         ORDER BY space_number DESC 
                         LIMIT ?
-                    ) AS t
+                    ) AS temp_table
                 )`,
-                [id, id, remove]
+                [id, id, parseInt(remove, 10)]
             );
         }
 
@@ -1204,30 +1268,33 @@ function validateCardWithLuhn(cardNumber) {
     cardNumber = cardNumber.replace(/\D/g, '');
     
     // Check if empty or not all digits
-    if (!cardNumber || !/^\d+$/.test(cardNumber)) {
+    if (!cardNumber || !/^\d+$/.test(cardNumber)) { //Ensures input is not empty and contains only digits
         return false;
     }
     
-    let sum = 0;
-    let shouldDouble = false;
+    let sum = 0; //Keeps track of cumulative sum of digits
+    let shouldDouble = false; //Flag to determine whether current digit should be doubled (alternates between True and false)
     
     // Loop through digits from right to left
-    for (let i = cardNumber.length - 1; i >= 0; i--) {
+    for (let i = cardNumber.length - 1; i >= 0; i--) { //Starting from rightmost digit (last digit)
         let digit = parseInt(cardNumber.charAt(i));
         
-        if (shouldDouble) {
-            digit *= 2;
-            if (digit > 9) {
-                digit -= 9;
+        if (shouldDouble) { //Doubles every second digit
+            digit *= 2; //If shouldDouble is true, digit is doubled
+            if (digit > 9) { //Doubled value is greater than 9
+                digit -= 9; //If doubled value is greater than 9, substract 9 (equivalant to summing digits of doubled value )
             }
         }
         
-        sum += digit;
-        shouldDouble = !shouldDouble;
+        sum += digit; //Add processed digit to cumulative sum
+        shouldDouble = !shouldDouble; //Toggle shouldDouble flag for next digit
     }
     
-    return (sum % 10) === 0;
+    return (sum % 10) === 0; //Card Number is valid if total sum is divisble by 10 (i.e. reminader when divided by 10 is 0)
 }
+
+//Final sum = 70 (e.g.)
+//70 % 10 === 0 (remainder), so card value is valid
 
 // Parking sessions endpoint
 app.post('/api/parking/sessions', async (req, res) => {
@@ -1768,6 +1835,16 @@ app.post('/api/parking/sessions/extend', async (req, res) => {
             amount_paid: amount_paid
         });
 
+        // success --> boolean indicating it was successful
+        // additional_hours --> no. of hours added to parking session
+        // example output would be 
+        //{
+        //   "success": true,
+        //   "additional_hours": 2,
+        //   "new_total_duration": 5,
+        //   "amount_paid": 10.0
+        // }
+
     } catch (error) {
         console.error('Error extending parking session:', error);
         res.status(500).json({ error: 'Failed to extend parking session' });
@@ -1890,3 +1967,16 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+
+//async makes function handle asynchronous tasks (e.g. waiting for database or api response)
+// req --> requests object, containing data sent by client (e.g. query / headers)
+// res --> response object, used to send data back to client
+
+// promise --> represents value that may be available now, in future or never. it is used to handle asyncrhonmous operations
+// --> can be pending / fulfilled or rejected
+
+// res.json --> converts js object or array into json string 
+
+// pool.execute 
+// pool --> represents database connection pool (manages multiple database connections for efficiency)
+// execute --> executes paramatalised SQL query (helps prevent SQL injection safely passing user inputs), i.e. using placeholder (?)
